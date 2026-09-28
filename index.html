@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Himnario</title>
 <style>
@@ -26,11 +27,11 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 #head small{color:var(--mut)}
 #wrap{flex:1;min-height:0;position:relative;padding:4px 14px 10px}
 #box{height:100%;overflow:hidden;column-gap:32px;column-fill:auto}
-.sec{break-inside:avoid;margin-bottom:.9em}
+.sec{break-inside:avoid;margin-bottom:.8em}
 .sec.br{break-before:column}
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
-pre{margin:0;font-family:"Courier New",ui-monospace,monospace;white-space:pre;line-height:1.3}
-pre .c{color:var(--gold);font-weight:700}
+pre{margin:0;font-family:Arimo,Arial,"Liberation Sans",Helvetica,sans-serif;white-space:pre;line-height:1.3}
+pre .c{color:var(--gold)}
 .sec.cho pre{border-left:3px solid var(--gold);padding-left:8px}
 body.nochords .c{display:none}
 #pg{position:absolute;right:20px;bottom:14px;color:var(--mut);font-size:13px;pointer-events:none}
@@ -60,7 +61,7 @@ body.focus #fl{display:flex}
     <button id="prev">◀</button><button id="next">▶</button>
   </div>
   <div id="head"></div>
-  <div id="fl"><button id="fpv">◀</button><button id="fnx">▶</button><button id="fm2">A−</button><button id="fp2">A+</button><button id="fx">✕</button></div>
+  <div id="fl"><button id="ftm">−♭</button><button id="ftl">0</button><button id="ftp">+♯</button><button id="fpv">◀</button><button id="fnx">▶</button><button id="fm2">A−</button><button id="fp2">A+</button><button id="fx">✕</button></div>
   <div id="wrap"><div id="box"></div><div id="pg"></div></div>
 </div>
 <script>
@@ -111,7 +112,7 @@ $("q").oninput=renderList;
 
 // ===== acordes =====
 const CH=/^[A-G][#b]?(m|maj|min|dim|aug|sus|add|M)?\d*(sus\d?|add\d)?(\/[A-G][#b]?)?$/;
-const isChordLine=l=>{const t=l.trim().split(/\s+/);return l.trim()&&t.every(x=>CH.test(x)||x==="|"||x==="/")};
+const isChordLine=l=>{const t=l.trim().split(/\s+/);return l.trim()&&t.every(x=>x==="|"||x==="/"||x.split("-").every(y=>CH.test(y)))};
 const SH=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],FL=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 function tr(ch,n,flat){return ch.replace(/[A-G][#b]?/g,m=>{let i=SH.indexOf(m);if(i<0)i=FL.indexOf(m);if(i<0)return m;return(flat?FL:SH)[(i+n+120)%12]})}
 function transLine(l,n,flat){if(!n)return l;
@@ -128,27 +129,35 @@ function build(){
       if(s.lines.length||s.label)secs.push(s);s={label:m[1],lines:[],br:false};return}
     s.lines.push(l)});
   secs.push(s);
-  $("box").innerHTML=secs.map(x=>{
+  const html=[];
+  secs.forEach(x=>{
     while(x.lines.length&&!x.lines[x.lines.length-1].trim())x.lines.pop();
-    const body=x.lines.map(l=>isChordLine(l)?`<span class="c">${esc(transLine(l,semis,flat))}</span>`:esc(l)).join("\n");
-    return`<div class="sec ${x.br?"br":""} ${/coro/i.test(x.label)?"cho":""}">${x.label?`<div class="lb">${esc(x.label)}</div>`:""}<pre>${body}</pre></div>`}).join("");
-  $("tl").textContent=(semis>0?"+":"")+semis;
+    const blocks=[];let cb=[];
+    x.lines.forEach(l=>{if(l.trim())cb.push(l);else if(cb.length){blocks.push(cb);cb=[]}});
+    if(cb.length)blocks.push(cb);
+    blocks.forEach((bl,k)=>{
+      const body=bl.map(l=>isChordLine(l)?`<span class="c">${esc(transLine(l,semis,flat))}</span>`:esc(l)).join("\n");
+      html.push(`<div class="sec ${x.br&&k==0?"br":""} ${/coro/i.test(x.label)?"cho":""}">${x.label&&k==0?`<div class="lb">${esc(x.label)}</div>`:""}<pre>${body}</pre></div>`)})});
+  $("box").innerHTML=html.join("");
+  $("tl").textContent=$("ftl").textContent=(semis>0?"+":"")+semis;
   const tone=cur.tone?tr(cur.tone,semis,flat):"";
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
 let nc=2;
-function fitN(n){const b=$("box");b.style.columnCount=n;let lo=4,hi=48;
+const GAP=20;
+const fits=b=>b.scrollWidth<=b.clientWidth+2&&[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth+1);
+function fitN(n){const b=$("box");b.style.columnGap=GAP+"px";b.style.columnCount=n;let lo=4,hi=48;
   while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";
-    if(b.scrollWidth<=b.clientWidth+2)lo=m;else hi=m}return lo}
+    if(fits(b))lo=m;else hi=m}return lo}
 function layout(){
   const b=$("box"),land=innerWidth>innerHeight&&innerWidth>640;
   if(auto){const c=land||innerWidth>900?[2]:[1,2];let best=0;
     c.forEach(n=>{const f=fitN(n);if(f>best+.3){best=f;nc=n}});fs=best}
-  b.style.columnCount=nc;b.style.fontSize=fs+"px";page=0;b.scrollLeft=0;pgInfo()}
-function pages(){const b=$("box");return Math.max(1,Math.round((b.scrollWidth+32)/(b.clientWidth+32)))}
+  b.style.columnGap=GAP+"px";b.style.columnCount=nc;b.style.fontSize=fs+"px";page=0;b.scrollLeft=0;pgInfo()}
+function pages(){const b=$("box");return Math.max(1,Math.round((b.scrollWidth+GAP)/(b.clientWidth+GAP)))}
 function go(d){const b=$("box"),n=pages();page=Math.min(n-1,Math.max(0,page+d));
-  b.scrollTo({left:page*(b.clientWidth+32),behavior:"smooth"});pgInfo()}
+  b.scrollTo({left:page*(b.clientWidth+GAP),behavior:"smooth"});pgInfo()}
 function pgInfo(){const n=pages();$("pg").textContent=n>1?`${page+1}/${n}`:"";
   const d=n>1?"":"none";$("prev").style.display=$("next").style.display=$("fpv").style.display=$("fnx").style.display=d}
 
@@ -161,6 +170,7 @@ $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classL
 $("prev").onclick=()=>go(-1);$("next").onclick=()=>go(1);
 $("back").onclick=()=>{location.hash=""};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
+$("ftm").onclick=()=>{semis=Math.max(-11,semis-1);build()};$("ftp").onclick=()=>{semis=Math.min(11,semis+1);build()};$("ftl").onclick=()=>{semis=0;build()};
 const zoom=d=>{auto=false;$("auto").classList.remove("on");fs=Math.max(6,Math.min(80,fs*d));layout()};
 $("fm").onclick=()=>zoom(.9);$("fp").onclick=()=>zoom(1.1);$("fm2").onclick=()=>zoom(.9);$("fp2").onclick=()=>zoom(1.1);
 $("fpv").onclick=()=>go(-1);$("fnx").onclick=()=>go(1);
@@ -183,6 +193,7 @@ function route(){
   else{document.body.classList.remove("focus");cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
 addEventListener("hashchange",route);
 $("rf").onclick=()=>{$("items").innerHTML='<div id="msg">Cargando himnos…</div>';load()};
+document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
 load();
 </script>
 </body>
