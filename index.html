@@ -18,7 +18,7 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 .num{min-width:64px;text-align:center;font:700 22px Georgia,serif;color:var(--gold);background:#0a1416;border-radius:8px;padding:8px}
 .num.no{color:var(--mut);font-size:20px}
 .it small{color:var(--mut);display:block}
-#view{display:none;height:100%;flex-direction:column}
+#view{display:none;height:100dvh;flex-direction:column;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
 #bar{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-bottom:1px solid var(--btn)}
 #head{display:flex;align-items:center;gap:12px;padding:6px 14px}
 #head .num{font-size:26px}
@@ -34,6 +34,12 @@ pre .c{color:var(--gold);font-weight:700}
 .sec.cho pre{border-left:3px solid var(--gold);padding-left:8px}
 body.nochords .c{display:none}
 #pg{position:absolute;right:20px;bottom:14px;color:var(--mut);font-size:13px;pointer-events:none}
+body.focus #bar,body.focus #head{display:none}
+body.focus #wrap{padding:6px 8px}
+#fl{display:none;position:fixed;right:8px;bottom:8px;gap:6px;opacity:.55;z-index:9}
+body.focus #fl{display:flex}
+#fl button{min-width:46px;min-height:46px;background:#000a;font-size:16px}
+#wrap{touch-action:none}
 #msg{padding:24px;text-align:center;color:var(--mut)}
 </style>
 </head>
@@ -46,7 +52,7 @@ body.nochords .c{display:none}
 <div id="view">
   <div id="bar">
     <button id="back">← Lista</button>
-    <button id="fs">⤢</button>
+    <button id="fs">⤢</button><button id="foc">Solo himno</button>
     <button id="fm">A−</button><button id="fp">A+</button>
     <button id="auto" class="on">Auto</button>
     <button id="tm">− tono</button><button id="tl">0</button><button id="tp">+ tono</button>
@@ -54,11 +60,17 @@ body.nochords .c{display:none}
     <button id="prev">◀</button><button id="next">▶</button>
   </div>
   <div id="head"></div>
+  <div id="fl"><button id="fpv">◀</button><button id="fnx">▶</button><button id="fm2">A−</button><button id="fp2">A+</button><button id="fx">✕</button></div>
   <div id="wrap"><div id="box"></div><div id="pg"></div></div>
 </div>
 <script>
 // ====== CONFIGURACIÓN: tu hoja publicada como CSV ======
-const CSV_URL="https://docs.google.com/spreadsheets/d/1tO9AsCYWtmDe9mPcU7l7Eo5VF6vS9WJk5xodZw-R2GY/gviz/tq?tqx=out:csv";
+const ID="1tO9AsCYWtmDe9mPcU7l7Eo5VF6vS9WJk5xodZw-R2GY";
+const URLS=[
+ "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuYxY7rCdH1x_wbM0tXiX0AQOKj2tOiBwJPBTrAE9ulYtnGIWiAyolBqDQTUUJFT94KQ_697S0ncB1/pub?gid=0&single=true&output=csv",
+ "https://docs.google.com/spreadsheets/d/"+ID+"/export?format=csv&gid=0",
+ "https://docs.google.com/spreadsheets/d/"+ID+"/gviz/tq?tqx=out:csv&sheet=Hoja%201",
+ "https://docs.google.com/spreadsheets/d/"+ID+"/gviz/tq?tqx=out:csv"];
 // =======================================================
 const $=id=>document.getElementById(id);
 let songs=[],cur=null,semis=0,auto=true,fs=16,page=0,wl=null;
@@ -74,14 +86,18 @@ function parseCSV(t){const r=[];let row=[],c="",q=false;
 
 async function load(){
   try{
-    const res=await fetch(CSV_URL+"&t="+Date.now());
-    const rows=parseCSV(await res.text());
+    let txt=null,err="";
+    for(const u of URLS){try{const r=await fetch(u);if(!r.ok){err="HTTP "+r.status;continue}
+      const t=await r.text();if(t.trim().startsWith("<")){err="La hoja no es pública";continue}txt=t;break}catch(e){err=String(e.message||e)}}
+    if(txt===null)throw new Error(err);
+    const rows=parseCSV(txt);
     const h=rows[0].map(x=>x.trim().toLowerCase());
     const ix=n=>h.indexOf(n);
     songs=rows.slice(1).map(r=>({num:(r[ix("numero")]||"").trim(),title:(r[ix("titulo")]||"").trim(),tone:(r[ix("tono")]||"").trim(),text:(r[ix("letra")]||"").replace(/\r/g,"")})).filter(s=>s.title&&s.text);
     songs.sort((a,b)=>a.num&&!b.num?-1:!a.num&&b.num?1:a.num&&b.num?a.num.localeCompare(b.num,"es",{numeric:true}):a.title.localeCompare(b.title,"es"));
     renderList();route();
-  }catch(e){$("items").innerHTML='<div id="msg">No se pudo leer la hoja. Verifica que esté publicada como CSV.</div>'}
+  }catch(e){const loc=location.protocol==="file:";
+    $("items").innerHTML='<div id="msg">No se pudo leer la hoja ('+esc(e.message)+').<br><br>'+(loc?'Estás abriendo el archivo directamente. Publícalo en Netlify Drop y abre el link que te dé.':'Revisa que la hoja esté compartida como "Cualquier persona con el enlace: Lector".')+'</div>'}
 }
 function renderList(){
   const f=$("q").value.toLowerCase().trim();
@@ -121,24 +137,22 @@ function build(){
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
-function cols(){return innerWidth>innerHeight&&innerWidth>640?2:(innerWidth>900?2:1)}
+let nc=2;
+function fitN(n){const b=$("box");b.style.columnCount=n;let lo=4,hi=48;
+  while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";
+    if(b.scrollWidth<=b.clientWidth+2)lo=m;else hi=m}return lo}
 function layout(){
-  const b=$("box");b.style.columnCount=cols();page=0;b.scrollLeft=0;
-  if(auto){let lo=7,hi=40;
-    while(hi-lo>.5){const m=(lo+hi)/2;b.style.fontSize=m+"px";
-      if(b.scrollWidth<=b.clientWidth+2)lo=m;else hi=m}
-    fs=lo;b.style.fontSize=lo+"px"}
-  else b.style.fontSize=fs+"px";
-  pgInfo()}
+  const b=$("box"),land=innerWidth>innerHeight&&innerWidth>640;
+  if(auto){const c=land||innerWidth>900?[2]:[1,2];let best=0;
+    c.forEach(n=>{const f=fitN(n);if(f>best+.3){best=f;nc=n}});fs=best}
+  b.style.columnCount=nc;b.style.fontSize=fs+"px";page=0;b.scrollLeft=0;pgInfo()}
 function pages(){const b=$("box");return Math.max(1,Math.round((b.scrollWidth+32)/(b.clientWidth+32)))}
 function go(d){const b=$("box"),n=pages();page=Math.min(n-1,Math.max(0,page+d));
   b.scrollTo({left:page*(b.clientWidth+32),behavior:"smooth"});pgInfo()}
 function pgInfo(){const n=pages();$("pg").textContent=n>1?`${page+1}/${n}`:"";
-  $("prev").style.display=$("next").style.display=n>1?"":"none"}
+  const d=n>1?"":"none";$("prev").style.display=$("next").style.display=$("fpv").style.display=$("fnx").style.display=d}
 
 $("auto").onclick=()=>{auto=!auto;$("auto").classList.toggle("on",auto);layout()};
-$("fm").onclick=()=>{auto=false;$("auto").classList.remove("on");fs=Math.max(8,fs-1);layout()};
-$("fp").onclick=()=>{auto=false;$("auto").classList.remove("on");fs=Math.min(60,fs+1);layout()};
 $("tm").onclick=()=>{semis=(semis+11)%12-(semis>5?12:0);semis=Math.max(-11,Math.min(11,semis-0));build()};
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
@@ -147,7 +161,17 @@ $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classL
 $("prev").onclick=()=>go(-1);$("next").onclick=()=>go(1);
 $("back").onclick=()=>{location.hash=""};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
-$("wrap").addEventListener("click",e=>{if(pages()<2)return;const r=$("wrap").getBoundingClientRect();go(e.clientX-r.left>r.width/2?1:-1)});
+const zoom=d=>{auto=false;$("auto").classList.remove("on");fs=Math.max(6,Math.min(80,fs*d));layout()};
+$("fm").onclick=()=>zoom(.9);$("fp").onclick=()=>zoom(1.1);$("fm2").onclick=()=>zoom(.9);$("fp2").onclick=()=>zoom(1.1);
+$("fpv").onclick=()=>go(-1);$("fnx").onclick=()=>go(1);
+const foc=on=>{document.body.classList.toggle("focus",on);layout()};
+$("foc").onclick=()=>foc(true);$("fx").onclick=()=>foc(false);
+let pd=0,pf=0;
+const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+$("view").addEventListener("touchstart",e=>{if(e.touches.length==2){pd=dist(e.touches);pf=fs}},{passive:false});
+$("view").addEventListener("touchmove",e=>{e.preventDefault();if(e.touches.length==2&&pd){auto=false;$("auto").classList.remove("on");
+  fs=Math.max(6,Math.min(80,pf*dist(e.touches)/pd));const b=$("box");b.style.fontSize=fs+"px";pgInfo()}},{passive:false});
+$("view").addEventListener("touchend",e=>{if(e.touches.length<2)pd=0});
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
@@ -156,7 +180,7 @@ document.addEventListener("visibilitychange",()=>{if(cur&&document.visibilitySta
 function route(){
   const i=parseInt(location.hash.slice(1));
   if(songs[i]){cur=songs[i];semis=0;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
-  else{cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
+  else{document.body.classList.remove("focus");cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
 addEventListener("hashchange",route);
 load();
 </script>
