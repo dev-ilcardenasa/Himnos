@@ -40,7 +40,8 @@ body.focus #wrap{padding:10px var(--side) 12px}
 #fl{display:none;position:fixed;right:8px;bottom:8px;gap:6px;opacity:.55;z-index:9}
 body.focus #fl{display:flex}
 #fl button{min-width:46px;min-height:46px;background:#000a;font-size:16px}
-#wrap{touch-action:none}
+#wrap{touch-action:none;overflow:hidden}
+#box{transform-origin:0 0;will-change:transform}
 #msg{padding:24px;text-align:center;color:var(--mut)}
 </style>
 </head>
@@ -54,14 +55,11 @@ body.focus #fl{display:flex}
   <div id="bar">
     <button id="back">← Lista</button>
     <button id="fs">⤢</button><button id="foc">Solo himno</button>
-    <button id="fm">A−</button><button id="fp">A+</button>
-    <button id="auto" class="on">Auto</button>
     <button id="tm">− tono</button><button id="tl">0</button><button id="tp">+ tono</button>
     <button id="chb" class="on">Acordes</button>
-    <button id="prev">◀</button><button id="next">▶</button>
   </div>
   <div id="head"></div>
-  <div id="fl"><button id="ftm">−♭</button><button id="ftl">0</button><button id="ftp">+♯</button><button id="fpv">◀</button><button id="fnx">▶</button><button id="fm2">A−</button><button id="fp2">A+</button><button id="fx">✕</button></div>
+  <div id="fl"><button id="ftm">−♭</button><button id="ftl">0</button><button id="ftp">+♯</button><button id="fx">✕</button></div>
   <div id="wrap"><div id="box"></div><div id="pg"></div></div>
 </div>
 <script>
@@ -144,48 +142,52 @@ function build(){
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
-let nc=2;
+let nc=2,z=1,tx=0,ty=0;
 const GAP=44;
 const fits=b=>b.scrollWidth<=b.clientWidth+2&&[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth-6);
 function fitN(n){const b=$("box");b.style.columnGap=GAP+"px";b.style.columnCount=n;let lo=4,hi=48;
   while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";
     if(fits(b))lo=m;else hi=m}return lo}
-function maxW(){const b=$("box");b.style.columnGap=GAP+"px";b.style.columnCount=nc;let lo=4,hi=80;
-  while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";
-    if([...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth-6))lo=m;else hi=m}
-  b.style.fontSize=fs+"px";return lo}
+function apply(){const b=$("box");
+  tx=Math.min(0,Math.max(b.clientWidth*(1-z),tx));ty=Math.min(0,Math.max(b.clientHeight*(1-z),ty));
+  b.style.transform=`translate(${tx}px,${ty}px) scale(${z})`}
 function layout(){
   const b=$("box"),land=innerWidth>innerHeight&&innerWidth>640;
-  if(auto){const c=land||innerWidth>900?[2]:[1,2];let best=0;
-    c.forEach(n=>{const f=fitN(n);if(f>best+.3){best=f;nc=n}});fs=best}
-  if(!auto)fs=Math.min(fs,maxW());b.style.columnGap=GAP+"px";b.style.columnCount=nc;b.style.fontSize=fs+"px";page=0;b.scrollLeft=0;pgInfo()}
-function pages(){const b=$("box");return Math.max(1,Math.round((b.scrollWidth+GAP)/(b.clientWidth+GAP)))}
-function go(d){const b=$("box"),n=pages();page=Math.min(n-1,Math.max(0,page+d));
-  b.scrollTo({left:page*(b.clientWidth+GAP),behavior:"smooth"});pgInfo()}
-function pgInfo(){const n=pages();$("pg").textContent=n>1?`${page+1}/${n}`:"";
-  const d=n>1?"":"none";$("prev").style.display=$("next").style.display=$("fpv").style.display=$("fnx").style.display=d}
+  z=1;tx=ty=0;apply();
+  const c=land||innerWidth>900?[2]:[1,2];let best=0;
+  c.forEach(n=>{const f=fitN(n);if(f>best+.3){best=f;nc=n}});
+  b.style.columnGap=GAP+"px";b.style.columnCount=nc;b.style.fontSize=best+"px"}
+function org(){const w=$("wrap").getBoundingClientRect(),b=$("box");return[w.left+b.offsetLeft,w.top+b.offsetTop]}
+function zoomTo(nz,cx,cy){nz=Math.max(1,Math.min(6,nz));const[ox,oy]=org();
+  const px=(cx-ox-tx)/z,py=(cy-oy-ty)/z;z=nz;tx=cx-ox-px*z;ty=cy-oy-py*z;apply()}
 
-$("auto").onclick=()=>{auto=!auto;$("auto").classList.toggle("on",auto);layout()};
-$("tm").onclick=()=>{semis=(semis+11)%12-(semis>5?12:0);semis=Math.max(-11,Math.min(11,semis-0));build()};
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
-$("prev").onclick=()=>go(-1);$("next").onclick=()=>go(1);
 $("back").onclick=()=>{location.hash=""};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
 $("ftm").onclick=()=>{semis=Math.max(-11,semis-1);build()};$("ftp").onclick=()=>{semis=Math.min(11,semis+1);build()};$("ftl").onclick=()=>{semis=0;build()};
-const zoom=d=>{auto=false;$("auto").classList.remove("on");fs=Math.max(6,Math.min(80,fs*d));layout()};
-$("fm").onclick=()=>zoom(.9);$("fp").onclick=()=>zoom(1.1);$("fm2").onclick=()=>zoom(.9);$("fp2").onclick=()=>zoom(1.1);
-$("fpv").onclick=()=>go(-1);$("fnx").onclick=()=>go(1);
 const foc=on=>{document.body.classList.toggle("focus",on);layout()};
 $("foc").onclick=()=>foc(true);$("fx").onclick=()=>foc(false);
-let pd=0,pf=0,pm=80;
+
+// Zoom con los dedos (pellizco). Con zoom, se arrastra para ver otra parte. Doble toque = vista completa.
+const W=$("wrap");let g=null,lx=0,ly=0,lt=0;
 const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
-$("view").addEventListener("touchstart",e=>{if(e.touches.length==2){pd=dist(e.touches);pf=fs;pm=maxW()}},{passive:false});
-$("view").addEventListener("touchmove",e=>{e.preventDefault();if(e.touches.length==2&&pd){auto=false;$("auto").classList.remove("on");
-  fs=Math.max(6,Math.min(pm,pf*dist(e.touches)/pd));const b=$("box");b.style.fontSize=fs+"px";pgInfo()}},{passive:false});
-$("view").addEventListener("touchend",e=>{if(e.touches.length<2)pd=0});
+const mid=t=>[(t[0].clientX+t[1].clientX)/2,(t[0].clientY+t[1].clientY)/2];
+W.addEventListener("touchstart",e=>{
+  if(e.touches.length==2){g={d:dist(e.touches),z:z}}
+  else{lx=e.touches[0].clientX;ly=e.touches[0].clientY;const n=Date.now();if(n-lt<300){z=1;tx=ty=0;apply()}lt=n}},{passive:false});
+W.addEventListener("touchmove",e=>{e.preventDefault();
+  if(e.touches.length==2&&g){const[cx,cy]=mid(e.touches);zoomTo(g.z*dist(e.touches)/g.d,cx,cy)}
+  else if(e.touches.length==1&&z>1){const t=e.touches[0];tx+=t.clientX-lx;ty+=t.clientY-ly;lx=t.clientX;ly=t.clientY;apply()}},{passive:false});
+W.addEventListener("touchend",e=>{if(e.touches.length<2)g=null;if(e.touches.length==1){lx=e.touches[0].clientX;ly=e.touches[0].clientY}});
+W.addEventListener("wheel",e=>{e.preventDefault();zoomTo(z*(e.deltaY<0?1.12:.89),e.clientX,e.clientY)},{passive:false});
+let md=false;
+W.addEventListener("mousedown",e=>{md=true;lx=e.clientX;ly=e.clientY});
+addEventListener("mouseup",()=>md=false);
+addEventListener("mousemove",e=>{if(md&&z>1){tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;apply()}});
+W.addEventListener("dblclick",()=>{z=1;tx=ty=0;apply()});
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
