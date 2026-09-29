@@ -25,9 +25,9 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 #head .num{font-size:26px}
 #head h2{margin:0;font:700 clamp(18px,3.5vw,30px) Georgia,serif}
 #head small{color:var(--mut)}
-#wrap{flex:1;min-height:0;position:relative;padding:6px var(--side) 12px}
+#wrap{flex:1;min-height:0;position:relative;padding:6px var(--side) 12px;touch-action:none;overflow:hidden}
 #clip{height:100%;overflow:hidden}
-#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:32px;column-fill:auto}
+#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:32px;column-fill:auto;transform-origin:0 0;will-change:transform}
 .sec{break-inside:avoid;margin-bottom:.8em}
 .sec.br{break-before:column}
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
@@ -36,13 +36,9 @@ pre .c{color:var(--gold)}
 .sec.cho pre{border-left:3px solid var(--gold);padding-left:8px}
 body.nochords .c{display:none}
 #pg{position:absolute;right:20px;bottom:14px;color:var(--mut);font-size:13px;pointer-events:none}
-body.focus #bar,body.focus #head{display:none}
-body.focus #wrap{padding:10px var(--side) 12px}
-#fl{display:none;position:fixed;right:8px;bottom:8px;gap:6px;opacity:.55;z-index:9}
-body.focus #fl{display:flex}
-#fl button{min-width:46px;min-height:46px;background:#000a;font-size:16px}
-#wrap{touch-action:none;overflow:hidden}
-#box{transform-origin:0 0;will-change:transform}
+/* MODO SOLO HIMNO: nada más que la letra y los acordes */
+body.focus #bar,body.focus #head,body.focus #pg{display:none}
+body.focus #wrap{padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
 #msg{padding:24px;text-align:center;color:var(--mut)}
 </style>
 </head>
@@ -61,7 +57,6 @@ body.focus #fl{display:flex}
     <button id="prev">◀</button><button id="next">▶</button>
   </div>
   <div id="head"></div>
-  <div id="fl"><button id="fpv">◀</button><button id="fnx">▶</button><button id="ftm">−♭</button><button id="ftl">0</button><button id="ftp">+♯</button><button id="fx">✕</button></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div><div id="pg"></div></div>
 </div>
 <script>
@@ -74,7 +69,7 @@ const URLS=[
  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuYxY7rCdH1x_wbM0tXiX0AQOKj2tOiBwJPBTrAE9ulYtnGIWiAyolBqDQTUUJFT94KQ_697S0ncB1/pub?gid=0&single=true&output=csv"];
 // =======================================================
 const $=id=>document.getElementById(id);
-let songs=[],cur=null,semis=0,auto=true,fs=16,page=0,wl=null;
+let songs=[],cur=null,semis=0,wl=null;
 
 function parseCSV(t){const r=[];let row=[],c="",q=false;
   for(let i=0;i<t.length;i++){const ch=t[i];
@@ -139,14 +134,15 @@ function build(){
       const body=bl.map(l=>isChordLine(l)?`<span class="c">${esc(transLine(l,semis,flat))}</span>`:esc(l)).join("\n");
       html.push(`<div class="sec ${x.br&&k==0?"br":""} ${/coro/i.test(x.label)?"cho":""}">${x.label&&k==0?`<div class="lb">${esc(x.label)}</div>`:""}<pre>${body}</pre></div>`)})});
   $("box").innerHTML=html.join("");
-  $("tl").textContent=$("ftl").textContent=(semis>0?"+":"")+semis;
+  $("tl").textContent=(semis>0?"+":"")+semis;
   const tone=cur.tone?tr(cur.tone,semis,flat):"";
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
-let nc=1,sz=16,best=16,capW=40,pages=1;
+// ===== ajuste de tamaño y columnas =====
+let nc=1,sz=16,best=16,capW=40,pages=1,page=0;
 const GAP=44,box=()=>$("box");
-const wOK=b=>[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth-6);
+const wOK=b=>[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth+1);
 const allOK=b=>b.scrollWidth<=b.clientWidth+2&&wOK(b);
 function setCols(n){const b=box();b.style.columnGap=GAP+"px";b.style.columnCount=n}
 function fitN(n){const b=box();setCols(n);let lo=4,hi=48;
@@ -156,9 +152,8 @@ function capWidth(){const b=box();setCols(1);let lo=4,hi=90;
 function shift(dx,anim){const b=box();b.style.transition=anim?"transform .2s":"none";
   b.style.transform=`translateX(${-page*(b.clientWidth+GAP)+dx}px)`}
 function info(){$("pg").textContent=pages>1?`${page+1}/${pages}`:"";
-  const d=pages>1?"":"none";["prev","next","fpv","fnx"].forEach(i=>$(i).style.display=d)}
+  const d=pages>1?"":"none";["prev","next"].forEach(i=>$(i).style.display=d)}
 function go(d){page=Math.max(0,Math.min(pages-1,page+d));shift(0,true);info()}
-// 1 columna si todo cabe; si no, 2 columnas si caben a lo ancho; si no, 1. Lo que no cabe abajo pasa a la columna de la derecha.
 function place(v){const b=box();b.style.fontSize=v+"px";setCols(1);
   if(allOK(b))nc=1;else{setCols(2);if(wOK(b))nc=2;else{setCols(1);nc=1}}
   const W=b.clientWidth,cw=(W-(nc-1)*GAP)/nc,cnt=Math.max(1,Math.round((b.scrollWidth+GAP)/(cw+GAP)));
@@ -169,34 +164,47 @@ function layout(){
   best=0;c.forEach(n=>{const f=fitN(n);if(f>best+.3)best=f});
   capW=Math.max(best,capWidth());page=0;sz=best;place(best)}
 
+// ===== botones (solo modo normal) =====
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
 $("back").onclick=()=>{location.hash=""};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
-$("ftm").onclick=()=>{semis=Math.max(-11,semis-1);build()};$("ftp").onclick=()=>{semis=Math.min(11,semis+1);build()};$("ftl").onclick=()=>{semis=0;build()};
-const foc=on=>{document.body.classList.toggle("focus",on);layout()};
-$("foc").onclick=()=>foc(true);$("fx").onclick=()=>foc(false);
 
-// Pellizco = cambia el tamaño de la letra (tope: la línea más larga llega al borde). Deslizar de lado = pasar de columna.
-const W=$("wrap");let g=null,sx=0,dx=0,lt=0,drag=false;
+// ===== modo Solo himno: solo letra + acordes, sin nada más =====
+const inFocus=()=>document.body.classList.contains("focus");
+function foc(on){
+  document.body.classList.toggle("focus",on);
+  if(on){try{document.documentElement.requestFullscreen?.()?.catch(()=>{})}catch(e){}}
+  else if(document.fullscreenElement){document.exitFullscreen().catch(()=>{})}
+  layout()}
+$("foc").onclick=()=>foc(true);
+// si el usuario sale de pantalla completa (gesto atrás), también sale del modo
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&inFocus()){document.body.classList.remove("focus");layout()}});
+
+// ===== gestos =====
+// Pellizco: cambia el tamaño. Deslizar: pasa de página. Doble toque: en Solo himno vuelve al modo normal; en modo normal restablece el tamaño.
+const W=$("wrap");let g=null,sx=0,dx=0,lt=0,drag=false,moved=false;
 const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
 const reset=()=>{page=0;setSize(best)};
+const dbl=()=>inFocus()?foc(false):reset();
 W.addEventListener("touchstart",e=>{
   if(e.touches.length==2){g={d:dist(e.touches),s:sz};drag=false}
-  else{sx=e.touches[0].clientX;dx=0;drag=true;const n=Date.now();if(n-lt<300)reset();lt=n}},{passive:false});
+  else{sx=e.touches[0].clientX;dx=0;drag=true;moved=false}},{passive:false});
 W.addEventListener("touchmove",e=>{e.preventDefault();
   if(e.touches.length==2&&g)setSize(g.s*dist(e.touches)/g.d);
-  else if(e.touches.length==1&&drag&&pages>1){dx=e.touches[0].clientX-sx;shift(dx,false)}},{passive:false});
+  else if(e.touches.length==1&&drag){dx=e.touches[0].clientX-sx;if(Math.abs(dx)>10)moved=true;if(pages>1)shift(dx,false)}},{passive:false});
 W.addEventListener("touchend",e=>{if(e.touches.length<2)g=null;
-  if(e.touches.length==0&&drag){drag=false;const st=box().clientWidth*.15;
+  if(e.touches.length==0&&drag){drag=false;
+    if(!moved){const n=Date.now();if(n-lt<300){lt=0;dbl();return}lt=n}
+    const st=box().clientWidth*.15;
     if(dx<-st)page=Math.min(pages-1,page+1);else if(dx>st)page=Math.max(0,page-1);
     shift(0,true);info();dx=0}});
 W.addEventListener("wheel",e=>{e.preventDefault();setSize(sz*(e.deltaY<0?1.1:.9))},{passive:false});
-W.addEventListener("dblclick",reset);
-$("prev").onclick=$("fpv").onclick=()=>go(-1);$("next").onclick=$("fnx").onclick=()=>go(1);
-addEventListener("keydown",e=>{if(!cur)return;if(e.key=="ArrowRight")go(1);if(e.key=="ArrowLeft")go(-1)});
+W.addEventListener("dblclick",dbl);
+$("prev").onclick=()=>go(-1);$("next").onclick=()=>go(1);
+addEventListener("keydown",e=>{if(!cur)return;if(e.key=="ArrowRight")go(1);if(e.key=="ArrowLeft")go(-1);if(e.key=="Escape"&&inFocus())foc(false)});
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
