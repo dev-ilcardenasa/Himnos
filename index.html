@@ -248,15 +248,24 @@ $("e_save").onclick=async()=>{
   if(!url){$("cn").open=true;return emsg("Falta pegar el enlace de conexión.")}
   SV("hurl",url);SV("hkey",key);d.clave=key;
   $("e_save").disabled=true;emsg("Guardando…");
-  try{await fetch(url,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)})}
-  catch(e){$("e_save").disabled=false;return emsg("No se pudo enviar: "+e.message)}
-  emsg("Enviado. Verificando en la hoja…");
+  const opt={method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)};
+  const fail=t=>{$("e_save").disabled=false;emsg(t)};
+  let resp=null;
+  try{const r=await fetch(url,opt);resp=(await r.text()).trim()}
+  catch(e){try{await fetch(url,{...opt,mode:"no-cors"})}catch(e2){return fail("No se pudo enviar: "+e2.message+". Revisa el enlace y tu internet.")}}
+  if(resp!==null&&resp!=="ok"){
+    if(resp==="clave incorrecta")return fail("La clave no coincide con la que pusiste en el script.");
+    return fail("El script respondió algo inesperado: "+resp.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160));}
+  emsg("Enviado. Leyendo la hoja…");
+  const same=z=>z.title===d.titulo&&(!d.numero||z.num===d.numero)&&(resp==="ok"||norm(z.text)===norm(d.letra));
   for(let i=0;i<5;i++){
     await new Promise(r=>setTimeout(r,1500));await load(true);
-    const k=songs.findIndex(z=>z.title===d.titulo&&norm(z.text)===norm(d.letra)&&z.cat===d.categoria&&z.intro===d.intro);
+    const k=songs.findIndex(same);
     if(k>=0){emsg("✓ Guardado en Google Sheets");$("e_save").disabled=false;
       setTimeout(()=>{$("ed").style.display="none";if(location.hash==="#"+k)route();else location.hash=k},600);return}}
-  $("e_save").disabled=false;emsg("No pude confirmar que se guardó. Revisa el enlace y la clave, y que la hoja tenga permiso.")};
+  fail(resp==="ok"
+    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y pulsa ↻ Actualizar. Si no aparece, revisa que la hoja que lee la página sea la primera pestaña."
+    :"No pude confirmar que se guardó. Abre el enlace /exec en una ventana privada: debe cargar sin pedirte iniciar sesión. Revisa también que el acceso sea «Cualquier persona» y que la clave sea la misma.")};
 load();
 </script>
 </body>
