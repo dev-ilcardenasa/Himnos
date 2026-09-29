@@ -142,24 +142,27 @@ function build(){
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
-let nc=2,z=1,tx=0,ty=0;
-const GAP=44;
-const fits=b=>b.scrollWidth<=b.clientWidth+2&&[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth-6);
-function fitN(n){const b=$("box");b.style.columnGap=GAP+"px";b.style.columnCount=n;let lo=4,hi=48;
+let nc=2,sz=16,best=16,capW=40,ty=0;
+const GAP=44,box=()=>$("box");
+const wOK=b=>[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth-6);
+const allOK=b=>b.scrollWidth<=b.clientWidth+2&&wOK(b);
+function setCols(n){const b=box();b.style.columnGap=GAP+"px";b.style.columnCount=n;b.style.height=n==2?"100%":"auto"}
+function fitN(n){const b=box();b.style.height="100%";b.style.columnGap=GAP+"px";b.style.columnCount=n;let lo=4,hi=48;
   while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";
-    if(fits(b))lo=m;else hi=m}return lo}
-function apply(){const b=$("box");
-  tx=Math.min(0,Math.max(b.clientWidth*(1-z),tx));ty=Math.min(0,Math.max(b.clientHeight*(1-z),ty));
-  b.style.transform=`translate(${tx}px,${ty}px) scale(${z})`}
+    if(allOK(b))lo=m;else hi=m}return lo}
+function capWidth(){const b=box();setCols(1);let lo=4,hi=90;
+  while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(wOK(b))lo=m;else hi=m}return lo}
+// Pone el tamaño: 2 columnas si caben completas; si no, 1 columna (siempre dentro del ancho)
+function place(v){const b=box();b.style.fontSize=v+"px";setCols(2);
+  if(allOK(b))nc=2;else{setCols(1);nc=1}
+  const W=$("wrap"),view=W.clientHeight-b.offsetTop-12,tall=b.scrollHeight;
+  ty=nc==2?0:Math.min(0,Math.max(Math.min(0,view-tall),ty));
+  b.style.transform=`translateY(${ty}px)`}
+function setSize(v){sz=Math.max(best,Math.min(capW,v));place(sz)}
 function layout(){
-  const b=$("box"),land=innerWidth>innerHeight&&innerWidth>640;
-  z=1;tx=ty=0;apply();
-  const c=land||innerWidth>900?[2]:[1,2];let best=0;
-  c.forEach(n=>{const f=fitN(n);if(f>best+.3){best=f;nc=n}});
-  b.style.columnGap=GAP+"px";b.style.columnCount=nc;b.style.fontSize=best+"px"}
-function org(){const w=$("wrap").getBoundingClientRect(),b=$("box");return[w.left+b.offsetLeft,w.top+b.offsetTop]}
-function zoomTo(nz,cx,cy){nz=Math.max(1,Math.min(6,nz));const[ox,oy]=org();
-  const px=(cx-ox-tx)/z,py=(cy-oy-ty)/z;z=nz;tx=cx-ox-px*z;ty=cy-oy-py*z;apply()}
+  const land=innerWidth>innerHeight&&innerWidth>640,c=land||innerWidth>900?[2]:[1,2];
+  best=0;c.forEach(n=>{const f=fitN(n);if(f>best+.3)best=f});
+  capW=Math.max(best,capWidth());ty=0;sz=best;place(best)}
 
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
@@ -171,23 +174,24 @@ $("ftm").onclick=()=>{semis=Math.max(-11,semis-1);build()};$("ftp").onclick=()=>
 const foc=on=>{document.body.classList.toggle("focus",on);layout()};
 $("foc").onclick=()=>foc(true);$("fx").onclick=()=>foc(false);
 
-// Zoom con los dedos (pellizco). Con zoom, se arrastra para ver otra parte. Doble toque = vista completa.
-const W=$("wrap");let g=null,lx=0,ly=0,lt=0;
+// Zoom con los dedos: la letra crece y se acomoda al ancho. Tope: cuando la línea más larga llega al borde.
+const W=$("wrap");let g=null,ly=0,lt=0,md=false;
 const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
-const mid=t=>[(t[0].clientX+t[1].clientX)/2,(t[0].clientY+t[1].clientY)/2];
+const oy=()=>W.getBoundingClientRect().top+box().offsetTop;
+function zoomBy(ns,cy){const k=Math.max(best,Math.min(capW,ns))/sz;const y=cy-oy();ty=y-(y-ty)*k;setSize(sz*k)}
+const reset=()=>{ty=0;setSize(best)};
 W.addEventListener("touchstart",e=>{
-  if(e.touches.length==2){g={d:dist(e.touches),z:z}}
-  else{lx=e.touches[0].clientX;ly=e.touches[0].clientY;const n=Date.now();if(n-lt<300){z=1;tx=ty=0;apply()}lt=n}},{passive:false});
+  if(e.touches.length==2)g={d:dist(e.touches),s:sz};
+  else{ly=e.touches[0].clientY;const n=Date.now();if(n-lt<300)reset();lt=n}},{passive:false});
 W.addEventListener("touchmove",e=>{e.preventDefault();
-  if(e.touches.length==2&&g){const[cx,cy]=mid(e.touches);zoomTo(g.z*dist(e.touches)/g.d,cx,cy)}
-  else if(e.touches.length==1&&z>1){const t=e.touches[0];tx+=t.clientX-lx;ty+=t.clientY-ly;lx=t.clientX;ly=t.clientY;apply()}},{passive:false});
-W.addEventListener("touchend",e=>{if(e.touches.length<2)g=null;if(e.touches.length==1){lx=e.touches[0].clientX;ly=e.touches[0].clientY}});
-W.addEventListener("wheel",e=>{e.preventDefault();zoomTo(z*(e.deltaY<0?1.12:.89),e.clientX,e.clientY)},{passive:false});
-let md=false;
-W.addEventListener("mousedown",e=>{md=true;lx=e.clientX;ly=e.clientY});
+  if(e.touches.length==2&&g){const cy=(e.touches[0].clientY+e.touches[1].clientY)/2;zoomBy(g.s*dist(e.touches)/g.d,cy)}
+  else if(e.touches.length==1&&nc==1){const y=e.touches[0].clientY;ty+=y-ly;ly=y;place(sz)}},{passive:false});
+W.addEventListener("touchend",e=>{if(e.touches.length<2)g=null;if(e.touches.length==1)ly=e.touches[0].clientY});
+W.addEventListener("wheel",e=>{e.preventDefault();zoomBy(sz*(e.deltaY<0?1.1:.9),e.clientY)},{passive:false});
+W.addEventListener("mousedown",e=>{md=true;ly=e.clientY});
 addEventListener("mouseup",()=>md=false);
-addEventListener("mousemove",e=>{if(md&&z>1){tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;apply()}});
-W.addEventListener("dblclick",()=>{z=1;tx=ty=0;apply()});
+addEventListener("mousemove",e=>{if(md&&nc==1){ty+=e.clientY-ly;ly=e.clientY;place(sz)}});
+W.addEventListener("dblclick",reset);
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
