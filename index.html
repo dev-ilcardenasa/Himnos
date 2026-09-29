@@ -159,11 +159,12 @@ function place(v){const b=box();b.style.fontSize=v+"px";setCols(1);
   if(allOK(b))nc=1;else{setCols(2);if(wOK(b))nc=2;else{setCols(1);nc=1}}
   const W=b.clientWidth,cw=(W-(nc-1)*GAP)/nc,cnt=Math.max(1,Math.round((b.scrollWidth+GAP)/(cw+GAP)));
   pages=Math.ceil(cnt/nc);page=Math.min(page,pages-1);shift(0,false);info()}
-function setSize(v){const lim=inFocus()?best:capW;sz=Math.max(best,Math.min(lim,v));place(sz)}
+function setSize(v){sz=best;place(sz)}
 function layout(){
   const land=innerWidth>innerHeight&&innerWidth>640,c=land||innerWidth>900?[2]:[1,2];
   best=0;c.forEach(n=>{const f=fitN(n);if(f>best+.3)best=f});
-  capW=Math.max(best,capWidth());page=0;sz=best;place(best)}
+  capW=Math.max(best,capWidth());page=0;sz=best;place(best);
+  while(pages>1&&best>4){best*=.97;sz=best;place(best)}}
 
 // ===== botones (solo modo normal) =====
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
