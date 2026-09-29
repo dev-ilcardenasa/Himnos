@@ -38,6 +38,7 @@ body.nochords .c{display:none}
 #pg{position:absolute;right:20px;bottom:14px;color:var(--mut);font-size:13px;pointer-events:none}
 /* MODO SOLO HIMNO: nada más que la letra y los acordes */
 body.focus #bar,body.focus #head,body.focus #pg{display:none}
+body.focus #box{column-rule:2px solid #4a6d72}
 body.focus #wrap{padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
 #msg{padding:24px;text-align:center;color:var(--mut)}
 </style>
@@ -158,7 +159,7 @@ function place(v){const b=box();b.style.fontSize=v+"px";setCols(1);
   if(allOK(b))nc=1;else{setCols(2);if(wOK(b))nc=2;else{setCols(1);nc=1}}
   const W=b.clientWidth,cw=(W-(nc-1)*GAP)/nc,cnt=Math.max(1,Math.round((b.scrollWidth+GAP)/(cw+GAP)));
   pages=Math.ceil(cnt/nc);page=Math.min(page,pages-1);shift(0,false);info()}
-function setSize(v){sz=Math.max(best,Math.min(capW,v));place(sz)}
+function setSize(v){const lim=inFocus()?best:capW;sz=Math.max(best,Math.min(lim,v));place(sz)}
 function layout(){
   const land=innerWidth>innerHeight&&innerWidth>640,c=land||innerWidth>900?[2]:[1,2];
   best=0;c.forEach(n=>{const f=fitN(n);if(f>best+.3)best=f});
