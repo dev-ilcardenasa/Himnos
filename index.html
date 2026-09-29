@@ -39,7 +39,7 @@ body.nochords .c{display:none}
 /* MODO SOLO HIMNO: nada más que la letra y los acordes */
 body.focus #bar,body.focus #head,body.focus #pg{display:none}
 body.focus #box{column-rule:2px solid #4a6d72}
-body.focus #wrap{padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+body.focus #wrap{padding:max(4px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
 #msg{padding:24px;text-align:center;color:var(--mut)}
 </style>
 </head>
@@ -140,8 +140,8 @@ function build(){
   layout()}
 
 // ===== ajuste: el himno siempre cabe COMPLETO en una sola pantalla, lo más grande posible =====
-const GAP=44,box=()=>$("box");
-function setCols(n){const b=box();b.style.columnGap=GAP+"px";b.style.columnCount=n}
+const box=()=>$("box"),gap=()=>inFocus()?24:40;
+function setCols(n){const b=box();b.style.columnGap=gap()+"px";b.style.columnCount=n}
 // mide la posición real de cada bloque: ninguno puede salirse del área visible
 function fits(){
   const b=box(),c=$("clip").getBoundingClientRect();
@@ -152,8 +152,9 @@ function fitN(n){const b=box();b.style.transform="none";setCols(n);let lo=4,hi=6
   while(hi-lo>.3){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(fits())lo=m;else hi=m}return lo}
 function layout(){
   if(!cur)return;
-  const f1=fitN(1),f2=fitN(2),n=f2>f1?2:1;
-  setCols(n);let z=Math.max(f1,f2)*.99;box().style.fontSize=z+"px";
+  // dos columnas siempre que el himno sea largo; una sola solo si es corto y en una columna se ve mucho más grande
+  const f1=fitN(1),f2=fitN(2),n=f1>f2*1.3?1:2,f=n==1?f1:f2;
+  setCols(n);let z=f*.99;box().style.fontSize=z+"px";
   while(!fits()&&z>4){z*=.97;box().style.fontSize=z+"px"}}
 
 // ===== botones (solo modo normal) =====
