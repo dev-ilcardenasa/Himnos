@@ -26,7 +26,8 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 #head h2{margin:0;font:700 clamp(18px,3.5vw,30px) Georgia,serif}
 #head small{color:var(--mut)}
 #wrap{flex:1;min-height:0;position:relative;padding:6px var(--side) 12px}
-#box{height:100%;overflow:hidden;column-rule:1px solid #2a4448;column-gap:32px;column-fill:auto}
+#clip{height:100%;overflow:hidden}
+#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:32px;column-fill:auto}
 .sec{break-inside:avoid;margin-bottom:.8em}
 .sec.br{break-before:column}
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
@@ -57,10 +58,11 @@ body.focus #fl{display:flex}
     <button id="fs">⤢</button><button id="foc">Solo himno</button>
     <button id="tm">− tono</button><button id="tl">0</button><button id="tp">+ tono</button>
     <button id="chb" class="on">Acordes</button>
+    <button id="prev">◀</button><button id="next">▶</button>
   </div>
   <div id="head"></div>
-  <div id="fl"><button id="ftm">−♭</button><button id="ftl">0</button><button id="ftp">+♯</button><button id="fx">✕</button></div>
-  <div id="wrap"><div id="box"></div><div id="pg"></div></div>
+  <div id="fl"><button id="fpv">◀</button><button id="fnx">▶</button><button id="ftm">−♭</button><button id="ftl">0</button><button id="ftp">+♯</button><button id="fx">✕</button></div>
+  <div id="wrap"><div id="clip"><div id="box"></div></div><div id="pg"></div></div>
 </div>
 <script>
 // ====== CONFIGURACIÓN: tu hoja publicada como CSV ======
@@ -142,27 +144,30 @@ function build(){
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
-let nc=2,sz=16,best=16,capW=40,ty=0;
+let nc=1,sz=16,best=16,capW=40,pages=1;
 const GAP=44,box=()=>$("box");
 const wOK=b=>[...b.querySelectorAll("pre")].every(e=>e.scrollWidth<=e.clientWidth-6);
 const allOK=b=>b.scrollWidth<=b.clientWidth+2&&wOK(b);
-function setCols(n){const b=box();b.style.columnGap=GAP+"px";b.style.columnCount=n;b.style.height=n==2?"100%":"auto"}
-function fitN(n){const b=box();b.style.height="100%";b.style.columnGap=GAP+"px";b.style.columnCount=n;let lo=4,hi=48;
-  while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";
-    if(allOK(b))lo=m;else hi=m}return lo}
+function setCols(n){const b=box();b.style.columnGap=GAP+"px";b.style.columnCount=n}
+function fitN(n){const b=box();setCols(n);let lo=4,hi=48;
+  while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(allOK(b))lo=m;else hi=m}return lo}
 function capWidth(){const b=box();setCols(1);let lo=4,hi=90;
   while(hi-lo>.4){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(wOK(b))lo=m;else hi=m}return lo}
-// Pone el tamaño: 2 columnas si caben completas; si no, 1 columna (siempre dentro del ancho)
-function place(v){const b=box();b.style.fontSize=v+"px";setCols(2);
-  if(allOK(b))nc=2;else{setCols(1);nc=1}
-  const W=$("wrap"),view=W.clientHeight-b.offsetTop-12,tall=b.scrollHeight;
-  ty=nc==2?0:Math.min(0,Math.max(Math.min(0,view-tall),ty));
-  b.style.transform=`translateY(${ty}px)`}
+function shift(dx,anim){const b=box();b.style.transition=anim?"transform .2s":"none";
+  b.style.transform=`translateX(${-page*(b.clientWidth+GAP)+dx}px)`}
+function info(){$("pg").textContent=pages>1?`${page+1}/${pages}`:"";
+  const d=pages>1?"":"none";["prev","next","fpv","fnx"].forEach(i=>$(i).style.display=d)}
+function go(d){page=Math.max(0,Math.min(pages-1,page+d));shift(0,true);info()}
+// 1 columna si todo cabe; si no, 2 columnas si caben a lo ancho; si no, 1. Lo que no cabe abajo pasa a la columna de la derecha.
+function place(v){const b=box();b.style.fontSize=v+"px";setCols(1);
+  if(allOK(b))nc=1;else{setCols(2);if(wOK(b))nc=2;else{setCols(1);nc=1}}
+  const W=b.clientWidth,cw=(W-(nc-1)*GAP)/nc,cnt=Math.max(1,Math.round((b.scrollWidth+GAP)/(cw+GAP)));
+  pages=Math.ceil(cnt/nc);page=Math.min(page,pages-1);shift(0,false);info()}
 function setSize(v){sz=Math.max(best,Math.min(capW,v));place(sz)}
 function layout(){
   const land=innerWidth>innerHeight&&innerWidth>640,c=land||innerWidth>900?[2]:[1,2];
   best=0;c.forEach(n=>{const f=fitN(n);if(f>best+.3)best=f});
-  capW=Math.max(best,capWidth());ty=0;sz=best;place(best)}
+  capW=Math.max(best,capWidth());page=0;sz=best;place(best)}
 
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
@@ -174,24 +179,24 @@ $("ftm").onclick=()=>{semis=Math.max(-11,semis-1);build()};$("ftp").onclick=()=>
 const foc=on=>{document.body.classList.toggle("focus",on);layout()};
 $("foc").onclick=()=>foc(true);$("fx").onclick=()=>foc(false);
 
-// Zoom con los dedos: la letra crece y se acomoda al ancho. Tope: cuando la línea más larga llega al borde.
-const W=$("wrap");let g=null,ly=0,lt=0,md=false;
+// Pellizco = cambia el tamaño de la letra (tope: la línea más larga llega al borde). Deslizar de lado = pasar de columna.
+const W=$("wrap");let g=null,sx=0,dx=0,lt=0,drag=false;
 const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
-const oy=()=>W.getBoundingClientRect().top+box().offsetTop;
-function zoomBy(ns,cy){const k=Math.max(best,Math.min(capW,ns))/sz;const y=cy-oy();ty=y-(y-ty)*k;setSize(sz*k)}
-const reset=()=>{ty=0;setSize(best)};
+const reset=()=>{page=0;setSize(best)};
 W.addEventListener("touchstart",e=>{
-  if(e.touches.length==2)g={d:dist(e.touches),s:sz};
-  else{ly=e.touches[0].clientY;const n=Date.now();if(n-lt<300)reset();lt=n}},{passive:false});
+  if(e.touches.length==2){g={d:dist(e.touches),s:sz};drag=false}
+  else{sx=e.touches[0].clientX;dx=0;drag=true;const n=Date.now();if(n-lt<300)reset();lt=n}},{passive:false});
 W.addEventListener("touchmove",e=>{e.preventDefault();
-  if(e.touches.length==2&&g){const cy=(e.touches[0].clientY+e.touches[1].clientY)/2;zoomBy(g.s*dist(e.touches)/g.d,cy)}
-  else if(e.touches.length==1&&nc==1){const y=e.touches[0].clientY;ty+=y-ly;ly=y;place(sz)}},{passive:false});
-W.addEventListener("touchend",e=>{if(e.touches.length<2)g=null;if(e.touches.length==1)ly=e.touches[0].clientY});
-W.addEventListener("wheel",e=>{e.preventDefault();zoomBy(sz*(e.deltaY<0?1.1:.9),e.clientY)},{passive:false});
-W.addEventListener("mousedown",e=>{md=true;ly=e.clientY});
-addEventListener("mouseup",()=>md=false);
-addEventListener("mousemove",e=>{if(md&&nc==1){ty+=e.clientY-ly;ly=e.clientY;place(sz)}});
+  if(e.touches.length==2&&g)setSize(g.s*dist(e.touches)/g.d);
+  else if(e.touches.length==1&&drag&&pages>1){dx=e.touches[0].clientX-sx;shift(dx,false)}},{passive:false});
+W.addEventListener("touchend",e=>{if(e.touches.length<2)g=null;
+  if(e.touches.length==0&&drag){drag=false;const st=box().clientWidth*.15;
+    if(dx<-st)page=Math.min(pages-1,page+1);else if(dx>st)page=Math.max(0,page-1);
+    shift(0,true);info();dx=0}});
+W.addEventListener("wheel",e=>{e.preventDefault();setSize(sz*(e.deltaY<0?1.1:.9))},{passive:false});
 W.addEventListener("dblclick",reset);
+$("prev").onclick=$("fpv").onclick=()=>go(-1);$("next").onclick=$("fnx").onclick=()=>go(1);
+addEventListener("keydown",e=>{if(!cur)return;if(e.key=="ArrowRight")go(1);if(e.key=="ArrowLeft")go(-1)});
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
