@@ -221,14 +221,22 @@ function fitN(n){const b=box();b.style.transform="none";setCols(n);let lo=4,hi=6
 function layout(){
   if(!cur)return;
   const want=cur._lay||0;
-  const b=box();b.style.transform="none";b.style.setProperty("--lh","1.3");
+  const b=box();b.style.transform="none";b.style.width="";b.style.margin="0";b.style.setProperty("--lh","1.3");
   let n,f;if(want){n=want;f=fitN(n)}else{const f1=fitN(1),f2=fitN(2);n=f1>f2*1.3?1:2;f=n==1?f1:f2}
   b.classList.toggle("one",n==1);setCols(n);let z=f*.995;b.style.fontSize=z+"px";
   while(!fits()&&z>4){z*=.97;b.style.fontSize=z+"px"}
   let lo=1.3,hi=1.85;
   while(hi-lo>.02){const m=(lo+hi)/2;b.style.setProperty("--lh",m);if(fits())lo=m;else hi=m}
   b.style.setProperty("--lh",lo);
+  if(n==2)tighten();
   applyT()}
+// junta las dos columnas al ancho real de la letra y las centra, con la línea en medio
+function tighten(){const b=box(),pres=[...b.querySelectorAll("pre")];
+  pres.forEach(e=>e.style.width="max-content");
+  let w=0;pres.forEach(e=>{w=Math.max(w,e.offsetWidth)});
+  pres.forEach(e=>e.style.width="");
+  const need=(Math.ceil(w)+3)*2+gap();
+  if(need<$("clip").clientWidth){b.style.width=need+"px";b.style.margin="0 auto"}}
 
 let Z=1,TX=0,TY=0;
 function applyT(){clampPan();box().style.transform=(Z===1&&!TX&&!TY)?"none":`translate(${TX}px,${TY}px) scale(${Z})`}
