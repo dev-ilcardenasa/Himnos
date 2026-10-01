@@ -42,7 +42,8 @@ body.min #bar,body.min #head,body.min #pal{display:none}
 #wrap{flex:1;min-height:0;position:relative;padding:6px max(var(--side),env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(var(--side),env(safe-area-inset-left));touch-action:none;overflow:hidden;background:var(--vbg,var(--bg))}
 body.min #wrap{padding-top:calc(6px + env(safe-area-inset-top,0px));padding-right:calc(max(var(--side),env(safe-area-inset-right,0px)) + 16px)}
 #clip{height:100%;overflow:hidden}
-#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:8px;column-fill:balance;transform-origin:0 0;will-change:transform;color:var(--lyric,var(--tx))}
+#box{height:100%;overflow:visible;background:linear-gradient(#2a4448,#2a4448) no-repeat 50% 0/1px 100%;column-gap:8px;column-fill:balance;transform-origin:0 0;will-change:transform;color:var(--lyric,var(--tx))}
+#box.one{background:none}
 .sec{break-inside:avoid;margin-bottom:.8em}
 .sec.br{break-before:column}
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
@@ -92,7 +93,6 @@ body.nochords .ci{display:none}
   <div id="bar">
     <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
     <button id="chb" class="on">Acordes</button>
-    <button id="colsb" title="Columnas: auto / 1 / 2">Cols: auto</button>
     <button id="colb">🎨 Color</button>
     <button id="edit">✎ Editar</button>
   </div>
@@ -220,11 +220,10 @@ function fitN(n){const b=box();b.style.transform="none";setCols(n);let lo=4,hi=6
   while(hi-lo>.3){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(fits())lo=m;else hi=m}return lo}
 function layout(){
   if(!cur)return;
-  const want=ovr!=null?ovr:(cur._lay||0);
-  $("colsb").textContent="Cols: "+(want||"auto");
+  const want=cur._lay||0;
   const b=box();b.style.transform="none";b.style.setProperty("--lh","1.3");
-  const f1=fitN(1),f2=fitN(2),n=want||(f1>f2*1.3?1:2),f=n==1?f1:f2;
-  setCols(n);let z=f*.995;b.style.fontSize=z+"px";
+  let n,f;if(want){n=want;f=fitN(n)}else{const f1=fitN(1),f2=fitN(2);n=f1>f2*1.3?1:2;f=n==1?f1:f2}
+  b.classList.toggle("one",n==1);setCols(n);let z=f*.995;b.style.fontSize=z+"px";
   while(!fits()&&z>4){z*=.97;b.style.fontSize=z+"px"}
   let lo=1.3,hi=1.85;
   while(hi-lo>.02){const m=(lo+hi)/2;b.style.setProperty("--lh",m);if(fits())lo=m;else hi=m}
@@ -234,7 +233,7 @@ function layout(){
 let Z=1,TX=0,TY=0;
 function applyT(){clampPan();box().style.transform=(Z===1&&!TX&&!TY)?"none":`translate(${TX}px,${TY}px) scale(${Z})`}
 function clampPan(){const c=$("clip"),W=c.clientWidth,H=c.clientHeight;
-  const cl=(v,s)=>{const e=s-s*Z;return Math.min(Math.max(0,e),Math.max(Math.min(0,e),v))};
+  const cl=(v,s)=>{const e=s-s*Z,m=s*.5;return Math.min(Math.max(0,e)+m,Math.max(Math.min(0,e)-m,v))};
   TX=cl(TX,W);TY=cl(TY,H)}
 function resetZoom(){Z=1;TX=0;TY=0;if(cur)applyT()}
 const W_=$("wrap");let G=null,moved=false,lastTap=0;
@@ -261,6 +260,10 @@ W_.addEventListener("touchend",endT);W_.addEventListener("touchcancel",endT);
 W_.addEventListener("wheel",e=>{e.preventDefault();const r=rel(),mx=e.clientX-r.left,my=e.clientY-r.top,px=(mx-TX)/Z,py=(my-TY)/Z;
   Z=Math.max(.5,Math.min(6,Z*Math.exp(-e.deltaY*.0015)));TX=mx-px*Z;TY=my-py*Z;applyT()},{passive:false});
 W_.addEventListener("dblclick",resetZoom);
+let MD=null;
+W_.addEventListener("mousedown",e=>{if(Z!==1)MD={x:e.clientX,y:e.clientY,tx:TX,ty:TY}});
+addEventListener("mousemove",e=>{if(MD){TX=MD.tx+e.clientX-MD.x;TY=MD.ty+e.clientY-MD.y;applyT()}});
+addEventListener("mouseup",()=>{MD=null});
 
 const COLS={chord:["#e8b04a","#ffffff","#000000","#9aa5a5","#ff6b6b","#5aa9ff","#5fd38d"],
             lyric:["#eef3f1","#ffffff","#000000","#9aa5a5","#e8b04a"],
@@ -281,7 +284,6 @@ $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
-$("colsb").onclick=()=>{const w=ovr!=null?ovr:(cur&&cur._lay||0);ovr=w==0?1:w==1?2:0;if(ovr===0&&!(cur&&cur._lay))ovr=null;layout()};
 $("grip").onclick=()=>{document.body.classList.toggle("min");$("pal").classList.remove("open");layout()};
 addEventListener("resize",()=>{if(cur)layout()});
 
