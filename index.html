@@ -24,8 +24,15 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 #grip i{width:52px;height:5px;border-radius:3px;background:var(--mut);opacity:.8}
 body.min #grip{height:14px}
 body.min #grip i{height:3px;opacity:.55}
-body.min #bar,body.min #head,body.focus #grip{display:none}
-#bar{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-bottom:1px solid var(--btn)}
+body.min #bar,body.min #head{display:none}
+#bar{display:flex;align-items:center;gap:6px;padding:4px 8px 6px;border-bottom:1px solid var(--btn);overflow-x:auto;scrollbar-width:none}
+#bar::-webkit-scrollbar{display:none}
+#bar button{min-height:28px;padding:3px 11px;font-size:13px;border-radius:999px;background:transparent;border:1px solid #2a4448;white-space:nowrap;flex:none}
+#bar button.on{color:var(--gold);border-color:var(--gold)}
+.seg{display:flex;flex:none;border:1px solid #2a4448;border-radius:999px;overflow:hidden}
+#bar .seg button{border:0;border-radius:0;min-width:32px;padding:3px 9px}
+#bar .seg button+button{border-left:1px solid #2a4448}
+#edit{margin-left:auto}
 #head{display:flex;align-items:center;gap:12px;padding:6px 14px}
 #head .num{font-size:26px}
 #head h2{margin:0;font:700 clamp(18px,3.5vw,30px) Georgia,serif}
@@ -41,11 +48,6 @@ pre .c{color:var(--gold)}
 .sec.cho pre{border-left:3px solid var(--gold);padding-left:8px}
 body.nochords .c{display:none}
 #pg{position:absolute;right:20px;bottom:14px;color:var(--mut);font-size:13px;pointer-events:none}
-/* MODO SOLO HIMNO: nada más que la letra y los acordes */
-body.focus #bar,body.focus #head,body.focus #pg{display:none}
-body.focus #box{column-rule:2px solid #4a6d72}
-body.focus #wrap{padding:max(1px,env(safe-area-inset-top)) max(1px,env(safe-area-inset-right)) max(1px,env(safe-area-inset-bottom)) max(1px,env(safe-area-inset-left))}
-body.focus .sec.cho pre{padding-left:4px;border-left-width:2px}
 #cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 #cats button{min-height:34px;padding:6px 12px;font-size:14px}
 body.nochords .ci{display:none}
@@ -76,10 +78,10 @@ body.nochords .ci{display:none}
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
   <div id="bar">
-    <button id="back">← Lista</button>
-    <button id="fs">⤢</button><button id="foc">Solo himno</button>
-    <button id="tm">− tono</button><button id="tl">0</button><button id="tp">+ tono</button>
-    <button id="chb" class="on">Acordes</button><button id="edit">✎ Editar</button>
+    <button id="back">‹ Lista</button>
+    <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
+    <button id="chb" class="on">Acordes</button>
+    <button id="edit">✎ Editar</button>
   </div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
@@ -177,9 +179,10 @@ function build(){
     const blocks=[];let cb=[];
     x.lines.forEach(l=>{if(l.trim())cb.push(l);else if(cb.length){blocks.push(cb);cb=[]}});
     if(cb.length)blocks.push(cb);
+    const isCoro=/coro/i.test(x.label);
     blocks.forEach((bl,k)=>{
       const body=bl.map(l=>isChordLine(l)?`<span class="c">${esc(transLine(l,semis,flat))}</span>`:esc(l)).join("\n");
-      html.push(`<div class="sec ${x.br&&k==0?"br":""} ${/coro/i.test(x.label)?"cho":""}">${x.label&&k==0?`<div class="lb">${esc(x.label)}</div>`:""}<pre>${body}</pre></div>`)})});
+      html.push(`<div class="sec ${x.br&&k==0?"br":""} ${isCoro?"cho":""}">${isCoro&&k==0?`<div class="lb">${esc(x.label)}</div>`:""}<pre>${body}</pre></div>`)})});
   $("box").innerHTML=html.join("");
   $("tl").textContent=(semis>0?"+":"")+semis;
   const tone=cur.tone?tr(cur.tone,semis,flat):"";
@@ -187,9 +190,8 @@ function build(){
   layout()}
 
 // ===== ajuste: el himno siempre cabe COMPLETO en una sola pantalla, lo más grande posible =====
-const box=()=>$("box"),gap=()=>inFocus()?14:30;
+const box=()=>$("box"),gap=()=>30;
 function setCols(n){const b=box();b.style.columnGap=gap()+"px";b.style.columnCount=n}
-// mide la posición real de cada bloque: ninguno puede salirse del área visible
 function fits(){
   const b=box(),c=$("clip").getBoundingClientRect();
   if(c.width<10||c.height<10)return true;
@@ -203,36 +205,17 @@ function layout(){
   const f1=fitN(1),f2=fitN(2),n=f1>f2*1.3?1:2,f=n==1?f1:f2;
   setCols(n);let z=f*.995;b.style.fontSize=z+"px";
   while(!fits()&&z>4){z*=.97;b.style.fontSize=z+"px"}
-  // si sobra alto, separa más los renglones para llenar la pantalla hacia abajo
   let lo=1.3,hi=1.85;
   while(hi-lo>.02){const m=(lo+hi)/2;b.style.setProperty("--lh",m);if(fits())lo=m;else hi=m}
   b.style.setProperty("--lh",lo)}
 
-// ===== botones (solo modo normal) =====
+// ===== botones =====
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
 $("back").onclick=()=>{location.hash=""};
 $("grip").onclick=()=>{document.body.classList.toggle("min");layout()};
-$("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
-
-// ===== modo Solo himno: solo letra + acordes, sin nada más =====
-const inFocus=()=>document.body.classList.contains("focus");
-function foc(on){
-  document.body.classList.toggle("focus",on);
-  if(on){try{document.documentElement.requestFullscreen?.()?.catch(()=>{})}catch(e){}}
-  else if(document.fullscreenElement){document.exitFullscreen().catch(()=>{})}
-  layout()}
-$("foc").onclick=()=>foc(true);
-// si el usuario sale de pantalla completa (gesto atrás), también sale del modo
-document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&inFocus()){document.body.classList.remove("focus");layout()}});
-
-// ===== doble toque: en Solo himno vuelve al modo normal =====
-const W=$("wrap");let lt=0;
-W.addEventListener("touchend",e=>{if(e.touches.length)return;const n=Date.now();if(n-lt<350){lt=0;if(inFocus())foc(false)}else lt=n});
-W.addEventListener("dblclick",()=>{if(inFocus())foc(false)});
-addEventListener("keydown",e=>{if(e.key=="Escape"&&inFocus())foc(false)});
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
@@ -241,7 +224,7 @@ document.addEventListener("visibilitychange",()=>{if(cur&&document.visibilitySta
 function route(){
   const i=parseInt(location.hash.slice(1));
   if(songs[i]){cur=songs[i];semis=0;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
-  else{document.body.classList.remove("focus");cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
+  else{cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
 addEventListener("hashchange",route);
 $("rf").onclick=()=>{$("items").innerHTML='<div id="msg">Cargando himnos…</div>';load()};
 document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
@@ -299,7 +282,6 @@ $("e_del").onclick=async()=>{
   $("e_del").disabled=true;emsg("Borrando…");
   const end=t=>{$("e_del").disabled=false;emsg(t)};
   let resp;
-  // se envían también los datos originales, por si el script aún es la versión vieja (así no borra nada de la fila)
   try{resp=await post(url,{accion:"borrar",clave:key,numero:o.num,titulo:o.title,categoria:o.cat,tono:o.tone,intro:o.intro,letra:o.text})}
   catch(e){return end("No se pudo enviar: "+e.message)}
   if(resp==="clave incorrecta")return end("La clave no coincide con la que pusiste en el script.");
