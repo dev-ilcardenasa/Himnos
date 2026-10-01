@@ -19,13 +19,14 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 .num{min-width:64px;text-align:center;font:700 22px Georgia,serif;color:var(--gold);background:#0a1416;border-radius:8px;padding:8px}
 .num.no{color:var(--mut);font-size:20px}
 .it small{color:var(--mut);display:block}
-#view{display:none;height:100dvh;flex-direction:column;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
-#grip{flex:none;display:flex;justify-content:center;align-items:center;box-sizing:content-box;height:22px;padding-top:env(safe-area-inset-top,0px);cursor:pointer}
-#grip i{width:52px;height:5px;border-radius:3px;background:var(--mut);opacity:.8}
-body.min #grip{height:14px}
-body.min #grip i{height:3px;opacity:.55}
-body.min #bar,body.min #head{display:none}
-#bar{display:flex;align-items:center;gap:6px;padding:4px 8px 6px;border-bottom:1px solid var(--btn);overflow-x:auto;scrollbar-width:none}
+#view{display:none;height:100dvh;flex-direction:column;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none;background:var(--bg)}
+/* lengüeta lateral para ocultar / mostrar el menú */
+#grip{position:fixed;right:0;top:50%;transform:translateY(-50%);width:16px;height:64px;display:flex;align-items:center;justify-content:center;background:#0d1b1eb0;border-radius:10px 0 0 10px;cursor:pointer;z-index:12}
+#grip i{width:4px;height:28px;border-radius:3px;background:var(--mut);opacity:.85}
+body.min #grip{background:#0d1b1e60}
+body.min #grip i{opacity:.5}
+body.min #bar,body.min #head,body.min #pal{display:none}
+#bar{display:flex;align-items:center;gap:6px;padding:calc(4px + env(safe-area-inset-top,0px)) 8px 6px;border-bottom:1px solid var(--btn);overflow-x:auto;scrollbar-width:none;background:var(--bg)}
 #bar::-webkit-scrollbar{display:none}
 #bar button{min-height:28px;padding:3px 11px;font-size:13px;border-radius:999px;background:transparent;border:1px solid #2a4448;white-space:nowrap;flex:none}
 #bar button.on{color:var(--gold);border-color:var(--gold)}
@@ -33,21 +34,28 @@ body.min #bar,body.min #head{display:none}
 #bar .seg button{border:0;border-radius:0;min-width:32px;padding:3px 9px}
 #bar .seg button+button{border-left:1px solid #2a4448}
 #edit{margin-left:auto}
-#head{display:flex;align-items:center;gap:12px;padding:6px 14px}
+#head{display:flex;align-items:center;gap:12px;padding:6px 14px;background:var(--bg)}
 #head .num{font-size:26px}
 #head h2{margin:0;font:700 clamp(18px,3.5vw,30px) Georgia,serif}
 #head small{color:var(--mut)}
-#wrap{flex:1;min-height:0;position:relative;padding:6px var(--side) 12px;touch-action:none;overflow:hidden}
+#wrap{flex:1;min-height:0;position:relative;padding:6px var(--side) 12px;touch-action:none;overflow:hidden;background:var(--vbg,var(--bg))}
+body.min #wrap{padding-top:calc(6px + env(safe-area-inset-top,0px))}
 #clip{height:100%;overflow:hidden}
-#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:32px;column-fill:balance;transform-origin:0 0;will-change:transform}
+#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:32px;column-fill:balance;transform-origin:0 0;will-change:transform;color:var(--lyric,var(--tx))}
 .sec{break-inside:avoid;margin-bottom:.8em}
 .sec.br{break-before:column}
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
 pre{margin:0;font-family:Arimo,Arial,"Liberation Sans",Helvetica,sans-serif;white-space:pre;line-height:var(--lh,1.3)}
-pre .c{color:var(--gold)}
+pre .c{color:var(--chord,var(--gold))}
 .sec.cho pre{border-left:3px solid var(--gold);padding-left:8px}
 body.nochords .c{display:none}
-#pg{position:absolute;right:20px;bottom:14px;color:var(--mut);font-size:13px;pointer-events:none}
+/* panel de colores */
+#pal{display:none;position:fixed;left:8px;top:calc(46px + env(safe-area-inset-top,0px));z-index:15;background:var(--card);border:1px solid #2a4448;border-radius:14px;padding:8px 12px;box-shadow:0 8px 24px #0009}
+#pal.open{display:block}
+#pal .r{display:flex;align-items:center;gap:8px;margin:6px 0}
+#pal .r>span{width:58px;font-size:12px;color:var(--mut)}
+.sw{width:26px;height:26px;min-height:0;padding:0;border-radius:50%;border:1px solid #4a6d72}
+.sw.on{outline:2px solid var(--gold);outline-offset:2px}
 #cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 #cats button{min-height:34px;padding:6px 12px;font-size:14px}
 body.nochords .ci{display:none}
@@ -78,11 +86,12 @@ body.nochords .ci{display:none}
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
   <div id="bar">
-    <button id="back">‹ Lista</button>
     <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
     <button id="chb" class="on">Acordes</button>
+    <button id="colb">🎨 Color</button>
     <button id="edit">✎ Editar</button>
   </div>
+  <div id="pal"></div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
 </div>
@@ -111,6 +120,7 @@ const URLS=[
  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuYxY7rCdH1x_wbM0tXiX0AQOKj2tOiBwJPBTrAE9ulYtnGIWiAyolBqDQTUUJFT94KQ_697S0ncB1/pub?gid=0&single=true&output=csv"];
 // =======================================================
 const $=id=>document.getElementById(id);
+const LS=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
 let songs=[],cur=null,semis=0,wl=null,cat="";
 
 function parseCSV(t){const r=[];let row=[],c="",q=false;
@@ -201,21 +211,70 @@ function fitN(n){const b=box();b.style.transform="none";setCols(n);let lo=4,hi=6
   while(hi-lo>.3){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(fits())lo=m;else hi=m}return lo}
 function layout(){
   if(!cur)return;
-  const b=box();b.style.setProperty("--lh","1.3");
+  const b=box();b.style.transform="none";b.style.setProperty("--lh","1.3");
   const f1=fitN(1),f2=fitN(2),n=f1>f2*1.3?1:2,f=n==1?f1:f2;
   setCols(n);let z=f*.995;b.style.fontSize=z+"px";
   while(!fits()&&z>4){z*=.97;b.style.fontSize=z+"px"}
   let lo=1.3,hi=1.85;
   while(hi-lo>.02){const m=(lo+hi)/2;b.style.setProperty("--lh",m);if(fits())lo=m;else hi=m}
-  b.style.setProperty("--lh",lo)}
+  b.style.setProperty("--lh",lo);
+  applyT()}
+
+// ===== zoom con dos dedos (pellizcar), mover con un dedo, doble toque = restablecer =====
+let Z=1,TX=0,TY=0;
+function applyT(){clampPan();box().style.transform=(Z===1&&!TX&&!TY)?"none":`translate(${TX}px,${TY}px) scale(${Z})`}
+function clampPan(){const c=$("clip"),W=c.clientWidth,H=c.clientHeight;
+  const cl=(v,s)=>{const e=s-s*Z;return Math.min(Math.max(0,e),Math.max(Math.min(0,e),v))};
+  TX=cl(TX,W);TY=cl(TY,H)}
+function resetZoom(){Z=1;TX=0;TY=0;if(cur)applyT()}
+const W_=$("wrap");let G=null,moved=false,lastTap=0;
+const rel=()=>$("clip").getBoundingClientRect();
+const dist=(a,b)=>Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+function startG(e){
+  if(e.touches.length>=2){const a=e.touches[0],b=e.touches[1],r=rel(),mx=(a.clientX+b.clientX)/2-r.left,my=(a.clientY+b.clientY)/2-r.top;
+    G={t:"pinch",d:dist(a,b)||1,z:Z,px:(mx-TX)/Z,py:(my-TY)/Z}}
+  else if(e.touches.length===1){const a=e.touches[0];G={t:"pan",x:a.clientX,y:a.clientY,tx:TX,ty:TY}}
+  else G=null}
+W_.addEventListener("touchstart",e=>{$("pal").classList.remove("open");if(e.touches.length===1)moved=false;else moved=true;startG(e)},{passive:false});
+W_.addEventListener("touchmove",e=>{e.preventDefault();if(!G)return;
+  if(G.t==="pinch"&&e.touches.length>=2){const a=e.touches[0],b=e.touches[1],r=rel(),mx=(a.clientX+b.clientX)/2-r.left,my=(a.clientY+b.clientY)/2-r.top;
+    Z=Math.max(.5,Math.min(6,G.z*dist(a,b)/G.d));TX=mx-G.px*Z;TY=my-G.py*Z;applyT();moved=true}
+  else if(G.t==="pan"&&e.touches.length===1){const a=e.touches[0],dx=a.clientX-G.x,dy=a.clientY-G.y;
+    if(Math.abs(dx)+Math.abs(dy)>8)moved=true;
+    if(Z!==1){TX=G.tx+dx;TY=G.ty+dy;applyT()}}},{passive:false});
+function endT(e){
+  if(e.touches.length===0){const n=Date.now();
+    if(!moved&&G&&G.t==="pan"){if(n-lastTap<300){lastTap=0;resetZoom()}else lastTap=n}
+    G=null}
+  else startG(e)}
+W_.addEventListener("touchend",endT);W_.addEventListener("touchcancel",endT);
+// rueda del ratón (computador): acerca / aleja
+W_.addEventListener("wheel",e=>{e.preventDefault();const r=rel(),mx=e.clientX-r.left,my=e.clientY-r.top,px=(mx-TX)/Z,py=(my-TY)/Z;
+  Z=Math.max(.5,Math.min(6,Z*Math.exp(-e.deltaY*.0015)));TX=mx-px*Z;TY=my-py*Z;applyT()},{passive:false});
+W_.addEventListener("dblclick",resetZoom);
+
+// ===== colores (acordes, letra, fondo) =====
+const COLS={chord:["#e8b04a","#ffffff","#000000","#9aa5a5","#ff6b6b","#5aa9ff","#5fd38d"],
+            lyric:["#eef3f1","#ffffff","#000000","#9aa5a5","#e8b04a"],
+            bg:["#0d1b1e","#000000","#ffffff","#2b2f31","#e5e5e5"]};
+const NAMES={chord:"Acordes",lyric:"Letra",bg:"Fondo"};
+let sel;try{sel=JSON.parse(LS("hcol")||"null")}catch(e){sel=null}
+sel=Object.assign({chord:COLS.chord[0],lyric:COLS.lyric[0],bg:COLS.bg[0]},sel||{});
+function applyCols(){const v=$("view").style;v.setProperty("--chord",sel.chord);v.setProperty("--lyric",sel.lyric);v.setProperty("--vbg",sel.bg)}
+function renderPal(){const p=$("pal");p.innerHTML="";
+  Object.keys(COLS).forEach(k=>{const r=document.createElement("div");r.className="r";r.innerHTML=`<span>${NAMES[k]}</span>`;
+    COLS[k].forEach(c=>{const b=document.createElement("button");b.className="sw"+(sel[k]===c?" on":"");b.style.background=c;b.title=c;
+      b.onclick=()=>{sel[k]=c;SV("hcol",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
+    p.appendChild(r)})}
+$("colb").onclick=()=>{renderPal();$("pal").classList.toggle("open")};
+applyCols();
 
 // ===== botones =====
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
-$("back").onclick=()=>{location.hash=""};
-$("grip").onclick=()=>{document.body.classList.toggle("min");layout()};
+$("grip").onclick=()=>{document.body.classList.toggle("min");$("pal").classList.remove("open");layout()};
 addEventListener("resize",()=>{if(cur)layout()});
 
 async function keepAwake(on){try{if(on&&navigator.wakeLock)wl=await navigator.wakeLock.request("screen");else if(wl){wl.release();wl=null}}catch(e){}}
@@ -223,26 +282,36 @@ document.addEventListener("visibilitychange",()=>{if(cur&&document.visibilitySta
 
 function route(){
   const i=parseInt(location.hash.slice(1));
-  if(songs[i]){cur=songs[i];semis=0;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
+  $("pal").classList.remove("open");
+  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
   else{cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
 addEventListener("hashchange",route);
 $("rf").onclick=()=>{$("items").innerHTML='<div id="msg">Cargando himnos…</div>';load()};
 document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
+
 // ===== crear / editar himnos y guardarlos en Google Sheets =====
-const LS=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
 const emsg=t=>{$("edmsg").textContent=t};
 const norm=t=>(t||"").replace(/\s+/g," ").trim();
 let edOrig=null;
+const edOpen=()=>$("ed").style.display==="block";
+// el gesto "atrás" del celular cierra el editor (igual que Cancelar)
+addEventListener("popstate",()=>{if(edOpen())$("ed").style.display="none"});
+function closeEd(then){
+  if(history.state&&history.state.ed){
+    const f=()=>{removeEventListener("popstate",f);then&&then()};
+    addEventListener("popstate",f);history.back()}
+  else{$("ed").style.display="none";then&&then()}}
 function openEd(x){edOrig=x||null;$("e_del").style.display=x?"inline-block":"none";
   $("cl").innerHTML=[...new Set(songs.map(z=>z.cat).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join("");
   $("edt").textContent=x?"Editar himno":"Nuevo himno";
   x=x||{num:"",title:"",cat:"",tone:"",intro:"",text:""};
   $("e_num").value=x.num;$("e_ton").value=x.tone;$("e_tit").value=x.title;$("e_cat").value=x.cat;$("e_int").value=x.intro;$("e_let").value=x.text;
   $("e_url").value=LS("hurl");$("e_key").value=LS("hkey");$("cn").open=!LS("hurl");
-  emsg("");$("ed").style.display="block";$("ed").scrollTop=0}
+  emsg("");$("ed").style.display="block";$("ed").scrollTop=0;
+  history.pushState({ed:1},"")}
 $("nw").onclick=()=>openEd();
 $("edit").onclick=()=>cur&&openEd(cur);
-$("e_x").onclick=()=>{$("ed").style.display="none"};
+$("e_x").onclick=()=>closeEd();
 $("e_save").onclick=async()=>{
   const d={numero:$("e_num").value.trim(),titulo:$("e_tit").value.trim(),categoria:$("e_cat").value.trim(),tono:$("e_ton").value.trim(),intro:$("e_int").value.trim(),letra:$("e_let").value.replace(/\r/g,"")};
   const url=$("e_url").value.trim(),key=$("e_key").value.trim();
@@ -264,7 +333,7 @@ $("e_save").onclick=async()=>{
     await new Promise(r=>setTimeout(r,1500));await load(true);
     const k=songs.findIndex(same);
     if(k>=0){emsg("✓ Guardado en Google Sheets");$("e_save").disabled=false;
-      setTimeout(()=>{$("ed").style.display="none";if(location.hash==="#"+k)route();else location.hash=k},600);return}}
+      setTimeout(()=>closeEd(()=>{if(location.hash==="#"+k)route();else location.hash=k}),600);return}}
   fail(resp==="ok"
     ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y pulsa ↻ Actualizar. Si no aparece, revisa que la hoja que lee la página sea la primera pestaña."
     :"No pude confirmar que se guardó. Abre el enlace /exec en una ventana privada: debe cargar sin pedirte iniciar sesión. Revisa también que el acceso sea «Cualquier persona» y que la clave sea la misma.")};
@@ -292,7 +361,7 @@ $("e_del").onclick=async()=>{
     await new Promise(r=>setTimeout(r,1500));await load(true);
     if(!songs.some(z=>z.title===o.title&&z.num===o.num)){
       emsg("✓ Himno borrado");$("e_del").disabled=false;
-      setTimeout(()=>{$("ed").style.display="none";if(location.hash)location.hash="";else route()},600);return}}
+      setTimeout(()=>closeEd(()=>{if(location.hash)location.hash="";else route()}),600);return}}
   end("El himno sigue en la hoja. Lo más probable es que el script sea la versión vieja: pega el script nuevo y publícalo como Nueva versión.")};
 load();
 </script>
