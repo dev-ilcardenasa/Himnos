@@ -126,8 +126,8 @@ body.nochords .ci{display:none}
 .section-title{font-family:inherit;font-size:clamp(2rem,6vw,2.5rem);font-weight:700;margin:0 0 20px;color:#fff}
 .section-subtitle{font-size:1.1rem;opacity:.8;max-width:600px;line-height:1.6;margin:0 0 30px}
 #home{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%);padding-top:200px}
-#canciones{background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
-#himnario{background:linear-gradient(135deg,#2d1b69 0%,#11998e 50%,#38ef7d 100%);justify-content:flex-start;padding-top:130px}
+#canciones{background:linear-gradient(135deg,#2d1b69 0%,#11998e 50%,#38ef7d 100%);justify-content:flex-start;padding-top:130px}
+#himnario{background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
 #services{background:linear-gradient(135deg,#4a148c 0%,#6a1b9a 50%,#8e24aa 100%)}
 #portfolio{background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#1a202c 100%)}
 #contact{background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)}
@@ -139,7 +139,9 @@ body.nochords .ci{display:none}
 #list #q{background:#ffffff1f;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #fff3;border-radius:16px;padding:16px 22px;color:#fff;outline:0}
 #list #q::placeholder{color:#ffffffb8}
 #list #q:focus{border-color:#ffffff80;background:#ffffff2e}
-#list #cats button{border-radius:25px;background:#ffffff1a;border:1px solid #ffffff2e;color:#ffffffe6;transition:all .3s}
+#list #cats{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;touch-action:pan-x}
+#list #cats::-webkit-scrollbar{display:none}
+#list #cats button{flex:none;white-space:nowrap;border-radius:25px;background:#ffffff1a;border:1px solid #ffffff2e;color:#ffffffe6;transition:all .3s}
 #list #cats button:hover{background:#ffffff33;transform:translateY(-2px)}
 #list #cats button.on{background:linear-gradient(135deg,#fff3,#ffffff1a);color:#fff;font-weight:600;box-shadow:inset 0 1px 0 #ffffff4d,0 4px 12px #0000001a}
 #list .it{background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff33;border-radius:20px;padding:10px 16px 10px 10px;box-shadow:0 10px 24px #0000001a,inset 0 1px 0 #ffffff33;color:#fff;font-weight:500;transition:all .3s}
@@ -163,12 +165,11 @@ body.nochords .ci{display:none}
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-header"><a href="#" class="mobile-menu-brand" data-go="home"><div class="logo-icon"></div><span>APDATE</span></a><button class="mobile-menu-close" id="mobileMenuClose">×</button></div>
   <ul class="mobile-menu-nav" id="mnav"></ul>
-  <div class="mobile-cta"><a href="#himnario" data-go="himnario" class="mobile-cta-button">Get Started</a></div>
+  <div class="mobile-cta"><a href="#himnario" data-go="canciones" class="mobile-cta-button">Get Started</a></div>
 </div>
 <section id="home" class="content-section"><h1 class="section-title">Principal</h1></section>
-<section id="canciones" class="content-section"><h2 class="section-title">Canciones</h2></section>
-<section id="himnario" class="content-section">
-  <h2 class="section-title">Himnario</h2>
+<section id="canciones" class="content-section">
+  <h2 class="section-title">Lista de canciones</h2>
   <p class="section-subtitle">Busca por número o título</p>
   <div id="list">
     <div id="top"><div class="acts"><button id="nw">+ Nuevo</button><button id="rf">↻ Actualizar</button></div></div>
@@ -177,6 +178,7 @@ body.nochords .ci{display:none}
     <div id="items"><div id="msg">Cargando himnos…</div></div>
   </div>
 </section>
+<section id="himnario" class="content-section"><h2 class="section-title">Himnario</h2></section>
 <section id="services" class="content-section"><h2 class="section-title">Services</h2></section>
 <section id="portfolio" class="content-section"><h2 class="section-title">Portfolio</h2></section>
 <section id="contact" class="content-section"><h2 class="section-title">Contact</h2></section>
@@ -504,7 +506,7 @@ const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0
 ["services","Services",'<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>'],
 ["portfolio","Portfolio",'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 3h6v4"></path><path d="m22 7-10-4-10 4"></path>'],
 ["contact","Contact",'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>']];
-$("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#himnario" data-go="himnario" class="cta-button">Get Started</a></li>';
+$("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#canciones" data-go="canciones" class="cta-button">Get Started</a></li>';
 $("mnav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
 const mm=$("mobileMenu"),mo=$("mobileMenuOverlay"),mt=$("mobileToggle");
 function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));document.body.style.overflow=o?"hidden":""}
