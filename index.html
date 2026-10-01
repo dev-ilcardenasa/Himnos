@@ -20,6 +20,11 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:8px 0 12px}
 .num.no{color:var(--mut);font-size:20px}
 .it small{color:var(--mut);display:block}
 #view{display:none;height:100dvh;flex-direction:column;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
+#grip{flex:none;display:flex;justify-content:center;align-items:center;box-sizing:content-box;height:22px;padding-top:env(safe-area-inset-top,0px);cursor:pointer}
+#grip i{width:52px;height:5px;border-radius:3px;background:var(--mut);opacity:.8}
+body.min #grip{height:14px}
+body.min #grip i{height:3px;opacity:.55}
+body.min #bar,body.min #head,body.focus #grip{display:none}
 #bar{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-bottom:1px solid var(--btn)}
 #head{display:flex;align-items:center;gap:12px;padding:6px 14px}
 #head .num{font-size:26px}
@@ -69,11 +74,12 @@ body.nochords .ci{display:none}
   <div id="items"><div id="msg">Cargando himnos…</div></div>
 </div>
 <div id="view">
+  <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
   <div id="bar">
     <button id="back">← Lista</button>
     <button id="fs">⤢</button><button id="foc">Solo himno</button>
     <button id="tm">− tono</button><button id="tl">0</button><button id="tp">+ tono</button>
-    <button id="chb" class="on">Acordes</button><button id="edit">✎ Editar</button><button id="del">🗑 Borrar</button>
+    <button id="chb" class="on">Acordes</button><button id="edit">✎ Editar</button>
   </div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
@@ -208,6 +214,7 @@ $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
 $("back").onclick=()=>{location.hash=""};
+$("grip").onclick=()=>{document.body.classList.toggle("min");layout()};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()};
 
 // ===== modo Solo himno: solo letra + acordes, sin nada más =====
@@ -280,7 +287,6 @@ $("e_save").onclick=async()=>{
     :"No pude confirmar que se guardó. Abre el enlace /exec en una ventana privada: debe cargar sin pedirte iniciar sesión. Revisa también que el acceso sea «Cualquier persona» y que la clave sea la misma.")};
 const ask=t=>new Promise(r=>{$("cft").textContent=t;$("cf").style.display="flex";
   $("cf_si").onclick=()=>{$("cf").style.display="none";r(true)};$("cf_no").onclick=()=>{$("cf").style.display="none";r(false)}});
-$("del").onclick=()=>{if(!cur)return;openEd(cur);$("e_del").click()};
 async function post(url,d){
   const opt={method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)};
   try{const r=await fetch(url,opt);return (await r.text()).trim()}
