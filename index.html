@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Himnario</title>
 <style>
-:root{--side:clamp(4px,1.5vw,14px);--bg:#0d1b1e;--card:#12262a;--btn:#1e3438;--tx:#eef3f1;--mut:#7fa0a0;--gold:#e8b04a}
+:root{--side:clamp(2px,1vw,8px);--bg:#0d1b1e;--card:#12262a;--btn:#1e3438;--tx:#eef3f1;--mut:#7fa0a0;--gold:#e8b04a}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif}
-button,input{font:inherit;color:var(--tx)}
+button,input,select{font:inherit;color:var(--tx)}
 button{background:var(--btn);border:0;border-radius:8px;padding:10px 14px;cursor:pointer;min-height:42px}
 button.on{color:var(--gold)}
 #list{max-width:720px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 24px max(16px,env(safe-area-inset-left))}
@@ -23,7 +23,6 @@ h1{font-family:Georgia,serif;color:var(--gold);margin:0;font-size:clamp(22px,6vw
 .num.no{color:var(--mut);font-size:20px}
 .it small{color:var(--mut);display:block}
 #view{display:none;height:100dvh;flex-direction:column;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none;background:var(--bg)}
-/* lengüeta lateral para ocultar / mostrar el menú */
 #grip{position:fixed;right:0;top:calc(env(safe-area-inset-top,0px) + 4px);width:22px;height:40px;display:flex;align-items:center;justify-content:center;background:#ffb020;border-radius:12px 0 0 12px;cursor:pointer;z-index:12;box-shadow:0 2px 10px #0008}
 #grip i{width:4px;height:20px;border-radius:3px;background:#3a2600}
 body.min #grip{background:#ff9f1c}
@@ -43,15 +42,14 @@ body.min #bar,body.min #head,body.min #pal{display:none}
 #wrap{flex:1;min-height:0;position:relative;padding:6px max(var(--side),env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(var(--side),env(safe-area-inset-left));touch-action:none;overflow:hidden;background:var(--vbg,var(--bg))}
 body.min #wrap{padding-top:calc(6px + env(safe-area-inset-top,0px));padding-right:calc(max(var(--side),env(safe-area-inset-right,0px)) + 16px)}
 #clip{height:100%;overflow:hidden}
-#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:14px;column-fill:balance;transform-origin:0 0;will-change:transform;color:var(--lyric,var(--tx))}
+#box{height:100%;overflow:visible;column-rule:1px solid #2a4448;column-gap:8px;column-fill:balance;transform-origin:0 0;will-change:transform;color:var(--lyric,var(--tx))}
 .sec{break-inside:avoid;margin-bottom:.8em}
 .sec.br{break-before:column}
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
 pre{margin:0;font-family:Arimo,Arial,"Liberation Sans",Helvetica,sans-serif;white-space:pre;line-height:var(--lh,1.3)}
 pre .c{color:var(--chord,var(--gold))}
-.sec.cho pre{border-left:3px solid var(--gold);padding-left:8px}
+.sec.cho pre{border-left:3px solid var(--gold);padding-left:6px}
 body.nochords .c{display:none}
-/* panel de colores */
 #pal{display:none;position:fixed;left:8px;top:calc(46px + env(safe-area-inset-top,0px));z-index:15;background:var(--card);border:1px solid #2a4448;border-radius:14px;padding:8px 12px;box-shadow:0 8px 24px #0009}
 #pal.open{display:block}
 #pal .r{display:flex;align-items:center;gap:8px;margin:6px 0}
@@ -64,10 +62,12 @@ body.nochords .ci{display:none}
 #ed{display:none;position:fixed;inset:0;background:var(--bg);overflow:auto;z-index:20;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 16px max(16px,env(safe-area-inset-left))}
 #ed .in{max-width:720px;margin:0 auto}
 #ed label{display:block;color:var(--mut);font-size:13px;margin:10px 0 4px}
-#ed input,#ed textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--btn);background:var(--card)}
+#ed input,#ed textarea,#ed select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--btn);background:var(--card)}
 #ed textarea{font-family:Arimo,Arial,sans-serif;min-height:300px;white-space:pre;overflow:auto}
 #ed .row{display:flex;gap:8px}#ed .row>div{flex:1}
 #ed details{margin-top:14px;color:var(--mut)}
+.tb{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.tb button{min-height:34px;padding:6px 10px;font-size:13px}
 #cf{display:none;position:fixed;inset:0;background:#000c;z-index:40;align-items:center;justify-content:center;padding:20px}
 #cf .bx{background:var(--card);border-radius:14px;padding:22px;max-width:400px;text-align:center}
 #cf p{margin:0 0 18px;font-size:19px;line-height:1.35}
@@ -92,6 +92,7 @@ body.nochords .ci{display:none}
   <div id="bar">
     <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
     <button id="chb" class="on">Acordes</button>
+    <button id="colsb" title="Columnas: auto / 1 / 2">Cols: auto</button>
     <button id="colb">🎨 Color</button>
     <button id="edit">✎ Editar</button>
   </div>
@@ -106,7 +107,10 @@ body.nochords .ci{display:none}
   <label>Título</label><input id="e_tit">
   <label>Categoría (opcional)</label><input id="e_cat" list="cl"><datalist id="cl"></datalist>
   <label>Intro: acordes (opcional, déjalo vacío si no lleva)</label><input id="e_int" placeholder="Dm Bb F A7">
-  <label>Letra con acordes (línea de acordes encima de la letra; usa [Coro] o [Estrofa 2] para etiquetas)</label>
+  <label>Distribución en pantalla</label>
+  <select id="e_lay"><option value="0">Automática</option><option value="1">Una columna (todo hacia abajo)</option><option value="2">Dos columnas (lado a lado)</option></select>
+  <label>Letra con acordes (línea de acordes encima de la letra)</label>
+  <div class="tb"><button type="button" data-i="[Estrofa]">+ Estrofa</button><button type="button" data-i="[Coro]">+ Coro</button><button type="button" data-i="[Columna]" title="Lo que sigue pasa a la columna de la derecha">+ Pasar a la derecha</button></div>
   <textarea id="e_let" wrap="off" spellcheck="false"></textarea>
   <details id="cn"><summary>⚙ Conexión con Google Sheets</summary>
     <label>Enlace de la aplicación web (Apps Script)</label><input id="e_url" placeholder="https://script.google.com/macros/s/.../exec">
@@ -115,17 +119,17 @@ body.nochords .ci{display:none}
   <div class="btns"><button id="e_save" class="on">Guardar en Google Sheets</button><button id="e_x">Cancelar</button><button id="e_del" style="display:none">🗑 Borrar himno</button></div>
 </div></div>
 <script>
-// ====== CONFIGURACIÓN: tu hoja publicada como CSV ======
 const ID="1tO9AsCYWtmDe9mPcU7l7Eo5VF6vS9WJk5xodZw-R2GY";
 const URLS=[
  "https://docs.google.com/spreadsheets/d/"+ID+"/gviz/tq?tqx=out:csv&sheet=Hoja%201",
  "https://docs.google.com/spreadsheets/d/"+ID+"/gviz/tq?tqx=out:csv",
  "https://docs.google.com/spreadsheets/d/"+ID+"/export?format=csv&gid=0",
  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuYxY7rCdH1x_wbM0tXiX0AQOKj2tOiBwJPBTrAE9ulYtnGIWiAyolBqDQTUUJFT94KQ_697S0ncB1/pub?gid=0&single=true&output=csv"];
-// =======================================================
 const $=id=>document.getElementById(id);
 const LS=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
-let songs=[],cur=null,semis=0,wl=null,cat="";
+let songs=[],cur=null,semis=0,wl=null,cat="",ovr=null;
+const fold=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
+const LAYRE=/^\[columnas?\s*[:=]?\s*([12])\]$/i;
 
 function parseCSV(t){const r=[];let row=[],c="",q=false;
   for(let i=0;i<t.length;i++){const ch=t[i];
@@ -158,8 +162,8 @@ function renderCats(){
   ["",...cs].forEach(c=>{const b=document.createElement("button");b.textContent=c||"Todas";if(c===cat)b.className="on";
     b.onclick=()=>{cat=c;renderCats();renderList()};$("cats").appendChild(b)})}
 function renderList(){
-  const f=$("q").value.toLowerCase().trim();
-  const l=songs.map((s,i)=>[s,i]).filter(([s])=>(!cat||s.cat===cat)&&(!f||s.title.toLowerCase().includes(f)||s.num.toLowerCase().includes(f)));
+  const ws=fold($("q").value).split(" ").filter(Boolean);
+  const l=songs.map((s,i)=>[s,i]).filter(([s])=>{if(cat&&s.cat!==cat)return false;const hay=fold(s.num+" "+s.title);return ws.every(w=>hay.includes(w))});
   $("items").innerHTML=l.length?"":'<div id="msg">Sin resultados</div>';
   l.forEach(([s,i])=>{const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="num ${s.num?"":"no"}">${s.num||"♪"}</div><div>${esc(s.title)}${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}</div>`;
@@ -167,7 +171,6 @@ function renderList(){
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("q").oninput=renderList;
 
-// ===== acordes =====
 const CH=/^[A-G][#b]?(m|maj|min|dim|aug|sus|add|M)?\d*(sus\d?|add\d)?(\/[A-G][#b]?)?$/;
 const isChordLine=l=>{const t=l.trim().split(/\s+/);return l.trim()&&t.every(x=>x==="|"||x==="/"||x.split("-").every(y=>CH.test(y)))};
 const SH=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],FL=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
@@ -178,9 +181,12 @@ function transLine(l,n,flat){if(!n)return l;
 
 function build(){
   if(!cur)return;
-  const flat=/b/.test(cur.text.split("\n").filter(isChordLine).join(" "));
+  let lay=0;
+  const lines0=cur.text.split("\n").filter(l=>{const m=l.trim().match(LAYRE);if(m){lay=+m[1];return false}return true});
+  cur._lay=lay;
+  const flat=/b/.test(lines0.filter(isChordLine).join(" "));
   const secs=[];let s={label:"",lines:[],br:false};
-  cur.text.split("\n").forEach(l=>{
+  lines0.forEach(l=>{
     const m=l.trim().match(/^\[(.+)\]$/);
     if(m){if(/^columna$/i.test(m[1])){if(s.lines.length)secs.push(s);s={label:"",lines:[],br:true};return}
       if(s.lines.length||s.label)secs.push(s);s={label:m[1],lines:[],br:false};return}
@@ -203,8 +209,7 @@ function build(){
   $("head").innerHTML=`${cur.num?`<div class="num">${esc(cur.num)}</div>`:""}<div><h2>${esc(cur.title)}</h2>${tone?`<small>Tono ${esc(tone)}</small>`:""}</div>`;
   layout()}
 
-// ===== ajuste: el himno siempre cabe COMPLETO en una sola pantalla, lo más grande posible =====
-const box=()=>$("box"),gap=()=>14;
+const box=()=>$("box"),gap=()=>8;
 function setCols(n){const b=box();b.style.columnGap=gap()+"px";b.style.columnCount=n}
 function fits(){
   const b=box(),c=$("clip").getBoundingClientRect();
@@ -215,8 +220,10 @@ function fitN(n){const b=box();b.style.transform="none";setCols(n);let lo=4,hi=6
   while(hi-lo>.3){const m=(lo+hi)/2;b.style.fontSize=m+"px";if(fits())lo=m;else hi=m}return lo}
 function layout(){
   if(!cur)return;
+  const want=ovr!=null?ovr:(cur._lay||0);
+  $("colsb").textContent="Cols: "+(want||"auto");
   const b=box();b.style.transform="none";b.style.setProperty("--lh","1.3");
-  const f1=fitN(1),f2=fitN(2),n=f1>f2*1.3?1:2,f=n==1?f1:f2;
+  const f1=fitN(1),f2=fitN(2),n=want||(f1>f2*1.3?1:2),f=n==1?f1:f2;
   setCols(n);let z=f*.995;b.style.fontSize=z+"px";
   while(!fits()&&z>4){z*=.97;b.style.fontSize=z+"px"}
   let lo=1.3,hi=1.85;
@@ -224,7 +231,6 @@ function layout(){
   b.style.setProperty("--lh",lo);
   applyT()}
 
-// ===== zoom con dos dedos (pellizcar), mover con un dedo, doble toque = restablecer =====
 let Z=1,TX=0,TY=0;
 function applyT(){clampPan();box().style.transform=(Z===1&&!TX&&!TY)?"none":`translate(${TX}px,${TY}px) scale(${Z})`}
 function clampPan(){const c=$("clip"),W=c.clientWidth,H=c.clientHeight;
@@ -252,12 +258,10 @@ function endT(e){
     G=null}
   else startG(e)}
 W_.addEventListener("touchend",endT);W_.addEventListener("touchcancel",endT);
-// rueda del ratón (computador): acerca / aleja
 W_.addEventListener("wheel",e=>{e.preventDefault();const r=rel(),mx=e.clientX-r.left,my=e.clientY-r.top,px=(mx-TX)/Z,py=(my-TY)/Z;
   Z=Math.max(.5,Math.min(6,Z*Math.exp(-e.deltaY*.0015)));TX=mx-px*Z;TY=my-py*Z;applyT()},{passive:false});
 W_.addEventListener("dblclick",resetZoom);
 
-// ===== colores (acordes, letra, fondo) =====
 const COLS={chord:["#e8b04a","#ffffff","#000000","#9aa5a5","#ff6b6b","#5aa9ff","#5fd38d"],
             lyric:["#eef3f1","#ffffff","#000000","#9aa5a5","#e8b04a"],
             bg:["#0d1b1e","#000000","#ffffff","#2b2f31","#e5e5e5"]};
@@ -273,11 +277,11 @@ function renderPal(){const p=$("pal");p.innerHTML="";
 $("colb").onclick=()=>{renderPal();$("pal").classList.toggle("open")};
 applyCols();
 
-// ===== botones =====
 $("tp").onclick=()=>{semis=Math.min(11,semis+1);build()};
 $("tm").onclick=()=>{semis=Math.max(-11,semis-1);build()};
 $("tl").onclick=()=>{semis=0;build()};
 $("chb").onclick=()=>{document.body.classList.toggle("nochords");$("chb").classList.toggle("on");layout()};
+$("colsb").onclick=()=>{const w=ovr!=null?ovr:(cur&&cur._lay||0);ovr=w==0?1:w==1?2:0;if(ovr===0&&!(cur&&cur._lay))ovr=null;layout()};
 $("grip").onclick=()=>{document.body.classList.toggle("min");$("pal").classList.remove("open");layout()};
 addEventListener("resize",()=>{if(cur)layout()});
 
@@ -287,18 +291,17 @@ document.addEventListener("visibilitychange",()=>{if(cur&&document.visibilitySta
 function route(){
   const i=parseInt(location.hash.slice(1));
   $("pal").classList.remove("open");
-  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
+  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;ovr=null;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
   else{cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
 addEventListener("hashchange",route);
 $("rf").onclick=()=>{$("items").innerHTML='<div id="msg">Cargando himnos…</div>';load()};
 document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
 
-// ===== crear / editar himnos y guardarlos en Google Sheets =====
+// ===== crear / editar =====
 const emsg=t=>{$("edmsg").textContent=t};
 const norm=t=>(t||"").replace(/\s+/g," ").trim();
 let edOrig=null;
 const edOpen=()=>$("ed").style.display==="block";
-// el gesto "atrás" del celular cierra el editor (igual que Cancelar)
 addEventListener("popstate",()=>{if(edOpen())$("ed").style.display="none"});
 function closeEd(then){
   if(history.state&&history.state.ed){
@@ -309,44 +312,68 @@ function openEd(x){edOrig=x||null;$("e_del").style.display=x?"inline-block":"non
   $("cl").innerHTML=[...new Set(songs.map(z=>z.cat).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join("");
   $("edt").textContent=x?"Editar himno":"Nuevo himno";
   x=x||{num:"",title:"",cat:"",tone:"",intro:"",text:""};
-  $("e_num").value=x.num;$("e_ton").value=x.tone;$("e_tit").value=x.title;$("e_cat").value=x.cat;$("e_int").value=x.intro;$("e_let").value=x.text;
+  let lay=0;
+  const txt=x.text.split("\n").filter(l=>{const m=l.trim().match(LAYRE);if(m){lay=+m[1];return false}return true}).join("\n");
+  $("e_num").value=x.num;$("e_ton").value=x.tone;$("e_tit").value=x.title;$("e_cat").value=x.cat;$("e_int").value=x.intro;$("e_let").value=txt;$("e_lay").value=lay;
   $("e_url").value=LS("hurl");$("e_key").value=LS("hkey");$("cn").open=!LS("hurl");
   emsg("");$("ed").style.display="block";$("ed").scrollTop=0;
   history.pushState({ed:1},"")}
 $("nw").onclick=()=>openEd();
 $("edit").onclick=()=>cur&&openEd(cur);
 $("e_x").onclick=()=>closeEd();
-$("e_save").onclick=async()=>{
-  const d={numero:$("e_num").value.trim(),titulo:$("e_tit").value.trim(),categoria:$("e_cat").value.trim(),tono:$("e_ton").value.trim(),intro:$("e_int").value.trim(),letra:$("e_let").value.replace(/\r/g,"")};
-  const url=$("e_url").value.trim(),key=$("e_key").value.trim();
-  if(!d.titulo||!d.letra.trim())return emsg("Falta el título o la letra.");
-  if(!url){$("cn").open=true;return emsg("Falta pegar el enlace de conexión.")}
-  SV("hurl",url);SV("hkey",key);d.clave=key;
-  $("e_save").disabled=true;emsg("Guardando…");
-  const opt={method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)};
-  const fail=t=>{$("e_save").disabled=false;emsg(t)};
-  let resp=null;
-  try{const r=await fetch(url,opt);resp=(await r.text()).trim()}
-  catch(e){try{await fetch(url,{...opt,mode:"no-cors"})}catch(e2){return fail("No se pudo enviar: "+e2.message+". Revisa el enlace y tu internet.")}}
-  if(resp!==null&&resp!=="ok"){
-    if(resp==="clave incorrecta")return fail("La clave no coincide con la que pusiste en el script.");
-    return fail("El script respondió algo inesperado: "+resp.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160));}
-  emsg("Enviado. Leyendo la hoja…");
-  const same=z=>z.title===d.titulo&&(!d.numero||z.num===d.numero)&&(resp==="ok"||norm(z.text)===norm(d.letra));
-  for(let i=0;i<5;i++){
-    await new Promise(r=>setTimeout(r,1500));await load(true);
-    const k=songs.findIndex(same);
-    if(k>=0){emsg("✓ Guardado en Google Sheets");$("e_save").disabled=false;
-      setTimeout(()=>closeEd(()=>{if(location.hash==="#"+k)route();else location.hash=k}),600);return}}
-  fail(resp==="ok"
-    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y pulsa ↻ Actualizar. Si no aparece, revisa que la hoja que lee la página sea la primera pestaña."
-    :"No pude confirmar que se guardó. Abre el enlace /exec en una ventana privada: debe cargar sin pedirte iniciar sesión. Revisa también que el acceso sea «Cualquier persona» y que la clave sea la misma.")};
-const ask=t=>new Promise(r=>{$("cft").textContent=t;$("cf").style.display="flex";
-  $("cf_si").onclick=()=>{$("cf").style.display="none";r(true)};$("cf_no").onclick=()=>{$("cf").style.display="none";r(false)}});
+document.querySelectorAll(".tb button").forEach(b=>b.onclick=()=>{const a=$("e_let"),s=a.selectionStart,pre=s>0&&a.value[s-1]!=="\n"?"\n":"";
+  a.setRangeText(pre+b.dataset.i+"\n",s,a.selectionEnd,"end");a.focus()});
+
+function dupMsg(d){const o=edOrig;
+  for(const z of songs){
+    if(o&&z.num===o.num&&z.title===o.title)continue;
+    if(d.numero&&z.num&&fold(z.num)===fold(d.numero))return "Ya existe un himno con el número "+z.num+" («"+z.title+"»). Usa otro número.";
+    if(fold(z.title)===fold(d.titulo))return "Ya existe un himno con el nombre «"+z.title+"»"+(z.num?" (n.º "+z.num+")":"")+". Usa otro nombre."}
+  return ""}
 async function post(url,d){
   const opt={method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d)};
   try{const r=await fetch(url,opt);return (await r.text()).trim()}
   catch(e){await fetch(url,{...opt,mode:"no-cors"});return null}}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const delData=(o,key)=>({accion:"borrar",clave:key,numero:o.num,titulo:o.title,categoria:o.cat,tono:o.tone,intro:o.intro,letra:o.text});
+
+$("e_save").onclick=async()=>{
+  const lay=$("e_lay").value;
+  let letra=$("e_let").value.replace(/\r/g,"");
+  if(lay!=="0")letra="[Columnas:"+lay+"]\n"+letra;
+  const d={numero:$("e_num").value.trim(),titulo:$("e_tit").value.trim(),categoria:$("e_cat").value.trim(),tono:$("e_ton").value.trim(),intro:$("e_int").value.trim(),letra};
+  const url=$("e_url").value.trim(),key=$("e_key").value.trim();
+  if(!d.titulo||!$("e_let").value.trim())return emsg("Falta el título o la letra.");
+  if(!url){$("cn").open=true;return emsg("Falta pegar el enlace de conexión.")}
+  const dm=dupMsg(d);if(dm)return emsg(dm);
+  SV("hurl",url);SV("hkey",key);d.clave=key;
+  const o=edOrig,renamed=o&&(o.num!==d.numero||o.title!==d.titulo);
+  $("e_save").disabled=true;emsg("Guardando…");
+  const fail=t=>{$("e_save").disabled=false;emsg(t)};
+  let resp;
+  try{resp=await post(url,d)}catch(e2){return fail("No se pudo enviar: "+e2.message+". Revisa el enlace y tu internet.")}
+  if(resp!==null&&resp!=="ok"){
+    if(resp==="clave incorrecta")return fail("La clave no coincide con la que pusiste en el script.");
+    return fail("El script respondió algo inesperado: "+resp.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160))}
+  emsg("Enviado. Leyendo la hoja…");
+  const same=z=>z.title===d.titulo&&(!d.numero||z.num===d.numero)&&(resp==="ok"||norm(z.text)===norm(d.letra));
+  let k=-1;
+  for(let i=0;i<5&&k<0;i++){await wait(1500);await load(true);k=songs.findIndex(same)}
+  if(k<0)return fail(resp==="ok"
+    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y pulsa ↻ Actualizar."
+    :"No pude confirmar que se guardó. Revisa el enlace /exec, que el acceso sea «Cualquier persona» y que la clave sea la misma.");
+  if(renamed){ // se cambió número o nombre: quitar la versión vieja para que no quede duplicada
+    emsg("Quitando la versión anterior…");
+    if(songs.some(z=>z.num===o.num&&z.title===o.title)){
+      try{await post(url,delData(o,key))}catch(e){}
+      await wait(1500);await load(true);
+      if(songs.findIndex(same)<0){emsg("Restaurando…");await post(url,d);await wait(1500);await load(true)}}
+    k=songs.findIndex(same)}
+  emsg("✓ Guardado en Google Sheets");$("e_save").disabled=false;
+  setTimeout(()=>closeEd(()=>{if(k>=0&&location.hash==="#"+k)route();else if(k>=0)location.hash=k;else{location.hash="";route()}}),600)};
+
+const ask=t=>new Promise(r=>{$("cft").textContent=t;$("cf").style.display="flex";
+  $("cf_si").onclick=()=>{$("cf").style.display="none";r(true)};$("cf_no").onclick=()=>{$("cf").style.display="none";r(false)}});
 $("e_del").onclick=async()=>{
   if(!edOrig)return;
   const url=$("e_url").value.trim(),key=$("e_key").value.trim(),o=edOrig;
@@ -355,14 +382,14 @@ $("e_del").onclick=async()=>{
   $("e_del").disabled=true;emsg("Borrando…");
   const end=t=>{$("e_del").disabled=false;emsg(t)};
   let resp;
-  try{resp=await post(url,{accion:"borrar",clave:key,numero:o.num,titulo:o.title,categoria:o.cat,tono:o.tone,intro:o.intro,letra:o.text})}
+  try{resp=await post(url,delData(o,key))}
   catch(e){return end("No se pudo enviar: "+e.message)}
   if(resp==="clave incorrecta")return end("La clave no coincide con la que pusiste en el script.");
   if(resp==="no encontrado")return end("No encontré ese himno en la hoja. Quizás ya lo borraste; pulsa ↻ Actualizar.");
   if(resp!==null&&resp!=="ok")return end("El script respondió algo inesperado: "+resp.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160));
   emsg("Verificando…");
   for(let i=0;i<5;i++){
-    await new Promise(r=>setTimeout(r,1500));await load(true);
+    await wait(1500);await load(true);
     if(!songs.some(z=>z.title===o.title&&z.num===o.num)){
       emsg("✓ Himno borrado");$("e_del").disabled=false;
       setTimeout(()=>closeEd(()=>{if(location.hash)location.hash="";else route()}),600);return}}
