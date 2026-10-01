@@ -8,7 +8,7 @@
 <style>
 :root{--side:clamp(2px,1vw,8px);--bg:#0d1b1e;--card:#12262a;--btn:#1e3438;--tx:#eef3f1;--mut:#7fa0a0;--gold:#e8b04a}
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif}
+html,body{min-height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif}
 button,input,select{font:inherit;color:var(--tx)}
 button{background:var(--btn);border:0;border-radius:8px;padding:10px 14px;cursor:pointer;min-height:42px}
 button.on{color:var(--gold)}
@@ -79,14 +79,107 @@ body.nochords .ci{display:none}
 .btns button{flex:0 1 auto}
 #edmsg{margin:12px 0;color:var(--gold);min-height:1.3em}
 #msg{padding:24px;text-align:center;color:var(--mut)}
+
+/* ===== página principal con el estilo de tu sitio ===== */
+#site{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;color:#fff;overflow-x:hidden}
+#site ul{list-style:none;margin:0;padding:0}
+#fl{position:fixed;inset:0;pointer-events:none;z-index:-1}
+#fl i{position:absolute;border-radius:50%;background:linear-gradient(135deg,#ffffff1a,#ffffff0d);animation:flt 6s ease-in-out infinite}
+#fl i:nth-child(1){width:80px;height:80px;top:20%;left:10%}
+#fl i:nth-child(2){width:120px;height:120px;top:60%;right:15%;animation-delay:2s}
+#fl i:nth-child(3){width:60px;height:60px;bottom:20%;left:20%;animation-delay:4s}
+@keyframes flt{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(180deg)}}
+.navbar-container{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:1000;width:calc(100% - 60px);max-width:1000px}
+.navbar{background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #fff3;border-radius:50px;padding:12px 25px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 20px 40px #0000001a,inset 0 1px 0 #fff3}
+.navbar-brand,.mobile-menu-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:700;font-size:1.4rem}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#ff6b6b,#4ecdc4);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 16px #0003}
+.logo-icon::before{content:'';position:absolute;width:20px;height:20px;background:#ffffffe6;border-radius:50%;animation:lp 2s ease-in-out infinite}
+@keyframes lp{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.2);opacity:1}}
+.navbar-nav{display:flex;align-items:center;gap:5px}
+.nav-link{display:flex;align-items:center;gap:6px;padding:10px 16px;text-decoration:none;color:#ffffffe6;font-weight:500;font-size:.9rem;border-radius:25px;transition:all .3s;white-space:nowrap}
+.nav-link:hover{color:#fff;transform:translateY(-2px);background:#ffffff1a;box-shadow:0 8px 20px #00000026}
+.nav-link.active{background:linear-gradient(135deg,#fff3,#ffffff1a);color:#fff;box-shadow:inset 0 1px 0 #ffffff4d,0 4px 12px #0000001a}
+.nav-icon,.mobile-menu-icon{width:16px;height:16px;fill:currentColor}
+.cta-button{background:linear-gradient(135deg,#ff6b6b,#ee5a52);color:#fff;text-decoration:none;padding:10px 20px;border-radius:25px;font-weight:600;font-size:.9rem;box-shadow:0 8px 20px #ff6b6b4d;white-space:nowrap;margin-left:5px;display:inline-block;transition:all .3s}
+.cta-button:hover{transform:translateY(-1px)}
+.mobile-toggle{display:none;background:none;border:0;padding:8px;border-radius:50%;min-height:0;z-index:1001}
+.hamburger{display:flex;flex-direction:column;gap:4px;width:24px;height:18px;justify-content:center}
+.hamburger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s;display:block}
+.mobile-toggle.active .hamburger span:nth-child(1){transform:rotate(45deg) translate(6px,6px)}
+.mobile-toggle.active .hamburger span:nth-child(2){opacity:0;transform:translateX(-20px)}
+.mobile-toggle.active .hamburger span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
+@media(max-width:992px){.navbar-container{top:20px;width:calc(100% - 30px)}.navbar{padding:12px 20px}.mobile-toggle{display:flex}.navbar-nav{display:none}.brand-text{font-size:1.2rem}}
+@media(max-width:480px){.navbar-container{width:calc(100% - 20px);top:15px}.navbar{padding:10px 15px}.logo-icon{width:35px;height:35px}.brand-text{font-size:1.1rem}}
+.mobile-menu-overlay{position:fixed;inset:0;background:#000c;backdrop-filter:blur(10px);z-index:1500;opacity:0;visibility:hidden;transition:all .3s}
+.mobile-menu-overlay.active{opacity:1;visibility:visible}
+.mobile-menu{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);z-index:1600;transform:translateY(-100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94);overflow-y:auto}
+.mobile-menu.active{transform:translateY(0)}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;padding:30px 30px 20px;border-bottom:1px solid #ffffff1a}
+.mobile-menu-close{background:none;border:0;font-size:2rem;padding:8px;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+.mobile-menu-nav{padding:40px 30px 0}
+.mobile-menu-link{display:flex;align-items:center;gap:16px;padding:20px 24px;text-decoration:none;color:#ffffffe6;font-weight:500;font-size:1.1rem;border-radius:20px;transition:all .3s;background:#ffffff0d;border:1px solid #ffffff1a;margin-bottom:12px}
+.mobile-menu-link:hover,.mobile-menu-link.active{background:#ffffff26;color:#fff;transform:translateX(8px);border-color:#fff3}
+.mobile-menu-icon{width:24px;height:24px}
+.mobile-cta{margin:30px 30px 40px}
+.mobile-cta-button{display:block;background:linear-gradient(135deg,#ff6b6b,#ee5a52);color:#fff;text-decoration:none;padding:20px;border-radius:20px;font-weight:600;font-size:1.1rem;text-align:center;box-shadow:0 10px 30px #ff6b6b4d}
+.content-section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
+.section-title{font-family:inherit;font-size:clamp(2rem,6vw,2.5rem);font-weight:700;margin:0 0 20px;color:#fff}
+.section-subtitle{font-size:1.1rem;opacity:.8;max-width:600px;line-height:1.6;margin:0 0 30px}
+#home{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%);padding-top:200px}
+#canciones{background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
+#himnario{background:linear-gradient(135deg,#2d1b69 0%,#11998e 50%,#38ef7d 100%);justify-content:flex-start;padding-top:130px}
+#services{background:linear-gradient(135deg,#4a148c 0%,#6a1b9a 50%,#8e24aa 100%)}
+#portfolio{background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#1a202c 100%)}
+#contact{background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)}
+#list{width:100%;max-width:720px;margin:0;padding:0;text-align:left}
+#list #top{justify-content:flex-end;margin-bottom:14px}
+#list .acts button{border-radius:25px;background:#ffffff26;color:#fff;border:1px solid #ffffff33;font-weight:500;transition:all .3s}
+#list .acts button:hover{background:#ffffff40;transform:translateY(-1px)}
+#list #nw{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border:0;font-weight:600;box-shadow:0 8px 20px #ff6b6b4d}
+#list #q{background:#ffffff1f;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #fff3;border-radius:16px;padding:16px 22px;color:#fff;outline:0}
+#list #q::placeholder{color:#ffffffb8}
+#list #q:focus{border-color:#ffffff80;background:#ffffff2e}
+#list #cats button{border-radius:25px;background:#ffffff1a;border:1px solid #ffffff2e;color:#ffffffe6;transition:all .3s}
+#list #cats button:hover{background:#ffffff33;transform:translateY(-2px)}
+#list #cats button.on{background:linear-gradient(135deg,#fff3,#ffffff1a);color:#fff;font-weight:600;box-shadow:inset 0 1px 0 #ffffff4d,0 4px 12px #0000001a}
+#list .it{background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff33;border-radius:20px;padding:10px 16px 10px 10px;box-shadow:0 10px 24px #0000001a,inset 0 1px 0 #ffffff33;color:#fff;font-weight:500;transition:all .3s}
+#list .it:hover{transform:translateY(-2px);background:#ffffff2b}
+#list .num{background:linear-gradient(135deg,#ff6b6b,#4ecdc4);color:#fff;border-radius:50px;box-shadow:0 6px 14px #0003;font-family:inherit}
+#list .num.no{color:#fff}
+#list .it small{color:#ffffffbf;font-weight:400}
+#list #msg{color:#fffc}
+#ed{z-index:2000}#cf{z-index:2100}
 </style>
 </head>
 <body>
-<div id="list">
-  <div id="top"><h1>Himnario</h1><div class="acts"><button id="nw">+ Nuevo</button><button id="rf">↻ Actualizar</button></div></div>
-  <input id="q" placeholder="Buscar por número o título…" autocomplete="off">
-  <div id="cats"></div>
-  <div id="items"><div id="msg">Cargando himnos…</div></div>
+<div id="site">
+<div id="fl"><i></i><i></i><i></i></div>
+<nav class="navbar-container"><div class="navbar">
+  <a href="#" class="navbar-brand" data-go="home"><div class="logo-icon"></div><span class="brand-text">APDATE</span></a>
+  <ul class="navbar-nav" id="navbarNav"></ul>
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menú"><div class="hamburger"><span></span><span></span><span></span></div></button>
+</div></nav>
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header"><a href="#" class="mobile-menu-brand" data-go="home"><div class="logo-icon"></div><span>APDATE</span></a><button class="mobile-menu-close" id="mobileMenuClose">×</button></div>
+  <ul class="mobile-menu-nav" id="mnav"></ul>
+  <div class="mobile-cta"><a href="#himnario" data-go="himnario" class="mobile-cta-button">Get Started</a></div>
+</div>
+<section id="home" class="content-section"><h1 class="section-title">Principal</h1></section>
+<section id="canciones" class="content-section"><h2 class="section-title">Canciones</h2></section>
+<section id="himnario" class="content-section">
+  <h2 class="section-title">Himnario</h2>
+  <p class="section-subtitle">Busca por número o título</p>
+  <div id="list">
+    <div id="top"><div class="acts"><button id="nw">+ Nuevo</button><button id="rf">↻ Actualizar</button></div></div>
+    <input id="q" placeholder="🔍 Buscar por número o título…" autocomplete="off">
+    <div id="cats"></div>
+    <div id="items"><div id="msg">Cargando himnos…</div></div>
+  </div>
+</section>
+<section id="services" class="content-section"><h2 class="section-title">Services</h2></section>
+<section id="portfolio" class="content-section"><h2 class="section-title">Portfolio</h2></section>
+<section id="contact" class="content-section"><h2 class="section-title">Contact</h2></section>
 </div>
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
@@ -127,7 +220,7 @@ const URLS=[
  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuYxY7rCdH1x_wbM0tXiX0AQOKj2tOiBwJPBTrAE9ulYtnGIWiAyolBqDQTUUJFT94KQ_697S0ncB1/pub?gid=0&single=true&output=csv"];
 const $=id=>document.getElementById(id);
 const LS=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
-let songs=[],cur=null,semis=0,wl=null,cat="",ovr=null;
+let sy=0,songs=[],cur=null,semis=0,wl=null,cat="",ovr=null;
 const fold=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
 const LAYRE=/^\[columnas?\s*[:=]?\s*([12])\]$/i;
 
@@ -301,8 +394,8 @@ document.addEventListener("visibilitychange",()=>{if(cur&&document.visibilitySta
 function route(){
   const i=parseInt(location.hash.slice(1));
   $("pal").classList.remove("open");
-  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;ovr=null;$("list").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
-  else{cur=null;$("view").style.display="none";$("list").style.display="block";keepAwake(false)}}
+  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;ovr=null;sy=scrollY;$("site").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
+  else{cur=null;$("view").style.display="none";$("site").style.display="block";scrollTo(0,sy);keepAwake(false)}}
 addEventListener("hashchange",route);
 $("rf").onclick=()=>{$("items").innerHTML='<div id="msg">Cargando himnos…</div>';load()};
 document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
@@ -404,6 +497,22 @@ $("e_del").onclick=async()=>{
       emsg("✓ Himno borrado");$("e_del").disabled=false;
       setTimeout(()=>closeEd(()=>{if(location.hash)location.hash="";else route()}),600);return}}
   end("El himno sigue en la hoja. Lo más probable es que el script sea la versión vieja: pega el script nuevo y publícalo como Nueva versión.")};
+// ===== menú de navegación =====
+const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>'],
+["canciones","Canciones",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
+["himnario","Himnario",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
+["services","Services",'<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>'],
+["portfolio","Portfolio",'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 3h6v4"></path><path d="m22 7-10-4-10 4"></path>'],
+["contact","Contact",'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>']];
+$("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#himnario" data-go="himnario" class="cta-button">Get Started</a></li>';
+$("mnav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
+const mm=$("mobileMenu"),mo=$("mobileMenuOverlay"),mt=$("mobileToggle");
+function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));document.body.style.overflow=o?"hidden":""}
+const closeM=()=>openM(false);
+mt.onclick=()=>openM(!mm.classList.contains("active"));$("mobileMenuClose").onclick=closeM;mo.onclick=closeM;
+document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();closeM();const t=$(a.dataset.go);t&&t.scrollIntoView({behavior:"smooth"})});
+function setActive(id){document.querySelectorAll(".nav-link,.mobile-menu-link").forEach(a=>a.classList.toggle("active",a.dataset.go===id))}
+if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-45% 0px -50% 0px"});NAV.forEach(n=>io.observe($(n[0])))}
 load();
 </script>
 </body>
