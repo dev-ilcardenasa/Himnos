@@ -49,7 +49,7 @@ body.min #wrap{padding-top:calc(6px + env(safe-area-inset-top,0px));padding-righ
 .lb{font:italic 600 .8em Georgia,serif;color:var(--mut);margin-bottom:2px}
 pre{margin:0;font-family:Arimo,Arial,"Liberation Sans",Helvetica,sans-serif;white-space:pre;line-height:var(--lh,1.3)}
 pre .c{color:var(--chord,var(--gold))}
-.sec.cho pre{border-left:3px solid var(--gold);padding-left:6px}
+.sec.cho pre{border-left:3px solid #ffffff4d;padding-left:6px}
 body.nochords .c{display:none}
 #pal{display:none;position:fixed;left:8px;top:calc(46px + env(safe-area-inset-top,0px));z-index:15;background:var(--card);border:1px solid #2a4448;border-radius:14px;padding:8px 12px;box-shadow:0 8px 24px #0009}
 #pal.open{display:block}
@@ -166,7 +166,7 @@ body.nochords .ci{display:none}
 #list .c6{background:linear-gradient(135deg,#f953c6,#b91d73)}
 #list .c7{background:linear-gradient(135deg,#00c6ff,#0072ff)}
 #list .tile .num{background:none;box-shadow:none;padding:0;min-width:0;font-size:clamp(40px,13vw,64px);text-shadow:0 2px 8px #0003}
-#list .tt{font-weight:700;font-size:1.05rem;text-transform:uppercase;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#list .tt{font-weight:700;font-size:1.05rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #list .it small{margin-top:4px;font-size:.8rem}
 .rw{position:relative}
 .ar{display:none;position:absolute;top:110px;width:46px;height:46px;min-height:0;padding:0;border-radius:50%;font-size:30px;line-height:1;align-items:center;justify-content:center;background:#ffffff40;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #ffffff59;color:#fff;box-shadow:0 8px 20px #0003;z-index:3}
@@ -175,14 +175,14 @@ body.nochords .ci{display:none}
 @media(hover:hover) and (pointer:fine){.ar{display:flex}}
 /* ===== pantalla del himno con el mismo estilo moderno ===== */
 #view{background:linear-gradient(135deg,#1f1147 0%,#3b2a86 45%,#0e7c86 100%);font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif}
-#view #bar{background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #ffffff33;border-radius:0 0 26px 26px;box-shadow:0 10px 30px #0003,inset 0 1px 0 #ffffff33}
-#view #bar button{border-color:#ffffff40;color:#ffffffe6;transition:all .3s}
+#view #bar{background:transparent;border-bottom:0;border-radius:0;box-shadow:none}
+#view #bar button{border-color:#ffffff33;color:#ffffffe6;transition:all .3s}
 #view #bar button:hover{background:#ffffff26}
 #view #bar button.on{color:#fff;border-color:#ffffff99;background:linear-gradient(135deg,#fff3,#ffffff1a)}
 #view #bar .seg{border-color:#ffffff40}
 #view #bar .seg button+button{border-left-color:#ffffff40}
 #view #head{background:transparent}
-#view #head .num{background:linear-gradient(135deg,#ff6b6b,#4ecdc4);color:#fff;border-radius:50px;box-shadow:0 6px 14px #0003;font-family:inherit}
+#view #head .num{background:#ffffff1f;border:1px solid #ffffff33;color:#fff;border-radius:50px;box-shadow:none;font-family:inherit}
 #view #head h2{font-family:inherit;text-shadow:0 2px 8px #0003}
 #view #head small{color:#ffffffb3}
 #view #pal{background:#1f1147e6;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:#ffffff33}
@@ -195,23 +195,22 @@ body.nochords .ci{display:none}
 <div id="site">
 <div id="fl"><i></i><i></i><i></i></div>
 <nav class="navbar-container"><div class="navbar">
-  <a href="#" class="navbar-brand" data-go="home"><div class="logo-icon"></div><span class="brand-text">HIMNOS</span></a>
+  <div class="navbar-brand"><div class="logo-icon"></div><span class="brand-text">HIMNOS</span></div>
   <ul class="navbar-nav" id="navbarNav"></ul>
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menú"><div class="hamburger"><span></span><span></span><span></span></div></button>
 </div></nav>
 <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
 <div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-menu-header"><a href="#" class="mobile-menu-brand" data-go="home"><div class="logo-icon"></div><span>HIMNOS</span></a><button class="mobile-menu-close" id="mobileMenuClose">×</button></div>
+  <div class="mobile-menu-header"><div class="mobile-menu-brand"><div class="logo-icon"></div><span>HIMNOS</span></div><button class="mobile-menu-close" id="mobileMenuClose">×</button></div>
   <ul class="mobile-menu-nav" id="mnav"></ul>
   <div class="mobile-cta"><a href="#himnario" data-go="canciones" class="mobile-cta-button">Get Started</a></div>
 </div>
 <section id="home" class="content-section"><h1 class="section-title">Principal</h1></section>
 <section id="canciones" class="content-section">
-  <h2 class="section-title">Lista de canciones</h2>
-  <p class="section-subtitle">Busca por número o título</p>
+  <h2 class="section-title">Lista de himnos</h2>
   <div id="list">
-    <div id="top"><div class="acts"><button id="nw">+ Nuevo</button><button id="rf">↻ Actualizar</button></div></div>
-    <input id="q" placeholder="Buscar por número o título…" autocomplete="off">
+    <div id="top"><div class="acts"><button id="nw">+ Nuevo</button></div></div>
+    <input id="q" placeholder="Buscar…" autocomplete="off">
     <div id="cats"></div>
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
@@ -406,17 +405,17 @@ W_.addEventListener("mousedown",e=>{if(Z!==1)MD={x:e.clientX,y:e.clientY,tx:TX,t
 addEventListener("mousemove",e=>{if(MD){TX=MD.tx+e.clientX-MD.x;TY=MD.ty+e.clientY-MD.y;applyT()}});
 addEventListener("mouseup",()=>{MD=null});
 
-const COLS={chord:["#e8b04a","#ffffff","#000000","#9aa5a5","#ff6b6b","#5aa9ff","#5fd38d"],
-            lyric:["#eef3f1","#ffffff","#000000","#9aa5a5","#e8b04a"],
-            bg:["gradient","#0d1b1e","#000000","#ffffff","#2b2f31","#e5e5e5"]};
+const COLS={chord:["#ff6b6b","#4ecdc4","#c4b5fd","#ffffff","#000000"],
+            lyric:["#ffffff","#000000","#cbd5e1","#94a3b8"],
+            bg:["gradient","#000000","#ffffff","#1f2937","#e5e7eb"]};
 const NAMES={chord:"Acordes",lyric:"Letra",bg:"Fondo"};
-let sel;try{sel=JSON.parse(LS("hcol2")||"null")}catch(e){sel=null}
+let sel;try{sel=JSON.parse(LS("hcol3")||"null")}catch(e){sel=null}
 sel=Object.assign({chord:COLS.chord[0],lyric:COLS.lyric[0],bg:"gradient"},sel||{});
 function applyCols(){const v=$("view").style;v.setProperty("--chord",sel.chord);v.setProperty("--lyric",sel.lyric);v.setProperty("--vbg",sel.bg==="gradient"?"transparent":sel.bg)}
 function renderPal(){const p=$("pal");p.innerHTML="";
   Object.keys(COLS).forEach(k=>{const r=document.createElement("div");r.className="r";r.innerHTML=`<span>${NAMES[k]}</span>`;
     COLS[k].forEach(c=>{const b=document.createElement("button");b.className="sw"+(sel[k]===c?" on":"");b.style.background=c==="gradient"?"linear-gradient(135deg,#1f1147,#0e7c86)":c;b.title=c;
-      b.onclick=()=>{sel[k]=c;SV("hcol2",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
+      b.onclick=()=>{sel[k]=c;SV("hcol3",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
     p.appendChild(r)})}
 $("colb").onclick=()=>{renderPal();$("pal").classList.toggle("open")};
 applyCols();
@@ -437,7 +436,6 @@ function route(){
   if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;ovr=null;sy=scrollY;$("site").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
   else{cur=null;$("view").style.display="none";$("site").style.display="block";scrollTo(0,sy);keepAwake(false)}}
 addEventListener("hashchange",route);
-$("rf").onclick=()=>{$("items").innerHTML='<div id="msg">Cargando himnos…</div>';load()};
 document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
 
 // ===== crear / editar =====
@@ -539,7 +537,7 @@ $("e_del").onclick=async()=>{
   end("El himno sigue en la hoja. Lo más probable es que el script sea la versión vieja: pega el script nuevo y publícalo como Nueva versión.")};
 // ===== menú de navegación =====
 const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>'],
-["canciones","Canciones",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
+["canciones","Himnos",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
 ["himnario","Himnario",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
 ["services","Services",'<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>'],
 ["portfolio","Portfolio",'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 3h6v4"></path><path d="m22 7-10-4-10 4"></path>'],
@@ -547,10 +545,10 @@ const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0
 $("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#canciones" data-go="canciones" class="cta-button">Get Started</a></li>';
 $("mnav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
 const mm=$("mobileMenu"),mo=$("mobileMenuOverlay"),mt=$("mobileToggle");
-function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));document.body.style.overflow=o?"hidden":""}
+function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));}
 const closeM=()=>openM(false);
 mt.onclick=()=>openM(!mm.classList.contains("active"));$("mobileMenuClose").onclick=closeM;mo.onclick=closeM;
-document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();closeM();const t=$(a.dataset.go);t&&t.scrollIntoView({behavior:"smooth"})});
+document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();closeM();const t=$(a.dataset.go);t&&setTimeout(()=>scrollTo({top:t.getBoundingClientRect().top+scrollY,behavior:"smooth"}),80)});
 function setActive(id){document.querySelectorAll(".nav-link,.mobile-menu-link").forEach(a=>a.classList.toggle("active",a.dataset.go===id))}
 if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-45% 0px -50% 0px"});NAV.forEach(n=>io.observe($(n[0])))}
 document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=$("items");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
