@@ -127,7 +127,7 @@ body.nochords .ci{display:none}
 .section-subtitle{font-size:1.1rem;opacity:.8;max-width:600px;line-height:1.6;margin:0 0 30px}
 #home{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%);padding-top:200px}
 #canciones{background:linear-gradient(135deg,#2d1b69 0%,#11998e 50%,#38ef7d 100%);justify-content:flex-start;padding-top:130px}
-#himnario{background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
+#categorias{justify-content:flex-start;padding-top:130px;background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
 #services{background:linear-gradient(135deg,#4a148c 0%,#6a1b9a 50%,#8e24aa 100%)}
 #portfolio{background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#1a202c 100%)}
 #contact{background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)}
@@ -157,14 +157,14 @@ body.nochords .ci{display:none}
 #list .it{flex:none;width:clamp(190px,58vw,250px);flex-direction:column;align-items:stretch;gap:0;background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;margin:0;text-align:center;scroll-snap-align:start}
 #list .it:hover{background:none;transform:translateY(-4px)}
 #list .tile{aspect-ratio:1;width:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffffff2e,#ffffff14);border:1px solid #ffffff4d;border-radius:24px;box-shadow:0 12px 28px #00000033,inset 0 1px 0 #ffffff4d;margin-bottom:12px}
-#list .c0{background:linear-gradient(135deg,#ff6b6b,#ff9966)}
-#list .c1{background:linear-gradient(135deg,#36d1dc,#5b86e5)}
-#list .c2{background:linear-gradient(135deg,#a855f7,#ec4899)}
-#list .c3{background:linear-gradient(135deg,#11998e,#38ef7d)}
-#list .c4{background:linear-gradient(135deg,#f7971e,#ffd200)}
-#list .c5{background:linear-gradient(135deg,#667eea,#764ba2)}
-#list .c6{background:linear-gradient(135deg,#f953c6,#b91d73)}
-#list .c7{background:linear-gradient(135deg,#00c6ff,#0072ff)}
+#list .c0,#catgrid .c0{background:linear-gradient(135deg,#ff6b6b,#ff9966)}
+#list .c1,#catgrid .c1{background:linear-gradient(135deg,#36d1dc,#5b86e5)}
+#list .c2,#catgrid .c2{background:linear-gradient(135deg,#a855f7,#ec4899)}
+#list .c3,#catgrid .c3{background:linear-gradient(135deg,#11998e,#38ef7d)}
+#list .c4,#catgrid .c4{background:linear-gradient(135deg,#f7971e,#ffd200)}
+#list .c5,#catgrid .c5{background:linear-gradient(135deg,#667eea,#764ba2)}
+#list .c6,#catgrid .c6{background:linear-gradient(135deg,#f953c6,#b91d73)}
+#list .c7,#catgrid .c7{background:linear-gradient(135deg,#00c6ff,#0072ff)}
 #list .tile .num{background:none;box-shadow:none;padding:0;min-width:0;font-size:clamp(40px,13vw,64px);text-shadow:0 2px 8px #0003}
 #list .tt{font-weight:700;font-size:1.05rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #list .it small{margin-top:4px;font-size:.8rem}
@@ -188,6 +188,14 @@ body.nochords .ci{display:none}
 #view #pal{background:#1f1147e6;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:#ffffff33}
 #view #grip{background:linear-gradient(135deg,#ff6b6b,#ee5a52)}
 #view #grip i{background:#fff}
+#catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;width:100%;max-width:900px;margin-top:10px}
+.cg{border-radius:24px;padding:18px;min-height:140px;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;text-align:left;position:relative;overflow:hidden;color:#fff;border:1px solid #ffffff4d;box-shadow:0 12px 28px #00000033,inset 0 1px 0 #ffffff4d;transition:transform .3s,box-shadow .3s;opacity:0;animation:pop .5s ease forwards}
+.cg .cn{position:absolute;top:6px;right:16px;font-size:3.6rem;font-weight:800;opacity:.28;line-height:1}
+.cg b{font-size:1.15rem;line-height:1.2;text-shadow:0 2px 8px #0003}
+.cg small{opacity:.9;margin-top:2px}
+.cg:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 18px 36px #0000004d}
+.cg.sel{outline:3px solid #fff;outline-offset:2px}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
 #ed{z-index:2000}#cf{z-index:2100}
 </style>
 </head>
@@ -209,14 +217,12 @@ body.nochords .ci{display:none}
 <section id="canciones" class="content-section">
   <h2 class="section-title">Lista de himnos</h2>
   <div id="list">
-    <div id="top"><div class="acts"><button id="nw">+ Nuevo</button></div></div>
     <input id="q" placeholder="Buscar…" autocomplete="off">
     <div id="cats"></div>
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
-<section id="himnario" class="content-section"><h2 class="section-title">Himnario</h2></section>
-<section id="services" class="content-section"><h2 class="section-title">Services</h2></section>
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="catgrid"></div></section>
 <section id="portfolio" class="content-section"><h2 class="section-title">Portfolio</h2></section>
 <section id="contact" class="content-section"><h2 class="section-title">Contact</h2></section>
 </div>
@@ -290,9 +296,16 @@ async function load(quiet){
 function renderCats(){
   const cs=[...new Set(songs.map(s=>s.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
   if(cat&&!cs.includes(cat))cat="";
-  $("cats").innerHTML="";if(!cs.length)return;
+  $("cats").innerHTML="";renderCatGrid(cs);if(!cs.length)return;
   ["",...cs].forEach(c=>{const b=document.createElement("button");b.textContent=c||"Todas";if(c===cat)b.className="on";
     b.onclick=()=>{cat=c;renderCats();renderList()};$("cats").appendChild(b)})}
+function renderCatGrid(cs){const g=$("catgrid");if(!g)return;
+  if(!cs.length){g.innerHTML='<div id="msg">Aún no hay categorías</div>';return}
+  const n=c=>c?songs.filter(s=>s.cat===c).length:songs.length;
+  g.innerHTML="";
+  ["",...cs].forEach((c,i)=>{const d=document.createElement("div");d.className="cg c"+(i%8)+(c===cat?" sel":"");d.style.animationDelay=(i*60)+"ms";
+    d.innerHTML=`<span class="cn">${n(c)}</span><b>${esc(c||"Todas")}</b><small>${n(c)==1?"himno":"himnos"}</small>`;
+    d.onclick=()=>{cat=c;renderCats();renderList();$("canciones").scrollIntoView({behavior:"smooth"})};g.appendChild(d)})}
 function renderList(){
   const ws=fold($("q").value).split(" ").filter(Boolean);
   const l=songs.map((s,i)=>[s,i]).filter(([s])=>{if(cat&&s.cat!==cat)return false;const hay=fold(s.num+" "+s.title);return ws.every(w=>hay.includes(w))});
@@ -459,7 +472,6 @@ function openEd(x){edOrig=x||null;$("e_del").style.display=x?"inline-block":"non
   $("e_url").value=LS("hurl");$("e_key").value=LS("hkey");$("cn").open=!LS("hurl");
   emsg("");$("ed").style.display="block";$("ed").scrollTop=0;
   history.pushState({ed:1},"")}
-$("nw").onclick=()=>openEd();
 $("edit").onclick=()=>cur&&openEd(cur);
 $("e_x").onclick=()=>closeEd();
 document.querySelectorAll(".tb button").forEach(b=>b.onclick=()=>{const a=$("e_let"),s=a.selectionStart,pre=s>0&&a.value[s-1]!=="\n"?"\n":"";
@@ -538,8 +550,8 @@ $("e_del").onclick=async()=>{
 // ===== menú de navegación =====
 const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>'],
 ["canciones","Himnos",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
-["himnario","Himnario",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
-["services","Services",'<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>'],
+["categorias","Categorías",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
+["nuevo","Nuevo",'<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"></path>'],
 ["portfolio","Portfolio",'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 3h6v4"></path><path d="m22 7-10-4-10 4"></path>'],
 ["contact","Contact",'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>']];
 $("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#canciones" data-go="canciones" class="cta-button">Get Started</a></li>';
@@ -548,9 +560,9 @@ const mm=$("mobileMenu"),mo=$("mobileMenuOverlay"),mt=$("mobileToggle");
 function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));}
 const closeM=()=>openM(false);
 mt.onclick=()=>openM(!mm.classList.contains("active"));$("mobileMenuClose").onclick=closeM;mo.onclick=closeM;
-document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();closeM();const t=$(a.dataset.go);t&&setTimeout(()=>scrollTo({top:t.getBoundingClientRect().top+scrollY,behavior:"smooth"}),80)});
+document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();closeM();if(a.dataset.go==="nuevo"){openEd();return}const t=$(a.dataset.go);t&&setTimeout(()=>scrollTo({top:t.getBoundingClientRect().top+scrollY,behavior:"smooth"}),80)});
 function setActive(id){document.querySelectorAll(".nav-link,.mobile-menu-link").forEach(a=>a.classList.toggle("active",a.dataset.go===id))}
-if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-45% 0px -50% 0px"});NAV.forEach(n=>io.observe($(n[0])))}
+if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-45% 0px -50% 0px"});NAV.forEach(n=>{const e=$(n[0]);e&&io.observe(e)})}
 document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=$("items");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
 load();
 </script>
