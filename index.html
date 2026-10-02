@@ -151,23 +151,23 @@ body.nochords .ci{display:none}
 #list .num.no{color:#fff}
 #list .it small{color:#ffffffbf;font-weight:400}
 #list #msg{color:#fffc}
-#list #items{display:flex;flex-wrap:nowrap;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:6px 2px 14px;touch-action:pan-x pan-y}
-#list #items::-webkit-scrollbar{display:none}
-#list #items #msg{min-width:100%}
-#list .it{flex:none;width:clamp(190px,58vw,250px);flex-direction:column;align-items:stretch;gap:0;background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;margin:0;text-align:center;scroll-snap-align:start}
-#list .it:hover{background:none;transform:translateY(-4px)}
-#list .tile{aspect-ratio:1;width:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffffff2e,#ffffff14);border:1px solid #ffffff4d;border-radius:24px;box-shadow:0 12px 28px #00000033,inset 0 1px 0 #ffffff4d;margin-bottom:12px}
-#list .c0,#catgrid .c0{background:linear-gradient(135deg,#ff6b6b,#ff9966)}
-#list .c1,#catgrid .c1{background:linear-gradient(135deg,#36d1dc,#5b86e5)}
-#list .c2,#catgrid .c2{background:linear-gradient(135deg,#a855f7,#ec4899)}
-#list .c3,#catgrid .c3{background:linear-gradient(135deg,#11998e,#38ef7d)}
-#list .c4,#catgrid .c4{background:linear-gradient(135deg,#f7971e,#ffd200)}
-#list .c5,#catgrid .c5{background:linear-gradient(135deg,#667eea,#764ba2)}
-#list .c6,#catgrid .c6{background:linear-gradient(135deg,#f953c6,#b91d73)}
-#list .c7,#catgrid .c7{background:linear-gradient(135deg,#00c6ff,#0072ff)}
-#list .tile .num{background:none;box-shadow:none;padding:0;min-width:0;font-size:clamp(40px,13vw,64px);text-shadow:0 2px 8px #0003}
-#list .tt{font-weight:700;font-size:1.05rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-#list .it small{margin-top:4px;font-size:.8rem}
+:is(#list #items,#citems){display:flex;flex-wrap:nowrap;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:6px 2px 14px;touch-action:pan-x pan-y}
+:is(#list #items,#citems)::-webkit-scrollbar{display:none}
+:is(#list #items,#citems) #msg{min-width:100%}
+:is(#list,#cres) .it{flex:none;width:clamp(190px,58vw,250px);flex-direction:column;align-items:stretch;gap:0;background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;margin:0;text-align:center;scroll-snap-align:start}
+:is(#list,#cres) .it:hover{background:none;transform:translateY(-4px)}
+:is(#list,#cres) .tile{aspect-ratio:1;width:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffffff2e,#ffffff14);border:1px solid #ffffff4d;border-radius:24px;box-shadow:0 12px 28px #00000033,inset 0 1px 0 #ffffff4d;margin-bottom:12px}
+#list .c0,#catgrid .c0,#cres .c0{background:linear-gradient(135deg,#ff6b6b,#ff9966)}
+#list .c1,#catgrid .c1,#cres .c1{background:linear-gradient(135deg,#36d1dc,#5b86e5)}
+#list .c2,#catgrid .c2,#cres .c2{background:linear-gradient(135deg,#a855f7,#ec4899)}
+#list .c3,#catgrid .c3,#cres .c3{background:linear-gradient(135deg,#11998e,#38ef7d)}
+#list .c4,#catgrid .c4,#cres .c4{background:linear-gradient(135deg,#f7971e,#ffd200)}
+#list .c5,#catgrid .c5,#cres .c5{background:linear-gradient(135deg,#667eea,#764ba2)}
+#list .c6,#catgrid .c6,#cres .c6{background:linear-gradient(135deg,#f953c6,#b91d73)}
+#list .c7,#catgrid .c7,#cres .c7{background:linear-gradient(135deg,#00c6ff,#0072ff)}
+:is(#list,#cres) .tile .num{background:none;box-shadow:none;padding:0;min-width:0;font-size:clamp(40px,13vw,64px);text-shadow:0 2px 8px #0003}
+:is(#list,#cres) .tt{font-weight:700;font-size:1.05rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+:is(#list,#cres) .it small{margin-top:4px;font-size:.8rem}
 .rw{position:relative}
 .ar{display:none;position:absolute;top:110px;width:46px;height:46px;min-height:0;padding:0;border-radius:50%;font-size:30px;line-height:1;align-items:center;justify-content:center;background:#ffffff40;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #ffffff59;color:#fff;box-shadow:0 8px 20px #0003;z-index:3}
 .ar.l{left:-8px}.ar.r{right:-8px}
@@ -196,6 +196,24 @@ body.nochords .ci{display:none}
 .cg:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 18px 36px #0000004d}
 .cg.sel{outline:3px solid #fff;outline-offset:2px}
 @keyframes pop{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
+#cres{display:none;width:100%;max-width:900px;margin-top:28px;text-align:left}
+#cres h3{margin:0 0 6px;font-size:1.4rem;font-weight:700;color:#fff}
+#cres .rw{position:relative}
+#ed{z-index:2000;background:linear-gradient(135deg,#2d1b69 0%,#11998e 60%,#38ef7d 100%) fixed;font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;color:#fff}
+#ed h1{font-family:inherit;color:#fff;font-weight:700}
+#ed label{color:#ffffffd9}
+#ed input,#ed textarea,#ed select{background:#ffffff24;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff4d;border-radius:16px;color:#fff;outline:0;padding:12px 16px}
+#ed input::placeholder,#ed textarea::placeholder{color:#ffffff8c}
+#ed input:focus,#ed textarea:focus,#ed select:focus{border-color:#ffffffb3;background:#ffffff33}
+#ed select option{color:#000}
+#ed details{color:#ffffffd9}
+#ed button{border-radius:25px;background:#ffffff26;color:#fff;border:1px solid #ffffff40;transition:all .3s}
+#ed button:hover{background:#ffffff40}
+#ed #e_save{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border:0;font-weight:600;box-shadow:0 8px 20px #ff6b6b4d;color:#fff}
+#ed #e_del{color:#fff;background:#ff3b3b59;border-color:#ff8a8a80}
+#edmsg{color:#fff;font-weight:600}
+#cf .bx{background:#1f1147f2;border:1px solid #ffffff33;border-radius:24px;color:#fff}
+#cf button{border-radius:25px;border:1px solid #ffffff40;background:#ffffff26}
 #ed{z-index:2000}#cf{z-index:2100}
 </style>
 </head>
@@ -215,14 +233,15 @@ body.nochords .ci{display:none}
 </div>
 <section id="home" class="content-section"><h1 class="section-title">Principal</h1></section>
 <section id="canciones" class="content-section">
-  <h2 class="section-title">Lista de himnos</h2>
+  <h2 class="section-title">Lista de Himnos</h2>
   <div id="list">
     <input id="q" placeholder="Buscar…" autocomplete="off">
     <div id="cats"></div>
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
-<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="catgrid"></div></section>
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="catgrid"></div>
+  <div id="cres"><h3 id="ctit"></h3><div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="citems"></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div></div></section>
 <section id="portfolio" class="content-section"><h2 class="section-title">Portfolio</h2></section>
 <section id="contact" class="content-section"><h2 class="section-title">Contact</h2></section>
 </div>
@@ -299,20 +318,26 @@ function renderCats(){
   $("cats").innerHTML="";renderCatGrid(cs);if(!cs.length)return;
   ["",...cs].forEach(c=>{const b=document.createElement("button");b.textContent=c||"Todas";if(c===cat)b.className="on";
     b.onclick=()=>{cat=c;renderCats();renderList()};$("cats").appendChild(b)})}
+let ccat=null;
+function renderCres(){const el=$("cres");if(ccat===null){el.style.display="none";return}
+  el.style.display="block";$("ctit").textContent=ccat||"Todas";
+  const c=$("citems");c.innerHTML="";songs.forEach((s,i)=>{if(!ccat||s.cat===ccat)c.appendChild(card(s,i))})}
 function renderCatGrid(cs){const g=$("catgrid");if(!g)return;
-  if(!cs.length){g.innerHTML='<div id="msg">Aún no hay categorías</div>';return}
+  if(ccat&&!cs.includes(ccat))ccat=null;
+  if(!cs.length){ccat=null;renderCres();g.innerHTML='<div id="msg">Aún no hay categorías</div>';return}
   const n=c=>c?songs.filter(s=>s.cat===c).length:songs.length;
   g.innerHTML="";
-  ["",...cs].forEach((c,i)=>{const d=document.createElement("div");d.className="cg c"+(i%8)+(c===cat?" sel":"");d.style.animationDelay=(i*60)+"ms";
+  ["",...cs].forEach((c,i)=>{const d=document.createElement("div");d.className="cg c"+(i%8)+(c===ccat?" sel":"");d.style.animationDelay=(i*60)+"ms";
     d.innerHTML=`<span class="cn">${n(c)}</span><b>${esc(c||"Todas")}</b><small>${n(c)==1?"himno":"himnos"}</small>`;
-    d.onclick=()=>{cat=c;renderCats();renderList();$("canciones").scrollIntoView({behavior:"smooth"})};g.appendChild(d)})}
+    d.onclick=()=>{ccat=ccat===c?null:c;renderCatGrid(cs);if(ccat!==null)setTimeout(()=>$("cres").scrollIntoView({behavior:"smooth",block:"nearest"}),60)};g.appendChild(d)});renderCres()}
 function renderList(){
   const ws=fold($("q").value).split(" ").filter(Boolean);
   const l=songs.map((s,i)=>[s,i]).filter(([s])=>{if(cat&&s.cat!==cat)return false;const hay=fold(s.num+" "+s.title);return ws.every(w=>hay.includes(w))});
   $("items").innerHTML=l.length?"":'<div id="msg">Sin resultados</div>';
-  l.forEach(([s,i])=>{const d=document.createElement("div");d.className="it";
+  l.forEach(([s,i])=>$("items").appendChild(card(s,i)))}
+function card(s,i){const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="tile c${i%8}"><div class="num ${s.num?"":"no"}">${s.num||"♪"}</div></div><div class="tt">${esc(s.title)}</div>${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}`;
-    d.onclick=()=>{location.hash=i};$("items").appendChild(d)})}
+    d.onclick=()=>{location.hash=i};return d}
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("q").oninput=renderList;
 
@@ -555,7 +580,7 @@ const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0
 ["portfolio","Portfolio",'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 3h6v4"></path><path d="m22 7-10-4-10 4"></path>'],
 ["contact","Contact",'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>']];
 $("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#canciones" data-go="canciones" class="cta-button">Get Started</a></li>';
-$("mnav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
+$("mnav").innerHTML=[NAV[0],NAV[3],NAV[1],NAV[2],NAV[4],NAV[5]].map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
 const mm=$("mobileMenu"),mo=$("mobileMenuOverlay"),mt=$("mobileToggle");
 function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));}
 const closeM=()=>openM(false);
@@ -563,7 +588,7 @@ mt.onclick=()=>openM(!mm.classList.contains("active"));$("mobileMenuClose").oncl
 document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();closeM();if(a.dataset.go==="nuevo"){openEd();return}const t=$(a.dataset.go);t&&setTimeout(()=>scrollTo({top:t.getBoundingClientRect().top+scrollY,behavior:"smooth"}),80)});
 function setActive(id){document.querySelectorAll(".nav-link,.mobile-menu-link").forEach(a=>a.classList.toggle("active",a.dataset.go===id))}
 if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-45% 0px -50% 0px"});NAV.forEach(n=>{const e=$(n[0]);e&&io.observe(e)})}
-document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=$("items");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
+document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#citems");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
 load();
 </script>
 </body>
