@@ -122,8 +122,8 @@ body.nochords .ci{display:none}
 .mobile-menu-icon{width:24px;height:24px}
 .mobile-cta{margin:26px 26px 40px}
 .mobile-cta-button{display:block;background:linear-gradient(135deg,#ff6b6b,#ee5a52);color:#fff;text-decoration:none;padding:18px;border-radius:18px;font-weight:600;font-size:1.05rem;text-align:center;box-shadow:0 10px 30px #ff6b6b4d}
-.content-section{min-height:0;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
-.section-title{font-family:inherit;font-size:clamp(2rem,6vw,2.5rem);font-weight:700;margin:0 0 16px;color:#fff}
+.content-section{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
+.section-title{font-family:inherit;font-size:clamp(2rem,6vw,2.5rem);font-weight:700;margin:0 0 26px;color:#fff}
 .section-subtitle{font-size:1.1rem;opacity:.8;max-width:600px;line-height:1.6;margin:0 0 30px}
 #home{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%);padding:110px 16px 28px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -135,10 +135,9 @@ body.nochords .ci{display:none}
 #dots button{width:9px;height:9px;min-height:0;padding:0;border-radius:50%;background:#ffffff59;transition:all .3s}
 #dots button.on{width:26px;border-radius:9px;background:#fff}
 @media(max-width:480px){#home{padding:90px 12px 44px}#slides{border-radius:22px}}
-#canciones{background:linear-gradient(135deg,#2d1b69 0%,#11998e 50%,#38ef7d 100%);justify-content:flex-start;padding-top:calc(var(--nb) + 16px)}
-#categorias{justify-content:flex-start;padding-top:calc(var(--nb) + 16px);background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
+#canciones{background:linear-gradient(135deg,#2d1b69 0%,#11998e 50%,#38ef7d 100%);justify-content:flex-start;padding-top:calc(var(--nb) + 26px)}
+#categorias{justify-content:flex-start;padding-top:calc(var(--nb) + 26px);background:linear-gradient(135deg,#134e5e 0%,#71b280 50%,#2d3748 100%)}
 #services{background:linear-gradient(135deg,#4a148c 0%,#6a1b9a 50%,#8e24aa 100%)}
-#portfolio,#contact{min-height:45vh}
 #portfolio{background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#1a202c 100%)}
 #contact{background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)}
 #list{width:100%;max-width:720px;margin:0;padding:0;text-align:left}
@@ -184,7 +183,7 @@ body.nochords .ci{display:none}
 .ar:hover{background:#ffffff66}
 @media(hover:hover) and (pointer:fine){.ar{display:flex}}
 /* ===== pantalla del himno con el mismo estilo moderno ===== */
-#view{background:linear-gradient(135deg,#1f1147 0%,#3b2a86 45%,#0e7c86 100%);font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif}
+#view{background:linear-gradient(160deg,#0b1736 0%,#143a63 38%,#0e7c86 72%,#2b2370 100%);font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif}
 #view #bar{background:transparent;border-bottom:0;border-radius:0;box-shadow:none}
 #view #bar button{border-color:#ffffff33;color:#ffffffe6;transition:all .3s}
 #view #bar button:hover{background:#ffffff26}
@@ -195,7 +194,7 @@ body.nochords .ci{display:none}
 #view #head .num{background:#ffffff1f;border:1px solid #ffffff33;color:#fff;border-radius:50px;box-shadow:none;font-family:inherit}
 #view #head h2{font-family:inherit;text-shadow:0 2px 8px #0003}
 #view #head small{color:#ffffffb3}
-#view #pal{background:#1f1147e6;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:#ffffff33}
+#view #pal{background:#0b1736ea;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:#ffffff33}
 #view #grip{background:linear-gradient(135deg,#ff6b6b,#ee5a52)}
 #view #grip i{background:#fff}
 #catgrid{display:flex;flex-wrap:nowrap;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:6px 2px 14px;touch-action:pan-x pan-y;width:100%}
@@ -216,11 +215,15 @@ body.nochords .ci{display:none}
 #catgrid .v7{background:linear-gradient(135deg,#00c6ff9e,#0072ff9e)}
 .cg.sel .cv{border-color:#ffffffa6;box-shadow:0 0 0 4px #ffffff2e,0 10px 24px #00000033,inset 0 1px 0 #ffffffb3,inset 0 0 28px #ffffff40}
 @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
-#cres{display:flex;flex-direction:column;width:100%;max-width:520px;height:min(64dvh,540px);margin:28px auto 0;text-align:left;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;overflow:hidden}
+#cres{display:flex;flex-direction:column;width:100%;max-width:720px;height:min(70dvh,640px);margin:0 auto;text-align:left;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;overflow:hidden}
 #cres.idle .chd,#cres.idle #citems{display:none}
 #chint{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:24px;text-align:center;color:#ffffffb3;font-size:1.05rem}
 #chint::before{content:"♪";font-size:2.6rem;opacity:.6;line-height:1}
 #cres.idle #chint{display:flex}
+.cm{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+#csel{-webkit-appearance:none;appearance:none;background:transparent;border:0;color:#fff;font:700 1.3rem 'Segoe UI',system-ui,sans-serif;text-align:center;text-align-last:center;width:100%;cursor:pointer;outline:0;padding:2px 0}
+#csel option{color:#000}
+.cb{width:42px;height:42px;min-height:0;padding:0;border-radius:50%;background:#ffffff26;border:1px solid #ffffff40;color:#fff;font-size:1.6rem;line-height:1;flex:none}
 #cres .chd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 16px 12px 20px;border-bottom:1px solid #ffffff26;flex:none}
 #cres h3{margin:0;font-size:1.3rem;font-weight:700;color:#fff}
 #cres .chd small{color:#d4fbf1}
@@ -258,7 +261,7 @@ body.nochords .ci{display:none}
 #mic svg{width:20px;height:20px;fill:#fff}
 #mic.on{background:#ff6b6b;animation:mp 1s ease-in-out infinite}
 @keyframes mp{0%,100%{box-shadow:0 0 0 0 #ff6b6b99}50%{box-shadow:0 0 0 10px #ff6b6b00}}
-#list #items{scroll-snap-type:none;margin:0 -20px;width:calc(100% + 40px);max-width:none;padding:14px 20px 14px}
+#list #items{scroll-snap-type:none;margin:0 -20px;width:calc(100% + 40px);max-width:none;padding:24px 20px 14px}
 #list #items,#catgrid{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 26px,#000 calc(100% - 26px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 26px,#000 calc(100% - 26px),transparent 100%)}
 .rw.k{width:calc(100% + 40px);max-width:940px}
 #catgrid{padding:6px 22px 14px}
@@ -275,7 +278,7 @@ body.nochords .ci{display:none}
 #ed #e_save{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border:0;font-weight:600;box-shadow:0 8px 20px #ff6b6b4d;color:#fff}
 #ed #e_del{color:#fff;background:#ff3b3b59;border-color:#ff8a8a80}
 #edmsg{color:#fff;font-weight:600}
-#cf .bx{background:#1f1147f2;border:1px solid #ffffff33;border-radius:24px;color:#fff}
+#cf .bx{background:#0b1736f2;border:1px solid #ffffff33;border-radius:24px;color:#fff}
 #cf button{border-radius:25px;border:1px solid #ffffff40;background:#ffffff26}
 #ed{z-index:2000}#cf{z-index:2100}
 </style>
@@ -303,8 +306,7 @@ body.nochords .ci{display:none}
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
-<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div class="rw k"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="catgrid"></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
-  <div id="cres" class="idle"><div id="chint">Toca una categoría para ver sus himnos</div><div class="chd"><div><h3 id="ctit"></h3><small id="cct"></small></div><button id="cx" aria-label="Cerrar">✕</button></div><div id="citems"></div></div></section>
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior">‹</button><div class="cm"><small>Categorías</small><select id="csel" aria-label="Categoría"></select><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente">›</button></div><div id="citems"></div></div></section>
 <section id="portfolio" class="content-section"><h2 class="section-title">Portfolio</h2></section>
 <section id="contact" class="content-section"><h2 class="section-title">Contact</h2></section>
 </div>
@@ -379,22 +381,17 @@ function renderCats(){
   const cs=[...new Set(songs.map(s=>s.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
   if(cat&&!cs.includes(cat))cat="";
   renderCatGrid(cs)}
-let ccat=null;
-function renderCres(){const el=$("cres");el.classList.toggle("idle",ccat===null);if(ccat===null)return;
-  $("ctit").textContent=ccat||"Todas";
-  const c=$("citems");c.innerHTML="";let n=0;songs.forEach((s,i)=>{if(!ccat||s.cat===ccat){c.appendChild(card(s,i));n++}});
+let ccat="";
+function renderCres(){const c=$("citems");c.innerHTML="";let n=0;
+  songs.forEach((s,i)=>{if(!ccat||s.cat===ccat){c.appendChild(card(s,i));n++}});
   $("cct").textContent=n+(n==1?" himno":" himnos");c.scrollTop=0}
-function selCat(){document.querySelectorAll("#catgrid .cg").forEach(x=>x.classList.toggle("sel",ccat!==null&&x.dataset.c===ccat))}
-function renderCatGrid(cs){const g=$("catgrid");if(!g)return;
-  if(ccat&&!cs.includes(ccat))ccat=null;
-  if(!cs.length){ccat=null;renderCres();g.innerHTML='<div id="msg">Aún no hay categorías</div>';return}
-  const n=c=>c?songs.filter(s=>s.cat===c).length:songs.length;
-  g.innerHTML="";
-  ["",...cs].forEach((c,i)=>{const d=document.createElement("div");d.className="cg";d.dataset.c=c;d.style.animationDelay=(i*60)+"ms";
-    d.innerHTML=`<div class="cv v${i%8}"><b>${esc(c||"Todas")}</b><small>${n(c)} ${n(c)==1?"himno":"himnos"}</small></div>`;
-    d.onclick=()=>{ccat=ccat===c?null:c;selCat();renderCres();};g.appendChild(d)});
-  selCat();renderCres()}
-$("cx").onclick=()=>{ccat=null;selCat();renderCres()};
+function renderCatGrid(cs){if(ccat&&!cs.includes(ccat))ccat="";
+  const sel=$("csel"),n=c=>c?songs.filter(s=>s.cat===c).length:songs.length;sel.innerHTML="";
+  [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t+" ("+n(v)+")";sel.appendChild(o)});
+  sel.value=ccat;renderCres()}
+function stepCat(d){const sel=$("csel"),n=sel.options.length;if(!n)return;sel.selectedIndex=(sel.selectedIndex+d+n)%n;ccat=sel.value;renderCres()}
+$("csel").onchange=e=>{ccat=e.target.value;renderCres()};
+$("cprev").onclick=()=>stepCat(-1);$("cnext").onclick=()=>stepCat(1);
 function renderList(){
   const ws=fold($("q").value).split(" ").filter(Boolean);
   const l=songs.map((s,i)=>[s,i]).filter(([s])=>{if(cat&&s.cat!==cat)return false;const hay=fold(s.num+" "+s.title);return ws.every(w=>hay.includes(w))});
@@ -514,17 +511,17 @@ W_.addEventListener("mousedown",e=>{if(Z!==1)MD={x:e.clientX,y:e.clientY,tx:TX,t
 addEventListener("mousemove",e=>{if(MD){TX=MD.tx+e.clientX-MD.x;TY=MD.ty+e.clientY-MD.y;applyT()}});
 addEventListener("mouseup",()=>{MD=null});
 
-const COLS={chord:["#ff6b6b","#4ecdc4","#c4b5fd","#ffffff","#000000"],
-            lyric:["#ffffff","#000000","#cbd5e1","#94a3b8"],
-            bg:["gradient","#000000","#ffffff","#1f2937","#e5e7eb"]};
+const COLS={chord:["#ff6b6b","#4ecdc4","#38ef7d","#5b86e5","#ffffff","#000000"],
+            lyric:["#ffffff","#000000","#d4fbf1","#bfe3ff"],
+            bg:["gradient","#000000","#ffffff","#0b1736","#143a63","#0e7c86"]};
 const NAMES={chord:"Acordes",lyric:"Letra",bg:"Fondo"};
-let sel;try{sel=JSON.parse(LS("hcol3")||"null")}catch(e){sel=null}
+let sel;try{sel=JSON.parse(LS("hcol4")||"null")}catch(e){sel=null}
 sel=Object.assign({chord:COLS.chord[0],lyric:COLS.lyric[0],bg:"gradient"},sel||{});
 function applyCols(){const v=$("view").style;v.setProperty("--chord",sel.chord);v.setProperty("--lyric",sel.lyric);v.setProperty("--vbg",sel.bg==="gradient"?"transparent":sel.bg)}
 function renderPal(){const p=$("pal");p.innerHTML="";
   Object.keys(COLS).forEach(k=>{const r=document.createElement("div");r.className="r";r.innerHTML=`<span>${NAMES[k]}</span>`;
-    COLS[k].forEach(c=>{const b=document.createElement("button");b.className="sw"+(sel[k]===c?" on":"");b.style.background=c==="gradient"?"linear-gradient(135deg,#1f1147,#0e7c86)":c;b.title=c;
-      b.onclick=()=>{sel[k]=c;SV("hcol3",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
+    COLS[k].forEach(c=>{const b=document.createElement("button");b.className="sw"+(sel[k]===c?" on":"");b.style.background=c==="gradient"?"linear-gradient(160deg,#0b1736,#143a63 40%,#0e7c86)":c;b.title=c;
+      b.onclick=()=>{sel[k]=c;SV("hcol4",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
     p.appendChild(r)})}
 $("colb").onclick=()=>{renderPal();$("pal").classList.toggle("open")};
 applyCols();
