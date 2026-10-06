@@ -457,6 +457,11 @@ html{scroll-snap-type:none}
 #nx.fx,#pv.fx{animation:nxq .5s ease-out}
 @keyframes nxq{0%{transform:scale(1);box-shadow:0 0 0 0 #ffffffaa}40%{transform:scale(.86)}100%{transform:scale(1);box-shadow:0 0 0 18px #ffffff00}}
 #canciones .section-title{transform:translateY(-54px)}
+
+/* ===== v8: en celular, la página principal solo se mueve con los botones ===== */
+@media (hover:none) and (pointer:coarse){
+html{overflow-y:hidden;overscroll-behavior:none}
+}
 </style>
 </head>
 <body>
