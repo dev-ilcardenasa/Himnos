@@ -370,6 +370,32 @@ html{scroll-snap-type:y mandatory}
 .qch div small{display:block;font-size:.65rem;opacity:.7;font-weight:400}
 #qinfo>small{color:#ffffffa6}
 #foot .fb{font-size:1.1rem}
+
+/* ===== v3 ===== */
+.section-title{padding:0;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;background:linear-gradient(180deg,#ffffff 0%,#ffffffb8 55%,#ffffff59 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:1px #ffffff40;filter:drop-shadow(0 4px 14px #00000040);font-size:clamp(1.8rem,6.5vw,2.6rem);font-weight:700;letter-spacing:.02em}
+#site,#ed,#view,#rm,#pm{font-family:'Poppins','Segoe UI',Tahoma,system-ui,sans-serif}
+#pm{display:none;position:fixed;inset:0;z-index:2300;background:#0009;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px}
+#pm .rbox{max-width:420px}
+#pml{overflow-y:auto;overscroll-behavior:contain;max-height:60svh;display:flex;flex-direction:column;gap:8px}
+.rp .pill{margin-left:auto;background:#ffffff24;border:1px solid #ffffff40;border-radius:20px;padding:2px 12px;font-size:.8rem}
+#csel{display:flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;color:#fff;font:600 1.35rem 'Poppins','Segoe UI',system-ui,sans-serif;min-height:0;padding:2px 8px;cursor:pointer;width:auto;max-width:100%;text-align:center}
+#csel svg,.selb svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.selb{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 16px;border-radius:14px;border:1px solid #ffffff4d;background:#ffffff1f;color:#fff;font-weight:600;margin-bottom:6px}
+#qnav{left:auto;right:calc(12px + env(safe-area-inset-right,0px));transform:none;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:0;background:transparent;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+#qnav button{width:42px;height:42px;background:#ffffff2e;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:.88}
+#qb:disabled{opacity:.4}
+#foot .fb{display:flex;align-items:center;gap:10px}
+#foot .fb svg{width:20px;height:20px;fill:#fff;opacity:.9}
+#qsvg{max-width:400px}
+.qw .q1,.qw .q2{fill:#ffffff14}
+.qw:hover path:not(.r0):not(.r1):not(.r2){fill:#ffffff33}
+.qw path.r0{fill:#ff6b6b}
+.qw path.r1{fill:#4ecdc4}
+.qw path.r2{fill:#6fb1ff}
+.dm{opacity:.55}
+.qg{text-anchor:middle;dominant-baseline:central;fill:#fff;font-size:9px;font-weight:600;pointer-events:none;opacity:.95}
+.qct{font-size:30px;dominant-baseline:central}
+#tnote{margin-top:10px}
 </style>
 </head>
 <body>
@@ -394,21 +420,22 @@ html{scroll-snap-type:y mandatory}
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
-<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="cm"><select id="csel" aria-label="Categoría"></select><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div><div id="citems"></div></div></section>
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="cm"><button id="csel" type="button"><span id="cname">Todas</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div><div id="citems"></div></div></section>
 <section id="repertorio" class="content-section"><h2 class="section-title">Repertorio</h2>
   <div id="rep"><div id="rlist"></div><button id="rnew" class="gb">+ Crear repertorio</button></div></section>
 <section id="afinacion" class="content-section"><h2 class="section-title">Afinación de guitarra</h2>
-  <div class="gcard"><select id="tsel" aria-label="Afinación"></select><div id="strs"></div>
+  <div class="gcard"><button id="tsel" type="button" class="selb"><span id="tname">Estándar (E A D G B E)</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
   <div id="tnote">—</div><div id="tbar"><i id="tneedle"></i></div><small id="thz">Toca una cuerda para escucharla</small>
   <button id="tmic" class="gb">Afinar con micrófono</button></div></section>
 <section id="quintas" class="content-section"><h2 class="section-title">Círculo de quintas</h2>
-  <div class="gcard"><svg id="qsvg" viewBox="0 0 320 320"></svg><div id="qinfo"></div></div></section>
-<footer id="foot"><div class="fb"><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
+  <div class="gcard"><svg id="qsvg" viewBox="0 0 320 320"></svg></div></section>
+<footer id="foot"><div class="fb"><svg viewBox="0 0 24 24"><path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"/></svg><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
 </div>
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
   <div id="bar">
     <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
+    <button id="qb" style="display:none"></button>
     <button id="chb" class="on">Acordes</button>
     <button id="colb">🎨 Color</button>
     <button id="edit">✎ Editar</button>
@@ -416,9 +443,10 @@ html{scroll-snap-type:y mandatory}
   <div id="pal"></div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
-  <div id="qnav"><button id="qp" aria-label="Anterior">‹</button><span id="qc"></span><button id="qn" aria-label="Siguiente">›</button></div>
+  <div id="qnav"><button id="qn" aria-label="Siguiente">›</button></div>
 </div>
 <div id="rm"><div class="rbox"><h3 id="rt">Nuevo repertorio</h3><input id="rname" placeholder="Nombre (ej. Culto del domingo)" autocomplete="off"><input id="rsq" placeholder="Buscar himno…" autocomplete="off"><div id="rpick"></div><small id="rmsg"></small><div class="rbtns"><button id="rsave" class="gb">Guardar</button><button id="rcancel" class="gb">Cancelar</button></div></div></div>
+<div id="pm"><div class="rbox"><h3 id="pmt"></h3><div id="pml"></div></div></div>
 <div id="cf"><div class="bx"><p id="cft"></p><button id="cf_si">Sí, eliminar</button><button id="cf_no" class="on">No</button></div></div>
 <div id="ed"><div class="in">
   <h1 id="edt">Nuevo himno</h1>
@@ -486,12 +514,17 @@ let ccat="";
 function renderCres(){const c=$("citems");c.innerHTML="";let n=0;
   songs.forEach((s,i)=>{if(!ccat||s.cat===ccat){c.appendChild(card(s,i));n++}});
   $("cct").textContent=n+(n==1?" himno":" himnos");c.scrollTop=0}
-function renderCatGrid(cs){if(ccat&&!cs.includes(ccat))ccat="";
-  const sel=$("csel"),n=c=>c?songs.filter(s=>s.cat===c).length:songs.length;sel.innerHTML="";
-  [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;sel.appendChild(o)});
-  sel.value=ccat;renderCres()}
-function stepCat(d){const sel=$("csel"),n=sel.options.length;if(!n)return;sel.selectedIndex=(sel.selectedIndex+d+n)%n;ccat=sel.value;renderCres()}
-$("csel").onchange=e=>{ccat=e.target.value;renderCres()};
+let CATS=[];
+function catName(){const c=CATS.find(x=>x[0]===ccat);$("cname").textContent=c?c[1]:"Todas"}
+function renderCatGrid(cs){if(ccat&&!cs.includes(ccat))ccat="";CATS=[["","Todas"],...cs.map(c=>[c,c])];catName();renderCres()}
+function stepCat(d){const n=CATS.length;if(!n)return;const i=CATS.findIndex(x=>x[0]===ccat);ccat=CATS[(i+d+n)%n][0];catName();renderCres()}
+function pickModal(title,items,cur,cb){$("pmt").textContent=title;const l=$("pml");l.innerHTML="";
+  items.forEach(it=>{const d=document.createElement("div");d.className="rp"+(it.v===cur?" on":"");
+    d.innerHTML=`<span>${esc(it.t)}</span>${it.b!=null?`<span class="pill">${it.b}</span>`:""}`;
+    d.onclick=()=>{$("pm").style.display="none";cb(it.v)};l.appendChild(d)});
+  $("pm").style.display="flex"}
+$("pm").onclick=e=>{if(e.target.id==="pm")$("pm").style.display="none"};
+$("csel").onclick=()=>pickModal("Categorías",CATS.map(([v,t])=>({v,t,b:v?songs.filter(x=>x.cat===v).length:songs.length})),ccat,v=>{ccat=v;catName();renderCres()});
 $("cprev").onclick=()=>stepCat(-1);$("cnext").onclick=()=>stepCat(1);
 function renderList(){
   const ws=fold($("q").value).split(" ").filter(Boolean);
@@ -819,11 +852,12 @@ $("rsave").onclick=()=>{if(!rSel.length)return $("rmsg").textContent="Elige al m
   if(rEdit){rEdit.name=n;rEdit.keys=rSel.slice()}else reps.push({id:Date.now(),name:n,keys:rSel.slice()});
   saveReps();renderReps();$("rm").style.display="none"};
 function playSet(r){const q=r.keys.map(sidx).filter(i=>i>=0);if(!q.length)return;Q=q;location.hash=q[0]}
-function updateQ(){const el=$("qnav");if(Q&&Q.indexOf(curI)<0)Q=null;
-  if(!Q){el.style.display="none";return}
-  const p=Q.indexOf(curI);el.style.display="flex";$("qc").textContent=(p+1)+" / "+Q.length;$("qp").disabled=p<=0;$("qn").disabled=p>=Q.length-1}
+function updateQ(){const el=$("qnav"),qb=$("qb");if(Q&&Q.indexOf(curI)<0)Q=null;
+  if(!Q){el.style.display="none";qb.style.display="none";return}
+  const p=Q.indexOf(curI);el.style.display=p>=Q.length-1?"none":"flex";
+  qb.style.display="inline-flex";qb.textContent="‹ "+(p+1)+"/"+Q.length;qb.disabled=p<=0}
 function stepQ(d){if(!Q)return;const p=Q.indexOf(curI)+d;if(p>=0&&p<Q.length)location.replace(location.pathname+location.search+"#"+Q[p])}
-$("qp").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
+$("qb").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
 renderReps();
 
 // ===== afinación de guitarra =====
@@ -835,10 +869,8 @@ function pluck(f){const a=ac();if(a.state==="suspended")a.resume();const t=a.cur
   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.5,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+2.6);
   [[1,.6],[2,.25],[3,.1]].forEach(([m,v])=>{const o=a.createOscillator(),gg=a.createGain();o.type="triangle";o.frequency.value=f*m;gg.gain.value=v;o.connect(gg);gg.connect(g);o.start(t);o.stop(t+2.7)});
   g.connect(a.destination)}
-function drawStrings(){const t=TUN[$("tsel").value],b=$("strs");b.innerHTML="";
-  t.forEach((m,i)=>{const x=document.createElement("button");x.innerHTML=`${mname(m).replace(/\d/,"")}<small>${6-i}ª</small>`;x.onclick=()=>pluck(mfreq(m));b.appendChild(x)})}
-$("tsel").innerHTML=Object.keys(TUN).map(k=>`<option>${k}</option>`).join("");
-$("tsel").onchange=drawStrings;drawStrings();
+let tCur=Object.keys(TUN)[0];
+$("tsel").onclick=()=>pickModal("Afinación",Object.keys(TUN).map(k=>({v:k,t:k})),tCur,v=>{tCur=v;$("tname").textContent=v});
 let tStream=null,tTimer=0,tAn=null;
 function detectF(buf,sr){let r=0;for(let i=0;i<buf.length;i++)r+=buf[i]*buf[i];if(Math.sqrt(r/buf.length)<.01)return -1;
   const n=buf.length,maxL=Math.floor(sr/60),minL=Math.floor(sr/1000),c=new Float32Array(maxL+2);
@@ -849,10 +881,9 @@ function detectF(buf,sr){let r=0;for(let i=0;i<buf.length;i++)r+=buf[i]*buf[i];i
   const y1=c[best-1]||0,y2=c[best],y3=c[best+1]||0,den=y1-2*y2+y3,sh=den?.5*(y1-y3)/den:0;
   return sr/(best+sh)}
 function tick(){const buf=new Float32Array(tAn.fftSize);tAn.getFloatTimeDomainData(buf);const f=detectF(buf,ac().sampleRate);
-  if(f>60&&f<1000){const m=69+12*Math.log2(f/440),t=TUN[$("tsel").value];let bi=0,bd=1e9;
+  if(f>60&&f<1000){const m=69+12*Math.log2(f/440),t=TUN[tCur];let bi=0,bd=1e9;
     t.forEach((x,i)=>{const dd=Math.abs(m-x);if(dd<bd){bd=dd;bi=i}});
     const c=Math.round((m-t[bi])*100);
-    [...$("strs").children].forEach((e,i)=>e.classList.toggle("hit",i===bi));
     $("tnote").textContent=mname(t[bi]).replace(/\d/,"");
     $("tneedle").style.left=(50+Math.max(-50,Math.min(50,c)))+"%";
     $("thz").textContent=f.toFixed(1)+" Hz · "+(Math.abs(c)<=5?"¡Afinada!":c<0?"Sube ↑":"Baja ↓")+" ("+(c>0?"+":"")+c+"¢)"}}
@@ -862,26 +893,24 @@ async function tunerOn(){try{const a=ac();if(a.state==="suspended")await a.resum
   $("tmic").textContent="Detener micrófono";$("thz").textContent="Haz sonar una cuerda…";tTimer=setInterval(tick,90)}
   catch(e){$("thz").textContent="No se pudo usar el micrófono (revisa el permiso)"}}
 function tunerOff(){clearInterval(tTimer);tTimer=0;if(tStream){tStream.getTracks().forEach(t=>t.stop());tStream=null}
-  $("tmic").textContent="Afinar con micrófono";$("tnote").textContent="—";$("tneedle").style.left="50%";$("thz").textContent="Toca una cuerda para escucharla";
-  [...$("strs").children].forEach(e=>e.classList.remove("hit"))}
+  $("tmic").textContent="Afinar con micrófono";$("tnote").textContent="—";$("tneedle").style.left="50%";$("thz").textContent="Toca una cuerda para escucharla";}
 $("tmic").onclick=()=>tStream?tunerOff():tunerOn();
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tunerOff()});
 
 // ===== círculo de quintas =====
-(function(){const MAJ=["C","G","D","A","E","B","F#","Db","Ab","Eb","Bb","F"],MIN=["Am","Em","Bm","F#m","C#m","G#m","D#m","Bbm","Fm","Cm","Gm","Dm"],ACC=[0,1,2,3,4,5,6,-5,-4,-3,-2,-1];
-  const svg=$("qsvg");let sel=0;
+(function(){const MAJ=["C","G","D","A","E","B","F#","Db","Ab","Eb","Bb","F"],MIN=["Am","Em","Bm","F#m","C#m","G#m","D#m","Bbm","Fm","Cm","Gm","Dm"];
+  const svg=$("qsvg");let si=0,sm="M";
   const P=(r,a)=>[160+r*Math.cos(a),160+r*Math.sin(a)];
   const sector=(r1,r2,a0,a1)=>{const[a,b]=P(r2,a0),[c,d]=P(r2,a1),[e,f]=P(r1,a1),[g,h]=P(r1,a0);return `M${a} ${b}A${r2} ${r2} 0 0 1 ${c} ${d}L${e} ${f}A${r1} ${r1} 0 0 0 ${g} ${h}Z`};
-  const acc=i=>{const n=ACC[i];return n==0?"Sin alteraciones":n>0?n+(n==1?" sostenido":" sostenidos"):(-n)+(n==-1?" bemol":" bemoles")};
+  function role(ring,i){const d=(i-si+12)%12;if(d>1&&d<11)return["",""];const k=d===0?0:d===1?1:-1;
+    if(sm==="M")return ring==="M"?(k===0?["r0","I"]:["r1",k===1?"V":"IV"]):["r2",k===0?"vi":k===1?"iii":"ii"];
+    return ring==="m"?(k===0?["r0","i"]:["r1",k===1?"v":"iv"]):["r2",k===0?"III":k===1?"VII":"VI"]}
   function draw(){let h="";
-    for(let i=0;i<12;i++){const a0=(i*30-105)*Math.PI/180,a1=(i*30-75)*Math.PI/180,am=(i*30-90)*Math.PI/180,[tx,ty]=P(130,am),[ux,uy]=P(87,am);
-      h+=`<g class="qw${i===sel?" on":""}" data-i="${i}"><path class="q1" d="${sector(108,152,a0,a1)}"/><text class="qt1" x="${tx}" y="${ty}">${MAJ[i]}</text><path class="q2" d="${sector(66,108,a0,a1)}"/><text class="qt2" x="${ux}" y="${uy}">${MIN[i]}</text></g>`}
-    h+=`<circle class="qc0" cx="160" cy="160" r="62"/><text class="qct" x="160" y="156">${MAJ[sel]}</text><text class="qcs" x="160" y="176">${acc(sel)}</text>`;
-    svg.innerHTML=h;info()}
-  function info(){let r=SH.indexOf(MAJ[sel]);if(r<0)r=FL.indexOf(MAJ[sel]);const nm=ACC[sel]<0?FL:SH;
-    const sc=[0,2,4,5,7,9,11].map(x=>nm[(r+x)%12]),q=["","m","m","","","m","dim"],ro=["I","ii","iii","IV","V","vi","vii°"];
-    $("qinfo").innerHTML=`<div class="qi"><b>${MAJ[sel]} mayor</b><span>${acc(sel)}</span></div><div class="qs">${sc.join(" · ")}</div><div class="qch">${sc.map((n,i)=>`<div>${n}${q[i]}<small>${ro[i]}</small></div>`).join("")}</div><small>Relativo menor: ${MIN[sel]}</small>`}
-  svg.onclick=e=>{const g=e.target.closest(".qw");if(g){sel=+g.dataset.i;draw()}};
+    for(let i=0;i<12;i++){const a0=(i*30-105)*Math.PI/180,a1=(i*30-75)*Math.PI/180,am=(i*30-90)*Math.PI/180,[tx,ty]=P(130,am),[ux,uy]=P(87,am),[c1,g1]=role("M",i),[c2,g2]=role("m",i);
+      h+=`<g class="qw" data-i="${i}"><path class="q1 ${c1}" d="${sector(108,152,a0,a1)}"/><text class="qt1${c1?"":" dm"}" x="${tx}" y="${ty-(g1?6:0)}">${MAJ[i]}</text>${g1?`<text class="qg" x="${tx}" y="${ty+10}">${g1}</text>`:""}<path class="q2 ${c2}" d="${sector(66,108,a0,a1)}"/><text class="qt2${c2?"":" dm"}" x="${ux}" y="${uy-(g2?5:0)}">${MIN[i]}</text>${g2?`<text class="qg" x="${ux}" y="${uy+9}">${g2}</text>`:""}</g>`}
+    h+=`<circle class="qc0" cx="160" cy="160" r="62"/><text class="qct" x="160" y="160">${sm==="M"?MAJ[si]:MIN[si]}</text>`;
+    svg.innerHTML=h}
+  svg.onclick=e=>{const g=e.target.closest(".qw");if(!g)return;si=+g.dataset.i;sm=e.target.classList.contains("q2")?"m":"M";draw()};
   draw()})();
 document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
 load();
