@@ -122,12 +122,12 @@ body.nochords .ci{display:none}
 .mobile-menu-icon{width:24px;height:24px}
 .mobile-cta{margin:26px 26px 40px}
 .mobile-cta-button{display:block;background:linear-gradient(135deg,#ff6b6b,#ee5a52);color:#fff;text-decoration:none;padding:18px;border-radius:18px;font-weight:600;font-size:1.05rem;text-align:center;box-shadow:0 10px 30px #ff6b6b4d}
-.content-section{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
+.content-section{min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
 .section-title{font-family:inherit;font-size:clamp(2rem,6vw,2.5rem);font-weight:700;margin:0 0 26px;color:#fff}
 .section-subtitle{font-size:1.1rem;opacity:.8;max-width:600px;line-height:1.6;margin:0 0 30px}
 #home{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%);padding:110px 16px 28px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-#car{position:relative;width:min(100%,calc((100dvh - 190px)*2/3),520px);aspect-ratio:2/3;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+#car{position:relative;width:min(100%,calc((100svh - 190px)*2/3),520px);aspect-ratio:2/3;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 #slides{position:absolute;inset:0;border-radius:28px;background:#ffffff0f;border:1px solid #ffffff26;box-shadow:0 20px 50px #0006,inset 0 1px 0 #ffffff26;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 #slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.96);transition:opacity .8s ease,transform .8s ease;pointer-events:none;-webkit-user-drag:none}
 #slides img.on{opacity:1;transform:scale(1)}
@@ -215,7 +215,7 @@ body.nochords .ci{display:none}
 #catgrid .v7{background:linear-gradient(135deg,#00c6ff9e,#0072ff9e)}
 .cg.sel .cv{border-color:#ffffffa6;box-shadow:0 0 0 4px #ffffff2e,0 10px 24px #00000033,inset 0 1px 0 #ffffffb3,inset 0 0 28px #ffffff40}
 @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
-#cres{display:flex;flex-direction:column;width:100%;max-width:720px;height:min(70dvh,640px);margin:0 auto;text-align:left;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;overflow:hidden}
+#cres{display:flex;flex-direction:column;width:100%;max-width:720px;height:min(70svh,640px);margin:0 auto;text-align:left;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;overflow:hidden}
 #cres.idle .chd,#cres.idle #citems{display:none}
 #chint{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:24px;text-align:center;color:#ffffffb3;font-size:1.05rem}
 #chint::before{content:"♪";font-size:2.6rem;opacity:.6;line-height:1}
@@ -251,7 +251,13 @@ body.nochords .ci{display:none}
 #cres .tt{align-self:end;font-size:1rem}
 #cres .it small{align-self:start;margin-top:2px}
 #cres .it:not(:has(small)) .tt{grid-row:1/3;align-self:center}
+#foot{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:38px 20px calc(34px + env(safe-area-inset-bottom,0px));background:linear-gradient(160deg,#0b1736 0%,#143a63 55%,#0e5f6b 100%);border-top:1px solid #ffffff26;box-shadow:inset 0 1px 0 #ffffff1a}
+#foot .fb{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.2rem;letter-spacing:.06em}
+#foot .logo-icon{width:34px;height:34px}
+#foot p{margin:4px 0 0;font-size:1.05rem;color:#d4fbf1;font-style:italic}
+#foot small{color:#ffffff8c;font-size:.8rem}
 :root{--nb:96px}
+html,body{overflow-anchor:none}
 @media(max-width:992px){:root{--nb:86px}}
 @media(max-width:480px){:root{--nb:72px}}
 .cg,.it,.ar,.cg *{-webkit-tap-highlight-color:transparent}
@@ -295,7 +301,6 @@ body.nochords .ci{display:none}
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-header"><div class="mobile-menu-brand"><div class="logo-icon"></div><span>HIMNOS</span></div><button class="mobile-menu-close" id="mobileMenuClose">×</button></div>
   <ul class="mobile-menu-nav" id="mnav"></ul>
-  <div class="mobile-cta"><a href="#himnario" data-go="canciones" class="mobile-cta-button">Get Started</a></div>
 </div>
 <section id="home" class="content-section"><h1 class="vh">Himnos</h1>
   <div id="car" aria-label="Galería"><div id="slides"></div><div id="dots"></div></div></section>
@@ -306,9 +311,8 @@ body.nochords .ci{display:none}
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
-<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior">‹</button><div class="cm"><small>Categorías</small><select id="csel" aria-label="Categoría"></select><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente">›</button></div><div id="citems"></div></div></section>
-<section id="portfolio" class="content-section"><h2 class="section-title">Portfolio</h2></section>
-<section id="contact" class="content-section"><h2 class="section-title">Contact</h2></section>
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior">‹</button><div class="cm"><select id="csel" aria-label="Categoría"></select><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente">›</button></div><div id="citems"></div></div></section>
+<footer id="foot"><div class="fb"><div class="logo-icon"></div><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
 </div>
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
@@ -402,7 +406,7 @@ function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.c
   const n=l.length,ch=it.children;
   for(let k=0;k<2;k++)l.forEach(([s,i])=>it.appendChild(card(s,i)));
   LP=ch[n].offsetLeft-ch[0].offsetLeft;it.scrollLeft=LP}
-$("items").addEventListener("scroll",()=>{if(!LP)return;const it=$("items");if(it.scrollLeft<LP*.5)it.scrollLeft+=LP;else if(it.scrollLeft>LP*1.5)it.scrollLeft-=LP},{passive:true});
+$("items").addEventListener("scroll",()=>{if(!LP)return;const it=$("items");if(it.scrollLeft<LP*.3)it.scrollLeft+=LP;else if(it.scrollLeft>LP*1.7)it.scrollLeft-=LP},{passive:true});
 function card(s,i){const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="tile"><div class="cv v${i%8}"><div class="num ${s.num?"":"no"}">${s.num||"♪"}</div></div></div><div class="tt">${esc(s.title)}</div>${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}`;
     d.onclick=()=>{location.hash=i};return d}
@@ -645,10 +649,9 @@ const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0
 ["canciones","Himnos",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
 ["categorias","Categorías",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
 ["nuevo","Nuevo",'<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"></path>'],
-["portfolio","Portfolio",'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 3h6v4"></path><path d="m22 7-10-4-10 4"></path>'],
-["contact","Contact",'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>']];
-$("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("")+'<li><a href="#canciones" data-go="canciones" class="cta-button">Get Started</a></li>';
-$("mnav").innerHTML=[NAV[0],NAV[3],NAV[1],NAV[2],NAV[4],NAV[5]].map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
+];
+$("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
+$("mnav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="mobile-menu-link${k?"":" active"}"><svg class="mobile-menu-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
 const mm=$("mobileMenu"),mo=$("mobileMenuOverlay"),mt=$("mobileToggle");
 function openM(o){[mm,mo,mt].forEach(x=>x.classList.toggle("active",o));}
 const closeM=()=>openM(false);
