@@ -396,6 +396,22 @@ html{scroll-snap-type:y mandatory}
 .qg{text-anchor:middle;dominant-baseline:central;fill:#fff;font-size:9px;font-weight:600;pointer-events:none;opacity:.95}
 .qct{font-size:30px;dominant-baseline:central}
 #tnote{margin-top:10px}
+
+/* ===== v4 ===== */
+html,body{overscroll-behavior-y:none}
+.content-section:not(#home){justify-content:flex-start}
+#head .num{flex:none;white-space:nowrap;align-self:center;width:auto;min-width:0;padding:6px 18px;line-height:1.2}
+#view #head .num{flex:none;white-space:nowrap}
+#qnav{left:0;right:0;bottom:calc(4px + env(safe-area-inset-bottom,0px));justify-content:space-between;padding:0 8px;pointer-events:none}
+#qnav button{pointer-events:auto;width:38px;height:38px;opacity:.78}
+.qw path.r0{fill:#ff6b6bb3;stroke:#ffffff99}
+.qw path.r1{fill:#4ecdc4a6;stroke:#ffffff99}
+.qw path.r2{fill:#6fb1ff99;stroke:#ffffff99}
+.qw path.r3{fill:#ffd27a8c;stroke:#ffffff99}
+.qw path.r0,.qw path.r1,.qw path.r2,.qw path.r3{filter:drop-shadow(0 0 6px #ffffff33)}
+#quintas .gcard{max-width:580px;padding:12px}
+#qsvg{width:min(100%,calc(100svh - var(--nb) - 150px),540px);max-width:none}
+.qt1,.qt2,.qg,.qct{paint-order:stroke;stroke:#00000040;stroke-width:2px;stroke-linejoin:round}
 </style>
 </head>
 <body>
@@ -435,7 +451,6 @@ html{scroll-snap-type:y mandatory}
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
   <div id="bar">
     <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
-    <button id="qb" style="display:none"></button>
     <button id="chb" class="on">Acordes</button>
     <button id="colb">🎨 Color</button>
     <button id="edit">✎ Editar</button>
@@ -443,7 +458,7 @@ html{scroll-snap-type:y mandatory}
   <div id="pal"></div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
-  <div id="qnav"><button id="qn" aria-label="Siguiente">›</button></div>
+  <div id="qnav"><button id="qp" aria-label="Anterior">‹</button><button id="qn" aria-label="Siguiente">›</button></div>
 </div>
 <div id="rm"><div class="rbox"><h3 id="rt">Nuevo repertorio</h3><input id="rname" placeholder="Nombre (ej. Culto del domingo)" autocomplete="off"><input id="rsq" placeholder="Buscar himno…" autocomplete="off"><div id="rpick"></div><small id="rmsg"></small><div class="rbtns"><button id="rsave" class="gb">Guardar</button><button id="rcancel" class="gb">Cancelar</button></div></div></div>
 <div id="pm"><div class="rbox"><h3 id="pmt"></h3><div id="pml"></div></div></div>
@@ -742,7 +757,7 @@ $("e_save").onclick=async()=>{
   let k=-1;
   for(let i=0;i<5&&k<0;i++){await wait(1500);await load(true);k=songs.findIndex(same)}
   if(k<0)return fail(resp==="ok"
-    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y pulsa ↻ Actualizar."
+    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y recarga la página."
     :"No pude confirmar que se guardó. Revisa el enlace /exec, que el acceso sea «Cualquier persona» y que la clave sea la misma.");
   if(renamed){ // se cambió número o nombre: quitar la versión vieja para que no quede duplicada
     emsg("Quitando la versión anterior…");
@@ -767,7 +782,7 @@ $("e_del").onclick=async()=>{
   try{resp=await post(url,delData(o,key))}
   catch(e){return end("No se pudo enviar: "+e.message)}
   if(resp==="clave incorrecta")return end("La clave no coincide con la que pusiste en el script.");
-  if(resp==="no encontrado")return end("No encontré ese himno en la hoja. Quizás ya lo borraste; pulsa ↻ Actualizar.");
+  if(resp==="no encontrado")return end("No encontré ese himno en la hoja. Quizás ya lo borraste; recarga la página.");
   if(resp!==null&&resp!=="ok")return end("El script respondió algo inesperado: "+resp.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160));
   emsg("Verificando…");
   for(let i=0;i<5;i++){
@@ -852,12 +867,12 @@ $("rsave").onclick=()=>{if(!rSel.length)return $("rmsg").textContent="Elige al m
   if(rEdit){rEdit.name=n;rEdit.keys=rSel.slice()}else reps.push({id:Date.now(),name:n,keys:rSel.slice()});
   saveReps();renderReps();$("rm").style.display="none"};
 function playSet(r){const q=r.keys.map(sidx).filter(i=>i>=0);if(!q.length)return;Q=q;location.hash=q[0]}
-function updateQ(){const el=$("qnav"),qb=$("qb");if(Q&&Q.indexOf(curI)<0)Q=null;
-  if(!Q){el.style.display="none";qb.style.display="none";return}
-  const p=Q.indexOf(curI);el.style.display=p>=Q.length-1?"none":"flex";
-  qb.style.display="inline-flex";qb.textContent="‹ "+(p+1)+"/"+Q.length;qb.disabled=p<=0}
+function updateQ(){const el=$("qnav");if(Q&&Q.indexOf(curI)<0)Q=null;
+  if(!Q){el.style.display="none";return}
+  const p=Q.indexOf(curI);el.style.display="flex";
+  $("qp").style.visibility=p<=0?"hidden":"visible";$("qn").style.visibility=p>=Q.length-1?"hidden":"visible"}
 function stepQ(d){if(!Q)return;const p=Q.indexOf(curI)+d;if(p>=0&&p<Q.length)location.replace(location.pathname+location.search+"#"+Q[p])}
-$("qb").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
+$("qp").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
 renderReps();
 
 // ===== afinación de guitarra =====
@@ -902,12 +917,12 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tu
   const svg=$("qsvg");let si=0,sm="M";
   const P=(r,a)=>[160+r*Math.cos(a),160+r*Math.sin(a)];
   const sector=(r1,r2,a0,a1)=>{const[a,b]=P(r2,a0),[c,d]=P(r2,a1),[e,f]=P(r1,a1),[g,h]=P(r1,a0);return `M${a} ${b}A${r2} ${r2} 0 0 1 ${c} ${d}L${e} ${f}A${r1} ${r1} 0 0 0 ${g} ${h}Z`};
-  function role(ring,i){const d=(i-si+12)%12;if(d>1&&d<11)return["",""];const k=d===0?0:d===1?1:-1;
+  function role(ring,i){const d=(i-si+12)%12;if(ring==="m"&&d===2)return["r3",sm==="M"?"vii°":"ii°"];if(d>1&&d<11)return["",""];const k=d===0?0:d===1?1:-1;
     if(sm==="M")return ring==="M"?(k===0?["r0","I"]:["r1",k===1?"V":"IV"]):["r2",k===0?"vi":k===1?"iii":"ii"];
     return ring==="m"?(k===0?["r0","i"]:["r1",k===1?"v":"iv"]):["r2",k===0?"III":k===1?"VII":"VI"]}
   function draw(){let h="";
     for(let i=0;i<12;i++){const a0=(i*30-105)*Math.PI/180,a1=(i*30-75)*Math.PI/180,am=(i*30-90)*Math.PI/180,[tx,ty]=P(130,am),[ux,uy]=P(87,am),[c1,g1]=role("M",i),[c2,g2]=role("m",i);
-      h+=`<g class="qw" data-i="${i}"><path class="q1 ${c1}" d="${sector(108,152,a0,a1)}"/><text class="qt1${c1?"":" dm"}" x="${tx}" y="${ty-(g1?6:0)}">${MAJ[i]}</text>${g1?`<text class="qg" x="${tx}" y="${ty+10}">${g1}</text>`:""}<path class="q2 ${c2}" d="${sector(66,108,a0,a1)}"/><text class="qt2${c2?"":" dm"}" x="${ux}" y="${uy-(g2?5:0)}">${MIN[i]}</text>${g2?`<text class="qg" x="${ux}" y="${uy+9}">${g2}</text>`:""}</g>`}
+      h+=`<g class="qw" data-i="${i}"><path class="q1 ${c1}" d="${sector(108,152,a0,a1)}"/><text class="qt1${c1?"":" dm"}" x="${tx}" y="${ty-(g1?6:0)}">${MAJ[i]}</text>${g1?`<text class="qg" x="${tx}" y="${ty+10}">${g1}</text>`:""}<path class="q2 ${c2}" d="${sector(66,108,a0,a1)}"/><text class="qt2${c2?"":" dm"}" x="${ux}" y="${uy-(g2?5:0)}">${c2==="r3"?MIN[i].replace(/m$/,"°"):MIN[i]}</text>${g2?`<text class="qg" x="${ux}" y="${uy+9}">${g2}</text>`:""}</g>`}
     h+=`<circle class="qc0" cx="160" cy="160" r="62"/><text class="qct" x="160" y="160">${sm==="M"?MAJ[si]:MIN[si]}</text>`;
     svg.innerHTML=h}
   svg.onclick=e=>{const g=e.target.closest(".qw");if(!g)return;si=+g.dataset.i;sm=e.target.classList.contains("q2")?"m":"M";draw()};
