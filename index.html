@@ -462,6 +462,10 @@ html{scroll-snap-type:none}
 @media (hover:none) and (pointer:coarse){
 html{overflow-y:hidden;overscroll-behavior:none}
 }
+
+/* ===== v9: barra de scroll invisible en repertorio ===== */
+#rlist,#rpick,#pml{scrollbar-width:none;-ms-overflow-style:none}
+#rlist::-webkit-scrollbar,#rpick::-webkit-scrollbar,#pml::-webkit-scrollbar{display:none;width:0;height:0;background:transparent}
 </style>
 </head>
 <body>
@@ -982,11 +986,12 @@ document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElem
 
 // ===== flechas de sección (arriba / abajo) =====
 (function(){const nx=$("nx"),pv=$("pv"),secs=()=>[...document.querySelectorAll(".content-section"),$("foot")];
-  const cur=()=>{const a=secs();let b=0,bd=1e9;a.forEach((e,i)=>{const d=Math.abs(e.getBoundingClientRect().top);if(d<bd){bd=d;b=i}});return b};
+  const atEnd=()=>scrollY+innerHeight>=document.documentElement.scrollHeight-4;
+  const cur=()=>{const a=secs();if(atEnd())return a.length-1;let b=0;a.forEach((e,i)=>{if(e.getBoundingClientRect().top<=40)b=i});return b};
   const upd=()=>{const c=cur();nx.classList.toggle("gone",c>=secs().length-1);pv.classList.toggle("gone",c<=0)};
   addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
   const go=(b,d)=>{b.classList.remove("fx");void b.offsetWidth;b.classList.add("fx");
-    const a=secs(),n=a[Math.max(0,Math.min(cur()+d,a.length-1))];scrollTo({top:n.getBoundingClientRect().top+scrollY,behavior:"smooth"})};
+    const a=secs(),c=cur(),mid=!atEnd()&&a[c].getBoundingClientRect().top<-40,n=a[Math.max(0,Math.min(d<0&&mid?c:c+d,a.length-1))];scrollTo({top:n.getBoundingClientRect().top+scrollY,behavior:"smooth"})};
   nx.onclick=()=>go(nx,1);pv.onclick=()=>go(pv,-1)})();
 load();
 </script>
