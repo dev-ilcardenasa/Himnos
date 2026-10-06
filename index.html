@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Himnario</title>
 <style>
@@ -89,14 +89,14 @@ body.nochords .ci{display:none}
 #fl i:nth-child(2){width:120px;height:120px;top:60%;right:15%;animation-delay:2s}
 #fl i:nth-child(3){width:60px;height:60px;bottom:20%;left:20%;animation-delay:4s}
 @keyframes flt{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(180deg)}}
-.navbar-container{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:1000;width:calc(100% - 60px);max-width:1000px}
+.navbar-container{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:1000;width:calc(100% - 60px);max-width:1120px}
 .navbar{background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #fff3;border-radius:50px;padding:12px 25px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 20px 40px #0000001a,inset 0 1px 0 #fff3}
 .navbar-brand,.mobile-menu-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;font-weight:700;font-size:1.4rem}
 .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#ff6b6b,#4ecdc4);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 16px #0003}
 .logo-icon::before{content:'';position:absolute;width:20px;height:20px;background:#ffffffe6;border-radius:50%;animation:lp 2s ease-in-out infinite}
 @keyframes lp{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.2);opacity:1}}
 .navbar-nav{display:flex;align-items:center;gap:5px}
-.nav-link{display:flex;align-items:center;gap:6px;padding:10px 16px;text-decoration:none;color:#ffffffe6;font-weight:500;font-size:.9rem;border-radius:25px;transition:all .3s;white-space:nowrap}
+.nav-link{display:flex;align-items:center;gap:6px;padding:10px 13px;text-decoration:none;color:#ffffffe6;font-weight:500;font-size:.88rem;border-radius:25px;transition:all .3s;white-space:nowrap}
 .nav-link:hover{color:#fff;transform:translateY(-2px);background:#ffffff1a;box-shadow:0 8px 20px #00000026}
 .nav-link.active{background:linear-gradient(135deg,#fff3,#ffffff1a);color:#fff;box-shadow:inset 0 1px 0 #ffffff4d,0 4px 12px #0000001a}
 .nav-icon,.mobile-menu-icon{width:16px;height:16px;fill:currentColor}
@@ -108,7 +108,7 @@ body.nochords .ci{display:none}
 .mobile-toggle.active .hamburger span:nth-child(1){transform:rotate(45deg) translate(6px,6px)}
 .mobile-toggle.active .hamburger span:nth-child(2){opacity:0;transform:translateX(-20px)}
 .mobile-toggle.active .hamburger span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
-@media(max-width:992px){.navbar-container{top:20px;width:calc(100% - 30px)}.navbar{padding:12px 20px}.mobile-toggle{display:flex}.navbar-nav{display:none}.brand-text{font-size:1.2rem}}
+@media(max-width:1180px){.navbar-container{top:20px;width:calc(100% - 30px)}.navbar{padding:12px 20px}.mobile-toggle{display:flex}.navbar-nav{display:none}.brand-text{font-size:1.2rem}}
 @media(max-width:480px){.navbar-container{width:calc(100% - 20px);top:15px}.navbar{padding:10px 15px}.logo-icon{width:35px;height:35px}.brand-text{font-size:1.1rem}}
 .mobile-menu-overlay{position:fixed;inset:0;background:#000c;backdrop-filter:blur(10px);z-index:1500;opacity:0;visibility:hidden;transition:all .3s}
 .mobile-menu-overlay.active{opacity:1;visibility:visible}
@@ -122,7 +122,7 @@ body.nochords .ci{display:none}
 .mobile-menu-icon{width:24px;height:24px}
 .mobile-cta{margin:26px 26px 40px}
 .mobile-cta-button{display:block;background:linear-gradient(135deg,#ff6b6b,#ee5a52);color:#fff;text-decoration:none;padding:18px;border-radius:18px;font-weight:600;font-size:1.05rem;text-align:center;box-shadow:0 10px 30px #ff6b6b4d}
-.content-section{min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
+.content-section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:100px 20px 40px;text-align:center;position:relative}
 .section-title{font-family:inherit;font-size:clamp(2rem,6vw,2.5rem);font-weight:700;margin:0 0 26px;color:#fff}
 .section-subtitle{font-size:1.1rem;opacity:.8;max-width:600px;line-height:1.6;margin:0 0 30px}
 #home{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%);padding:110px 16px 28px}
@@ -215,7 +215,7 @@ body.nochords .ci{display:none}
 #catgrid .v7{background:linear-gradient(135deg,#00c6ff9e,#0072ff9e)}
 .cg.sel .cv{border-color:#ffffffa6;box-shadow:0 0 0 4px #ffffff2e,0 10px 24px #00000033,inset 0 1px 0 #ffffffb3,inset 0 0 28px #ffffff40}
 @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
-#cres{display:flex;flex-direction:column;width:100%;max-width:720px;height:min(70svh,640px);margin:0 auto;text-align:left;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;overflow:hidden}
+#cres{display:flex;flex-direction:column;width:100%;max-width:720px;height:calc(100svh - var(--nb) - 160px);min-height:320px;max-height:720px;margin:0 auto;text-align:left;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;overflow:hidden}
 #cres.idle .chd,#cres.idle #citems{display:none}
 #chint{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:24px;text-align:center;color:#ffffffb3;font-size:1.05rem}
 #chint::before{content:"♪";font-size:2.6rem;opacity:.6;line-height:1}
@@ -258,7 +258,7 @@ body.nochords .ci{display:none}
 #foot small{color:#ffffff8c;font-size:.8rem}
 :root{--nb:96px}
 html,body{overflow-anchor:none}
-@media(max-width:992px){:root{--nb:86px}}
+@media(max-width:1180px){:root{--nb:86px}}
 @media(max-width:480px){:root{--nb:72px}}
 .cg,.it,.ar,.cg *{-webkit-tap-highlight-color:transparent}
 .sq{position:relative;margin-bottom:2px}
@@ -287,6 +287,89 @@ html,body{overflow-anchor:none}
 #cf .bx{background:#0b1736f2;border:1px solid #ffffff33;border-radius:24px;color:#fff}
 #cf button{border-radius:25px;border:1px solid #ffffff40;background:#ffffff26}
 #ed{z-index:2000}#cf{z-index:2100}
+
+/* ===== v2: encaje, títulos de cristal, secciones nuevas ===== */
+html{scroll-snap-type:y mandatory}
+.content-section{scroll-snap-align:start}
+#foot{scroll-snap-align:end}
+.content-section:not(#home){padding-top:calc(var(--nb) + 26px)}
+#canciones{justify-content:center;padding-bottom:70px}
+#site,#ed,#view,#rm{font-family:'Poppins','Segoe UI',Tahoma,system-ui,sans-serif}
+.section-title{display:inline-block;font-family:'Poppins','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:clamp(1.3rem,4.6vw,1.8rem);padding:10px 32px;border-radius:50px;background:#ffffff1f;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #ffffff47;box-shadow:0 10px 30px #0000002e,inset 0 1px 0 #ffffff59;margin:0 0 26px;letter-spacing:.01em}
+#repertorio{background:linear-gradient(135deg,#0e5f6b 0%,#134e5e 45%,#1b2a4e 100%)}
+#afinacion{background:linear-gradient(135deg,#0b1736 0%,#143a63 50%,#0e7c86 100%)}
+#quintas{background:linear-gradient(135deg,#0e7c86 0%,#143a63 55%,#1b1f4d 100%)}
+.gcard{width:100%;max-width:520px;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid #ffffff40;border-radius:24px;padding:20px;box-shadow:0 20px 40px #0000002e,inset 0 1px 0 #ffffff40;text-align:center}
+.gb{background:#ffffff26;border:1px solid #ffffff40;border-radius:25px;color:#fff;padding:12px 22px;font-weight:600;transition:all .3s}
+.gb:hover{background:#ffffff40}
+#rnew,#tmic,#rsave{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border:0;box-shadow:0 8px 20px #ff6b6b4d}
+/* categorías */
+#cres .chd{background:linear-gradient(135deg,#ffffff24,#ffffff0d);padding:14px 14px}
+#csel{font-weight:600;font-size:1.35rem;letter-spacing:.01em;padding:2px 26px 2px 8px;width:auto;max-width:100%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 4px center/14px}
+.cb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.cb{display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 #ffffff40}
+#cres .chd #cct{background:#ffffff24;border:1px solid #ffffff40;border-radius:20px;padding:2px 12px;font-size:.78rem;color:#e8fff9;margin-top:4px}
+/* repertorio */
+#rep{width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;gap:16px}
+#rlist{width:100%;display:flex;flex-direction:column;gap:14px;max-height:calc(100svh - var(--nb) - 240px);overflow-y:auto;overscroll-behavior:contain;padding:2px}
+.rhint{background:#ffffff14;border:1px dashed #ffffff4d;border-radius:20px;padding:28px 18px;color:#ffffffbf;line-height:1.5}
+.rc{background:#ffffff1a;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid #ffffff40;border-radius:20px;padding:16px;text-align:left;box-shadow:0 10px 24px #00000026,inset 0 1px 0 #ffffff40}
+.rh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.rh b{font-size:1.15rem}.rh small{color:#d4fbf1}
+.rc ol{margin:10px 0 12px;padding-left:22px;color:#d4fbf1;font-size:.9rem;line-height:1.5}
+.rc .mo{list-style:none;margin-left:-22px;opacity:.7}
+.rb{display:flex;gap:8px;flex-wrap:wrap}
+.rb button{min-height:38px;padding:8px 16px;border-radius:25px;background:#ffffff26;border:1px solid #ffffff40;color:#fff;font-size:.9rem}
+.rb .go{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border:0;font-weight:600}
+#rm{display:none;position:fixed;inset:0;z-index:2200;background:#000a;align-items:center;justify-content:center;padding:16px}
+.rbox{width:100%;max-width:520px;max-height:88svh;display:flex;flex-direction:column;gap:10px;background:linear-gradient(160deg,#0b1736f5,#143a63f5);border:1px solid #ffffff40;border-radius:24px;padding:20px;color:#fff;box-shadow:0 20px 50px #0009}
+.rbox h3{margin:0 0 2px;font-size:1.25rem}
+.rbox input{width:100%;padding:12px 16px;border-radius:14px;border:1px solid #ffffff4d;background:#ffffff1f;color:#fff;outline:0}
+.rbox input::placeholder{color:#ffffff8c}
+#rpick{flex:1;min-height:160px;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px}
+.rp{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:#ffffff14;border:1px solid #ffffff26;cursor:pointer;flex:none}
+.rp.on{background:#4ecdc433;border-color:#4ecdc4}
+.rn{width:28px;height:28px;border-radius:50%;border:1.5px solid #ffffff59;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex:none}
+.rp.on .rn{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border-color:transparent}
+#rmsg{color:#ffd27a;min-height:1em}
+.rbtns{display:flex;gap:8px;justify-content:flex-end}
+#qnav{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:14;align-items:center;gap:6px;padding:6px 8px;border-radius:50px;background:#ffffff26;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #ffffff4d;box-shadow:0 10px 24px #0004}
+#qnav button{width:44px;height:44px;min-height:0;padding:0;border-radius:50%;background:#ffffff26;border:1px solid #ffffff40;color:#fff;font-size:1.6rem;line-height:1}
+#qnav button:disabled{opacity:.35}
+#qc{min-width:64px;text-align:center;color:#fff;font-size:.9rem;font-weight:600}
+/* afinación */
+#tsel{width:100%;padding:12px 16px;border-radius:14px;border:1px solid #ffffff4d;background:#ffffff1f;color:#fff;outline:0;font-weight:600}
+#tsel option{color:#000}
+#strs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:16px 0}
+#strs button{aspect-ratio:1;min-height:0;padding:0;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ffffff1f;border:1px solid #ffffff4d;color:#fff;font-weight:700;font-size:.95rem;line-height:1.1}
+#strs button small{font-size:.62rem;font-weight:400;opacity:.8}
+#strs button.hit{background:linear-gradient(135deg,#4ecdc4,#38ef7d);color:#0b1736;border-color:transparent}
+#tnote{font-size:3.2rem;font-weight:700;line-height:1.1;margin-top:6px}
+#tbar{position:relative;height:10px;border-radius:10px;background:linear-gradient(90deg,#ff6b6b,#ffd27a 35%,#38ef7d 50%,#ffd27a 65%,#ff6b6b);margin:20px 8px 10px}
+#tneedle{position:absolute;top:-8px;left:50%;width:4px;height:26px;border-radius:3px;background:#fff;transform:translateX(-50%);transition:left .12s;box-shadow:0 0 8px #0006}
+#thz{display:block;color:#d4fbf1;min-height:1.2em;margin-bottom:14px}
+/* círculo de quintas */
+#qsvg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto}
+.qw{cursor:pointer}
+.qw path{fill:#ffffff1a;stroke:#ffffff40;stroke-width:1;transition:fill .2s}
+.qw .q2{fill:#ffffff0f}
+.qw:hover path{fill:#ffffff33}
+.qw.on .q1{fill:#ff6b6b}
+.qw.on .q2{fill:#4ecdc4a6}
+.qt1,.qt2{text-anchor:middle;dominant-baseline:central;fill:#fff;font-weight:600;pointer-events:none}
+.qt1{font-size:17px}.qt2{font-size:12px;opacity:.9}
+.qc0{fill:#0b1736cc;stroke:#ffffff40}
+.qct{text-anchor:middle;fill:#fff;font-size:26px;font-weight:700}
+.qcs{text-anchor:middle;fill:#d4fbf1;font-size:10px}
+#qinfo{margin-top:12px;text-align:left}
+.qi{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.qi b{font-size:1.1rem}.qi span{color:#d4fbf1;font-size:.85rem}
+.qs{color:#d4fbf1;font-size:.9rem;margin-bottom:10px;letter-spacing:.04em}
+.qch{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.qch div{background:#ffffff1a;border:1px solid #ffffff33;border-radius:12px;padding:6px 4px;text-align:center;font-weight:600;font-size:.95rem}
+.qch div small{display:block;font-size:.65rem;opacity:.7;font-weight:400}
+#qinfo>small{color:#ffffffa6}
+#foot .fb{font-size:1.1rem}
 </style>
 </head>
 <body>
@@ -311,8 +394,16 @@ html,body{overflow-anchor:none}
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
-<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior">‹</button><div class="cm"><select id="csel" aria-label="Categoría"></select><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente">›</button></div><div id="citems"></div></div></section>
-<footer id="foot"><div class="fb"><div class="logo-icon"></div><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="cm"><select id="csel" aria-label="Categoría"></select><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div><div id="citems"></div></div></section>
+<section id="repertorio" class="content-section"><h2 class="section-title">Repertorio</h2>
+  <div id="rep"><div id="rlist"></div><button id="rnew" class="gb">+ Crear repertorio</button></div></section>
+<section id="afinacion" class="content-section"><h2 class="section-title">Afinación de guitarra</h2>
+  <div class="gcard"><select id="tsel" aria-label="Afinación"></select><div id="strs"></div>
+  <div id="tnote">—</div><div id="tbar"><i id="tneedle"></i></div><small id="thz">Toca una cuerda para escucharla</small>
+  <button id="tmic" class="gb">Afinar con micrófono</button></div></section>
+<section id="quintas" class="content-section"><h2 class="section-title">Círculo de quintas</h2>
+  <div class="gcard"><svg id="qsvg" viewBox="0 0 320 320"></svg><div id="qinfo"></div></div></section>
+<footer id="foot"><div class="fb"><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
 </div>
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
@@ -325,7 +416,9 @@ html,body{overflow-anchor:none}
   <div id="pal"></div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
+  <div id="qnav"><button id="qp" aria-label="Anterior">‹</button><span id="qc"></span><button id="qn" aria-label="Siguiente">›</button></div>
 </div>
+<div id="rm"><div class="rbox"><h3 id="rt">Nuevo repertorio</h3><input id="rname" placeholder="Nombre (ej. Culto del domingo)" autocomplete="off"><input id="rsq" placeholder="Buscar himno…" autocomplete="off"><div id="rpick"></div><small id="rmsg"></small><div class="rbtns"><button id="rsave" class="gb">Guardar</button><button id="rcancel" class="gb">Cancelar</button></div></div></div>
 <div id="cf"><div class="bx"><p id="cft"></p><button id="cf_si">Sí, eliminar</button><button id="cf_no" class="on">No</button></div></div>
 <div id="ed"><div class="in">
   <h1 id="edt">Nuevo himno</h1>
@@ -339,8 +432,8 @@ html,body{overflow-anchor:none}
   <div class="tb"><button type="button" data-i="[Estrofa]">+ Estrofa</button><button type="button" data-i="[Coro]">+ Coro</button><button type="button" data-i="[Columna]" title="Lo que sigue pasa a la columna de la derecha">+ Pasar a la derecha</button></div>
   <textarea id="e_let" wrap="off" spellcheck="false"></textarea>
   <details id="cn"><summary>⚙ Conexión con Google Sheets</summary>
-    <label>Enlace de la aplicación web (Apps Script)</label><input id="e_url" placeholder="https://script.google.com/macros/s/.../exec">
-    <label>Clave</label><input id="e_key" type="password"></details>
+    <label>Enlace de la aplicación web (Apps Script)</label><input id="e_url" autocomplete="off" placeholder="https://script.google.com/macros/s/.../exec">
+    <label>Clave</label><input id="e_key" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" style="-webkit-text-security:disc"></details>
   <div id="edmsg"></div>
   <div class="btns"><button id="e_save" class="on">Guardar en Google Sheets</button><button id="e_x">Cancelar</button><button id="e_del" style="display:none">🗑 Borrar himno</button></div>
 </div></div>
@@ -352,8 +445,12 @@ const URLS=[
  "https://docs.google.com/spreadsheets/d/"+ID+"/export?format=csv&gid=0",
  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuYxY7rCdH1x_wbM0tXiX0AQOKj2tOiBwJPBTrAE9ulYtnGIWiAyolBqDQTUUJFT94KQ_697S0ncB1/pub?gid=0&single=true&output=csv"];
 const $=id=>document.getElementById(id);
-const LS=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
-let sy=0,songs=[],cur=null,semis=0,wl=null,cat="",ovr=null;
+const CK=k=>k==="hurl"||k==="hkey";
+const LS=k=>{let v="";try{v=localStorage.getItem(k)||""}catch(e){}
+  if(!v&&CK(k)){const m=document.cookie.match(new RegExp("(?:^|; )"+k+"=([^;]*)"));if(m)v=decodeURIComponent(m[1])}return v},
+SV=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}
+  if(CK(k))document.cookie=k+"="+encodeURIComponent(v)+";max-age=31536000;path=/;SameSite=Lax"};
+let Q=null,curI=-1,sy=0,songs=[],cur=null,semis=0,wl=null,cat="",ovr=null;
 const fold=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
 const LAYRE=/^\[columnas?\s*[:=]?\s*([12])\]$/i;
 
@@ -384,14 +481,14 @@ async function load(quiet){
 function renderCats(){
   const cs=[...new Set(songs.map(s=>s.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
   if(cat&&!cs.includes(cat))cat="";
-  renderCatGrid(cs)}
+  renderCatGrid(cs);renderReps()}
 let ccat="";
 function renderCres(){const c=$("citems");c.innerHTML="";let n=0;
   songs.forEach((s,i)=>{if(!ccat||s.cat===ccat){c.appendChild(card(s,i));n++}});
   $("cct").textContent=n+(n==1?" himno":" himnos");c.scrollTop=0}
 function renderCatGrid(cs){if(ccat&&!cs.includes(ccat))ccat="";
   const sel=$("csel"),n=c=>c?songs.filter(s=>s.cat===c).length:songs.length;sel.innerHTML="";
-  [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t+" ("+n(v)+")";sel.appendChild(o)});
+  [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;sel.appendChild(o)});
   sel.value=ccat;renderCres()}
 function stepCat(d){const sel=$("csel"),n=sel.options.length;if(!n)return;sel.selectedIndex=(sel.selectedIndex+d+n)%n;ccat=sel.value;renderCres()}
 $("csel").onchange=e=>{ccat=e.target.value;renderCres()};
@@ -409,7 +506,7 @@ function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.c
 $("items").addEventListener("scroll",()=>{if(!LP)return;const it=$("items");if(it.scrollLeft<LP*.3)it.scrollLeft+=LP;else if(it.scrollLeft>LP*1.7)it.scrollLeft-=LP},{passive:true});
 function card(s,i){const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="tile"><div class="cv v${i%8}"><div class="num ${s.num?"":"no"}">${s.num||"♪"}</div></div></div><div class="tt">${esc(s.title)}</div>${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}`;
-    d.onclick=()=>{location.hash=i};return d}
+    d.onclick=()=>{Q=null;location.hash=i};return d}
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("q").oninput=renderList;
 
@@ -515,17 +612,19 @@ W_.addEventListener("mousedown",e=>{if(Z!==1)MD={x:e.clientX,y:e.clientY,tx:TX,t
 addEventListener("mousemove",e=>{if(MD){TX=MD.tx+e.clientX-MD.x;TY=MD.ty+e.clientY-MD.y;applyT()}});
 addEventListener("mouseup",()=>{MD=null});
 
-const COLS={chord:["#ff6b6b","#4ecdc4","#38ef7d","#5b86e5","#ffffff","#000000"],
-            lyric:["#ffffff","#000000","#d4fbf1","#bfe3ff"],
-            bg:["gradient","#000000","#ffffff","#0b1736","#143a63","#0e7c86"]};
+const COLS={chord:["#ff6b6b","#4ecdc4","#7dffb8","#6fb1ff","#ffffff","#000000"],
+            lyric:["#ffffff","#000000","#d4fbf1"],
+            bg:["gradient","#000000","#ffffff","g2","g3","g4","g5"]};
+const BGS={gradient:"transparent",g2:"linear-gradient(135deg,#0b1736 0%,#0e5f6b 100%)",g3:"linear-gradient(135deg,#073b44 0%,#0e7c86 60%,#1a9e86 100%)",g4:"linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%)",g5:"linear-gradient(135deg,#14213d 0%,#24336b 55%,#0e7c86 100%)"};
+const SW=Object.assign({},BGS,{gradient:"linear-gradient(160deg,#0b1736,#143a63 40%,#0e7c86)"});
 const NAMES={chord:"Acordes",lyric:"Letra",bg:"Fondo"};
-let sel;try{sel=JSON.parse(LS("hcol4")||"null")}catch(e){sel=null}
+let sel;try{sel=JSON.parse(LS("hcol5")||"null")}catch(e){sel=null}
 sel=Object.assign({chord:COLS.chord[0],lyric:COLS.lyric[0],bg:"gradient"},sel||{});
-function applyCols(){const v=$("view").style;v.setProperty("--chord",sel.chord);v.setProperty("--lyric",sel.lyric);v.setProperty("--vbg",sel.bg==="gradient"?"transparent":sel.bg)}
+function applyCols(){const v=$("view").style;v.setProperty("--chord",sel.chord);v.setProperty("--lyric",sel.lyric);v.setProperty("--vbg",BGS[sel.bg]||sel.bg)}
 function renderPal(){const p=$("pal");p.innerHTML="";
   Object.keys(COLS).forEach(k=>{const r=document.createElement("div");r.className="r";r.innerHTML=`<span>${NAMES[k]}</span>`;
-    COLS[k].forEach(c=>{const b=document.createElement("button");b.className="sw"+(sel[k]===c?" on":"");b.style.background=c==="gradient"?"linear-gradient(160deg,#0b1736,#143a63 40%,#0e7c86)":c;b.title=c;
-      b.onclick=()=>{sel[k]=c;SV("hcol4",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
+    COLS[k].forEach(c=>{const b=document.createElement("button");b.className="sw"+(sel[k]===c?" on":"");b.style.background=SW[c]||c;b.title=c;
+      b.onclick=()=>{sel[k]=c;SV("hcol5",JSON.stringify(sel));applyCols();renderPal()};r.appendChild(b)});
     p.appendChild(r)})}
 $("colb").onclick=()=>{renderPal();$("pal").classList.toggle("open")};
 applyCols();
@@ -543,8 +642,8 @@ document.addEventListener("visibilitychange",()=>{if(cur&&document.visibilitySta
 function route(){
   const i=parseInt(location.hash.slice(1));
   $("pal").classList.remove("open");
-  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;ovr=null;sy=scrollY;$("site").style.display="none";$("view").style.display="flex";keepAwake(true);build()}
-  else{cur=null;$("view").style.display="none";$("site").style.display="block";scrollTo(0,sy);keepAwake(false)}}
+  if(songs[i]){cur=songs[i];semis=0;Z=1;TX=0;TY=0;ovr=null;if($("site").style.display!=="none")sy=scrollY;curI=i;tunerOff();$("site").style.display="none";$("view").style.display="flex";keepAwake(true);build();updateQ()}
+  else{cur=null;Q=null;$("qnav").style.display="none";$("view").style.display="none";$("site").style.display="block";scrollTo(0,sy);keepAwake(false)}}
 addEventListener("hashchange",route);
 document.fonts&&document.fonts.ready.then(()=>{if(cur)layout()});
 
@@ -648,6 +747,9 @@ $("e_del").onclick=async()=>{
 const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>'],
 ["canciones","Himnos",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
 ["categorias","Categorías",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
+["repertorio","Repertorio",'<path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h12v3H3z"></path>'],
+["afinacion","Afinación",'<path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"></path>'],
+["quintas","Quintas",'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"></path>'],
 ["nuevo","Nuevo",'<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"></path>'],
 ];
 $("navbarNav").innerHTML=NAV.map(([id,t,ic],k)=>`<li><a href="#${id}" data-go="${id}" class="nav-link${k?"":" active"}"><svg class="nav-icon" viewBox="0 0 24 24">${ic}</svg><span>${t}</span></a></li>`).join("");
@@ -684,6 +786,103 @@ const IMGS=["data:image/webp;base64,UklGRkSvAgBXRUJQVlA4WAoAAAAQAAAAfwIAvwMAQUxQ
     r.onresult=e=>{let t=e.results[0][0].transcript.trim().replace(/[.,;!?¿¡]/g,"").replace(/^(el\s+)?(himno)\s+(n[uú]mero\s+)?/i,"");$("q").value=t;renderList()};
     r.onend=()=>{m.classList.remove("on");r=null};r.onerror=()=>{m.classList.remove("on");r=null};
     try{r.start()}catch(e){r=null;m.classList.remove("on")}}})();
+// ===== repertorios (listas de himnos en el orden elegido) =====
+let reps=[];try{reps=JSON.parse(LS("hrep")||"[]")}catch(e){reps=[]}
+const saveReps=()=>SV("hrep",JSON.stringify(reps));
+const skey=s=>s.num+"§"+s.title;
+const sidx=k=>songs.findIndex(s=>skey(s)===k);
+function renderReps(){const el=$("rlist");
+  if(!reps.length){el.innerHTML='<div class="rhint">Aún no tienes repertorios.<br>Crea uno para ordenar los himnos del culto.</div>';return}
+  el.innerHTML="";
+  reps.forEach(r=>{const d=document.createElement("div");d.className="rc";
+    const ls=r.keys.map(k=>songs[sidx(k)]).filter(Boolean);
+    d.innerHTML=`<div class="rh"><b>${esc(r.name)}</b><small>${ls.length} ${ls.length==1?"himno":"himnos"}</small></div><ol>${ls.slice(0,5).map(x=>`<li>${esc((x.num?x.num+" · ":"")+x.title)}</li>`).join("")}${ls.length>5?`<li class="mo">+${ls.length-5} más</li>`:""}</ol><div class="rb"><button class="go">▶ Abrir</button><button class="ed">Editar</button><button class="dl">Eliminar</button></div>`;
+    d.querySelector(".go").onclick=()=>playSet(r);
+    d.querySelector(".ed").onclick=()=>openRep(r);
+    d.querySelector(".dl").onclick=async()=>{if(await ask("¿Eliminar el repertorio «"+r.name+"»?")){reps=reps.filter(x=>x.id!==r.id);saveReps();renderReps()}};
+    el.appendChild(d)})}
+let rEdit=null,rSel=[];
+function openRep(r){rEdit=r||null;rSel=r?r.keys.filter(k=>sidx(k)>=0):[];
+  $("rname").value=r?r.name:"";$("rsq").value="";$("rmsg").textContent="";$("rt").textContent=r?"Editar repertorio":"Nuevo repertorio";
+  drawPick();$("rpick").scrollTop=0;$("rm").style.display="flex"}
+function drawPick(){const ws=fold($("rsq").value).split(" ").filter(Boolean),box=$("rpick"),st=box.scrollTop;box.innerHTML="";
+  songs.forEach(x=>{if(!ws.every(w=>fold(x.num+" "+x.title).includes(w)))return;const k=skey(x),p=rSel.indexOf(k);
+    const d=document.createElement("div");d.className="rp"+(p>=0?" on":"");
+    d.innerHTML=`<span class="rn">${p>=0?p+1:""}</span><span>${esc((x.num?x.num+" · ":"")+x.title)}</span>`;
+    d.onclick=()=>{const q=rSel.indexOf(k);if(q>=0)rSel.splice(q,1);else rSel.push(k);$("rmsg").textContent="";drawPick()};
+    box.appendChild(d)});box.scrollTop=st}
+$("rnew").onclick=()=>openRep();
+$("rsq").oninput=drawPick;
+$("rcancel").onclick=()=>{$("rm").style.display="none"};
+$("rsave").onclick=()=>{if(!rSel.length)return $("rmsg").textContent="Elige al menos un himno.";
+  const n=$("rname").value.trim()||"Repertorio "+(reps.length+1);
+  if(rEdit){rEdit.name=n;rEdit.keys=rSel.slice()}else reps.push({id:Date.now(),name:n,keys:rSel.slice()});
+  saveReps();renderReps();$("rm").style.display="none"};
+function playSet(r){const q=r.keys.map(sidx).filter(i=>i>=0);if(!q.length)return;Q=q;location.hash=q[0]}
+function updateQ(){const el=$("qnav");if(Q&&Q.indexOf(curI)<0)Q=null;
+  if(!Q){el.style.display="none";return}
+  const p=Q.indexOf(curI);el.style.display="flex";$("qc").textContent=(p+1)+" / "+Q.length;$("qp").disabled=p<=0;$("qn").disabled=p>=Q.length-1}
+function stepQ(d){if(!Q)return;const p=Q.indexOf(curI)+d;if(p>=0&&p<Q.length)location.replace(location.pathname+location.search+"#"+Q[p])}
+$("qp").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
+renderReps();
+
+// ===== afinación de guitarra =====
+const NN=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const mfreq=m=>440*Math.pow(2,(m-69)/12),mname=m=>NN[((m%12)+12)%12]+(Math.floor(m/12)-1);
+const TUN={"Estándar (E A D G B E)":[40,45,50,55,59,64],"Drop D":[38,45,50,55,59,64],"DADGAD":[38,45,50,55,57,62],"Medio tono abajo":[39,44,49,54,58,63],"Open G":[38,43,50,55,59,62],"Open D":[38,45,50,54,57,62]};
+let AC=null;const ac=()=>AC||(AC=new(window.AudioContext||window.webkitAudioContext)());
+function pluck(f){const a=ac();if(a.state==="suspended")a.resume();const t=a.currentTime,g=a.createGain();
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.5,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+2.6);
+  [[1,.6],[2,.25],[3,.1]].forEach(([m,v])=>{const o=a.createOscillator(),gg=a.createGain();o.type="triangle";o.frequency.value=f*m;gg.gain.value=v;o.connect(gg);gg.connect(g);o.start(t);o.stop(t+2.7)});
+  g.connect(a.destination)}
+function drawStrings(){const t=TUN[$("tsel").value],b=$("strs");b.innerHTML="";
+  t.forEach((m,i)=>{const x=document.createElement("button");x.innerHTML=`${mname(m).replace(/\d/,"")}<small>${6-i}ª</small>`;x.onclick=()=>pluck(mfreq(m));b.appendChild(x)})}
+$("tsel").innerHTML=Object.keys(TUN).map(k=>`<option>${k}</option>`).join("");
+$("tsel").onchange=drawStrings;drawStrings();
+let tStream=null,tTimer=0,tAn=null;
+function detectF(buf,sr){let r=0;for(let i=0;i<buf.length;i++)r+=buf[i]*buf[i];if(Math.sqrt(r/buf.length)<.01)return -1;
+  const n=buf.length,maxL=Math.floor(sr/60),minL=Math.floor(sr/1000),c=new Float32Array(maxL+2);
+  for(let l=minL;l<=maxL;l++){let s=0;for(let i=0;i<n-l;i++)s+=buf[i]*buf[i+l];c[l]=s}
+  let d=minL;while(d<maxL&&c[d]>c[d+1])d++;
+  let best=-1,bc=0;for(let l=d;l<=maxL;l++)if(c[l]>bc){bc=c[l];best=l}
+  if(best<=0)return -1;
+  const y1=c[best-1]||0,y2=c[best],y3=c[best+1]||0,den=y1-2*y2+y3,sh=den?.5*(y1-y3)/den:0;
+  return sr/(best+sh)}
+function tick(){const buf=new Float32Array(tAn.fftSize);tAn.getFloatTimeDomainData(buf);const f=detectF(buf,ac().sampleRate);
+  if(f>60&&f<1000){const m=69+12*Math.log2(f/440),t=TUN[$("tsel").value];let bi=0,bd=1e9;
+    t.forEach((x,i)=>{const dd=Math.abs(m-x);if(dd<bd){bd=dd;bi=i}});
+    const c=Math.round((m-t[bi])*100);
+    [...$("strs").children].forEach((e,i)=>e.classList.toggle("hit",i===bi));
+    $("tnote").textContent=mname(t[bi]).replace(/\d/,"");
+    $("tneedle").style.left=(50+Math.max(-50,Math.min(50,c)))+"%";
+    $("thz").textContent=f.toFixed(1)+" Hz · "+(Math.abs(c)<=5?"¡Afinada!":c<0?"Sube ↑":"Baja ↓")+" ("+(c>0?"+":"")+c+"¢)"}}
+async function tunerOn(){try{const a=ac();if(a.state==="suspended")await a.resume();
+  tStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+  const src=a.createMediaStreamSource(tStream);tAn=a.createAnalyser();tAn.fftSize=2048;src.connect(tAn);
+  $("tmic").textContent="Detener micrófono";$("thz").textContent="Haz sonar una cuerda…";tTimer=setInterval(tick,90)}
+  catch(e){$("thz").textContent="No se pudo usar el micrófono (revisa el permiso)"}}
+function tunerOff(){clearInterval(tTimer);tTimer=0;if(tStream){tStream.getTracks().forEach(t=>t.stop());tStream=null}
+  $("tmic").textContent="Afinar con micrófono";$("tnote").textContent="—";$("tneedle").style.left="50%";$("thz").textContent="Toca una cuerda para escucharla";
+  [...$("strs").children].forEach(e=>e.classList.remove("hit"))}
+$("tmic").onclick=()=>tStream?tunerOff():tunerOn();
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tunerOff()});
+
+// ===== círculo de quintas =====
+(function(){const MAJ=["C","G","D","A","E","B","F#","Db","Ab","Eb","Bb","F"],MIN=["Am","Em","Bm","F#m","C#m","G#m","D#m","Bbm","Fm","Cm","Gm","Dm"],ACC=[0,1,2,3,4,5,6,-5,-4,-3,-2,-1];
+  const svg=$("qsvg");let sel=0;
+  const P=(r,a)=>[160+r*Math.cos(a),160+r*Math.sin(a)];
+  const sector=(r1,r2,a0,a1)=>{const[a,b]=P(r2,a0),[c,d]=P(r2,a1),[e,f]=P(r1,a1),[g,h]=P(r1,a0);return `M${a} ${b}A${r2} ${r2} 0 0 1 ${c} ${d}L${e} ${f}A${r1} ${r1} 0 0 0 ${g} ${h}Z`};
+  const acc=i=>{const n=ACC[i];return n==0?"Sin alteraciones":n>0?n+(n==1?" sostenido":" sostenidos"):(-n)+(n==-1?" bemol":" bemoles")};
+  function draw(){let h="";
+    for(let i=0;i<12;i++){const a0=(i*30-105)*Math.PI/180,a1=(i*30-75)*Math.PI/180,am=(i*30-90)*Math.PI/180,[tx,ty]=P(130,am),[ux,uy]=P(87,am);
+      h+=`<g class="qw${i===sel?" on":""}" data-i="${i}"><path class="q1" d="${sector(108,152,a0,a1)}"/><text class="qt1" x="${tx}" y="${ty}">${MAJ[i]}</text><path class="q2" d="${sector(66,108,a0,a1)}"/><text class="qt2" x="${ux}" y="${uy}">${MIN[i]}</text></g>`}
+    h+=`<circle class="qc0" cx="160" cy="160" r="62"/><text class="qct" x="160" y="156">${MAJ[sel]}</text><text class="qcs" x="160" y="176">${acc(sel)}</text>`;
+    svg.innerHTML=h;info()}
+  function info(){let r=SH.indexOf(MAJ[sel]);if(r<0)r=FL.indexOf(MAJ[sel]);const nm=ACC[sel]<0?FL:SH;
+    const sc=[0,2,4,5,7,9,11].map(x=>nm[(r+x)%12]),q=["","m","m","","","m","dim"],ro=["I","ii","iii","IV","V","vi","vii°"];
+    $("qinfo").innerHTML=`<div class="qi"><b>${MAJ[sel]} mayor</b><span>${acc(sel)}</span></div><div class="qs">${sc.join(" · ")}</div><div class="qch">${sc.map((n,i)=>`<div>${n}${q[i]}<small>${ro[i]}</small></div>`).join("")}</div><small>Relativo menor: ${MIN[sel]}</small>`}
+  svg.onclick=e=>{const g=e.target.closest(".qw");if(g){sel=+g.dataset.i;draw()}};
+  draw()})();
 document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
 load();
 </script>
