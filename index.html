@@ -446,6 +446,17 @@ html{scroll-snap-type:y mandatory;scroll-behavior:auto}
 #nx.fx{animation:nxp .55s ease-out}
 @keyframes nxb{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
 @keyframes nxp{0%{transform:translate(-50%,0) scale(1);box-shadow:0 0 0 0 #ffffffaa}40%{transform:translate(-50%,8px) scale(.88)}100%{transform:translate(-50%,0) scale(1);box-shadow:0 0 0 18px #ffffff00}}
+
+/* ===== v7: deslizar natural, flechas en esquinas ===== */
+html{scroll-snap-type:none}
+.content-section,#foot{scroll-snap-align:none;scroll-snap-stop:normal}
+#nx,#pv{left:auto;right:calc(14px + env(safe-area-inset-right,0px));transform:none;animation:none;width:42px;height:42px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+#pv{position:fixed;right:auto;left:calc(14px + env(safe-area-inset-left,0px));min-height:0;padding:0;border-radius:50%;background:#ffffff1f;border:1.5px solid #ffffff73;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:900;transition:opacity .3s,visibility .3s}
+#pv svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#pv.gone{opacity:0;visibility:hidden;pointer-events:none}
+#nx.fx,#pv.fx{animation:nxq .5s ease-out}
+@keyframes nxq{0%{transform:scale(1);box-shadow:0 0 0 0 #ffffffaa}40%{transform:scale(.86)}100%{transform:scale(1);box-shadow:0 0 0 18px #ffffff00}}
+#canciones .section-title{transform:translateY(-54px)}
 </style>
 </head>
 <body>
@@ -479,7 +490,7 @@ html{scroll-snap-type:y mandatory;scroll-behavior:auto}
   <button id="tmic" class="gb">Afinar con micrófono</button></div></section>
 <section id="quintas" class="content-section"><h2 class="section-title">Círculo de quintas</h2>
   <div class="gcard"><svg id="qsvg" viewBox="0 0 320 320"></svg></div></section>
-<button id="nx" type="button" aria-label="Siguiente sección"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+<button id="pv" type="button" aria-label="Sección anterior"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><button id="nx" type="button" aria-label="Siguiente sección"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
 <footer id="foot"><div class="fb"><svg viewBox="0 0 24 24"><path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"/></svg><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
 </div>
 <div id="view">
@@ -964,13 +975,14 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tu
   draw()})();
 document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
 
-// ===== flecha a la siguiente sección =====
-(function(){const nx=$("nx"),secs=()=>[...document.querySelectorAll(".content-section"),$("foot")];
+// ===== flechas de sección (arriba / abajo) =====
+(function(){const nx=$("nx"),pv=$("pv"),secs=()=>[...document.querySelectorAll(".content-section"),$("foot")];
   const cur=()=>{const a=secs();let b=0,bd=1e9;a.forEach((e,i)=>{const d=Math.abs(e.getBoundingClientRect().top);if(d<bd){bd=d;b=i}});return b};
-  const upd=()=>{nx.classList.toggle("gone",cur()>=secs().length-1)};
+  const upd=()=>{const c=cur();nx.classList.toggle("gone",c>=secs().length-1);pv.classList.toggle("gone",c<=0)};
   addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
-  nx.onclick=()=>{nx.classList.remove("fx");void nx.offsetWidth;nx.classList.add("fx");
-    const a=secs(),n=a[Math.min(cur()+1,a.length-1)];scrollTo({top:n.getBoundingClientRect().top+scrollY,behavior:"smooth"})}})();
+  const go=(b,d)=>{b.classList.remove("fx");void b.offsetWidth;b.classList.add("fx");
+    const a=secs(),n=a[Math.max(0,Math.min(cur()+d,a.length-1))];scrollTo({top:n.getBoundingClientRect().top+scrollY,behavior:"smooth"})};
+  nx.onclick=()=>go(nx,1);pv.onclick=()=>go(pv,-1)})();
 load();
 </script>
 </body>
