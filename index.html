@@ -549,6 +549,9 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #qsvg .qct{fill:#fff;font-size:32px;font-weight:700;animation:qpop .5s cubic-bezier(.2,1.4,.4,1);transform-box:fill-box;transform-origin:center}
 #qsvg .qn{transform-box:fill-box;transform-origin:center;animation:qfloat 3.4s ease-in-out infinite;filter:drop-shadow(0 0 5px #4ecdc4aa)}
 @keyframes qfloat{0%,100%{transform:translateY(-3px) scale(1) rotate(-2deg)}50%{transform:translateY(3px) scale(1.12) rotate(2deg);filter:drop-shadow(0 0 10px #6fb1ffcc)}}
+
+/* ===== v16: sin himnos repetidos (lista con inicio y fin); quintas centrado en vertical ===== */
+#quintas .gcard{margin:auto}
 </style>
 </head>
 <body>
@@ -688,10 +691,7 @@ function markMid(){const it=$("items"),cs=it.children;if(!STEP||!cs.length||!cs[
 $("items").addEventListener("scroll",()=>{if(_mr)return;_mr=requestAnimationFrame(()=>{_mr=0;markMid()})},{passive:true});
 let _rw=innerWidth;addEventListener("resize",()=>{if(innerWidth===_rw)return;_rw=innerWidth;setCW();if(songs.length)renderList()});
 let LP=0;
-function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.clientWidth*1.3)return;
-  const n=l.length;
-  for(let k=0;k<2;k++)l.forEach(([s,i])=>it.appendChild(card(s,i)));
-  LP=n*STEP;it.scrollLeft=LP}
+function setLoop(l){LP=0;$("items").scrollLeft=0}
 let _lt=0;
 $("items").addEventListener("scroll",()=>{if(!LP)return;clearTimeout(_lt);_lt=setTimeout(()=>{const it=$("items");let d=0;if(it.scrollLeft<LP*.5)d=LP;else if(it.scrollLeft>LP*1.5)d=-LP;if(!d)return;
   it.classList.add("nt");it.style.scrollSnapType="none";it.scrollLeft+=d;
