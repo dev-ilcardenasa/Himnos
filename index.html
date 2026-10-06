@@ -514,6 +514,29 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #qsvg .qct{fill:#fff;font-size:32px}
 #qsvg .qb circle{fill:#ffd166;stroke:#0b1736;stroke-width:1.2}
 #qsvg .qb text{fill:#0b1736;font-weight:700}
+
+/* ===== v14: quintas en cristal con centro animado; carátulas sin parpadeo ===== */
+#quintas .gcard{width:min(100%,calc(100svh - var(--nb) - 170px),600px);max-width:none;margin:0 auto;padding:12px;border-radius:34px;background:linear-gradient(135deg,#ffffff2b,#ffffff0f);border:1px solid #ffffff4d;box-shadow:0 18px 44px #0000004d,inset 0 1px 0 #ffffff66;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#qsvg{width:100%;max-width:none}
+#qsvg .qgl{transform-box:fill-box;transform-origin:center;animation:qpulse 3.2s ease-in-out infinite;pointer-events:none}
+#qsvg .qa1,#qsvg .qa2{fill:none;stroke-linecap:round;transform-box:fill-box;transform-origin:center;pointer-events:none}
+#qsvg .qa1{stroke:#4ecdc4;stroke-width:2.5;stroke-dasharray:60 40 14 40;animation:qspin 9s linear infinite}
+#qsvg .qa2{stroke:#6fb1ff;stroke-width:2;stroke-dasharray:22 26;animation:qspin 6s linear infinite reverse}
+#qsvg .qorb{transform-box:view-box;transform-origin:160px 160px;animation:qspin 5s linear infinite;pointer-events:none}
+#qsvg .qorb.o2{animation-duration:7s;animation-direction:reverse}
+#qsvg .qorb circle{fill:#ffd166}
+#qsvg .qct{animation:qpop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes qspin{to{transform:rotate(360deg)}}
+@keyframes qpulse{0%,100%{transform:scale(.88);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+@keyframes qpop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){#qsvg *{animation:none!important}}
+#qsvg .qct{transform-box:fill-box;transform-origin:center}
+/* carátulas: laterales solo color; la central con borde de cristal; sin blur ni transiciones pesadas */
+#list #items .it{will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .25s ease}
+#list #items.nt .it{transition:none}
+#list #items .it:not(.mid):hover{transform:none}
+#list #items .it .tile{backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;border-color:transparent;box-shadow:none;transition:none}
+#list #items .it.mid .tile{background:#ffffff1f;border-color:#ffffff59;box-shadow:0 12px 28px #0000002e,inset 0 1px 0 #ffffff59}
 </style>
 </head>
 <body>
@@ -546,7 +569,7 @@ html{overflow-y:hidden;overscroll-behavior:none}
   <div id="tnote">—</div><div id="tbar"><i id="tneedle"></i></div><small id="thz">Toca una cuerda para escucharla</small>
   <button id="tmic" class="gb">Afinar con micrófono</button></div></section>
 <section id="quintas" class="content-section"><h2 class="section-title">Círculo de quintas</h2>
-  <div class="gcard"><svg id="qsvg" viewBox="0 0 320 320"></svg></div></section>
+  <div class="gcard"><svg id="qsvg" viewBox="-14 -14 348 348"></svg></div></section>
 <button id="pv" type="button" aria-label="Sección anterior"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><button id="nx" type="button" aria-label="Siguiente sección"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
 <footer id="foot"><div class="fb"><svg viewBox="0 0 24 24"><path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"/></svg><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
 </div>
@@ -645,8 +668,10 @@ function renderList(){
   l.forEach(([s,i])=>$("items").appendChild(card(s,i)));setLoop(l);markMid()}
 
 let _mr=0;
-function markMid(){const it=$("items"),r=it.getBoundingClientRect(),c=r.left+r.width/2;let b=null,bd=1e9;
-  for(const e of it.children){if(!e.classList.contains("it"))continue;const q=e.getBoundingClientRect(),d=Math.abs(q.left+q.width/2-c);if(d<bd){bd=d;b=e}}
+function markMid(){const it=$("items"),r=it.getBoundingClientRect(),c=r.left+r.width/2;let b=null,bd=1e9,cu=null,cd=1e9;
+  for(const e of it.children){if(!e.classList.contains("it"))continue;const q=e.getBoundingClientRect(),d=Math.abs(q.left+q.width/2-c);if(d<bd){bd=d;b=e}if(e.classList.contains("mid")){cu=e;cd=d}}
+  if(cu&&cu!==b&&cd<bd+12)b=cu;
+  if(b&&b.classList.contains("mid")&&it.querySelectorAll(".mid").length===1)return;
   for(const e of it.children)e.classList.toggle("mid",e===b)}
 $("items").addEventListener("scroll",()=>{if(_mr)return;_mr=requestAnimationFrame(()=>{_mr=0;markMid()})},{passive:true});
 addEventListener("resize",markMid);
@@ -657,7 +682,9 @@ function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.c
   LP=ch[n].offsetLeft-ch[0].offsetLeft;it.scrollLeft=LP}
 let _lt=0;
 $("items").addEventListener("scroll",()=>{if(!LP)return;clearTimeout(_lt);_lt=setTimeout(()=>{const it=$("items");let d=0;if(it.scrollLeft<LP*.5)d=LP;else if(it.scrollLeft>LP*1.5)d=-LP;if(!d)return;
-  it.style.scrollSnapType="none";it.scrollLeft+=d;requestAnimationFrame(()=>{it.style.scrollSnapType="";markMid()})},160)},{passive:true});
+  it.classList.add("nt");it.style.scrollSnapType="none";it.scrollLeft+=d;
+  const cu=it.querySelector(".mid");if(cu)cu.classList.remove("mid");markMid();void it.offsetWidth;
+  requestAnimationFrame(()=>{it.style.scrollSnapType="";requestAnimationFrame(()=>it.classList.remove("nt"))})},160)},{passive:true});
 function card(s,i){const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="tile"><div class="cv v${i%8}"><div class="num ${s.num?"":"no"}">${s.num||"♪"}</div></div></div><div class="tt">${esc(s.title)}</div>${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}`;
     d.onclick=()=>{Q=null;location.hash=i};return d}
@@ -1030,7 +1057,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tu
       h+=`<g class="qw" data-i="${i}"><path class="q1 ${c1}" d="${sector(108,152,a0,a1)}"/><text class="qt1${c1==="r0"?" t0":""}" x="${tx}" y="${ty}">${MAJ[i]}</text><path class="q2 ${c2}" d="${sector(66,108,a0,a1)}"/><text class="qt2${c2==="r0"?" t0":""}" x="${ux}" y="${uy}">${c2==="r3"?MIN[i].replace(/m$/,"°"):MIN[i]}</text></g>`;
       if(g1){const[x,y]=P(152,am);bd+=`<g class="qb"><circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y}">${g1}</text></g>`}
       if(g2){const[x,y]=P(66,am);bd+=`<g class="qb"><circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y}">${g2}</text></g>`}}
-    h+=`<circle class="qc0" cx="160" cy="160" r="62"/><text class="qct" x="160" y="160">${sm==="M"?MAJ[si]:MIN[si]}</text>`+bd;
+    h+=`<defs><radialGradient id="qgl"><stop offset="0" stop-color="#4ecdc4" stop-opacity=".75"/><stop offset=".6" stop-color="#6fb1ff" stop-opacity=".25"/><stop offset="1" stop-color="#6fb1ff" stop-opacity="0"/></radialGradient></defs><circle class="qc0" cx="160" cy="160" r="62"/><circle class="qgl" cx="160" cy="160" r="60" fill="url(#qgl)"/><circle class="qa1" cx="160" cy="160" r="54"/><circle class="qa2" cx="160" cy="160" r="45"/><g class="qorb"><circle cx="160" cy="106" r="3.5"/></g><g class="qorb o2"><circle cx="160" cy="215" r="2.6"/></g><text class="qct" x="160" y="160">${sm==="M"?MAJ[si]:MIN[si]}</text>`+bd;
     svg.innerHTML=h}
   svg.onclick=e=>{const g=e.target.closest(".qw");if(!g)return;si=+g.dataset.i;sm=e.target.classList.contains("q2")?"m":"M";draw()};
   draw()})();
