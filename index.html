@@ -668,7 +668,7 @@ function renderCats(){
   drawChips(cs);renderReps()}
 function drawChips(cs){const b=$("cats");b.innerHTML="";
   [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const e=document.createElement("button");e.type="button";e.textContent=t;e.className=v===cat?"on":"";
-    e.onclick=()=>{cat=v;[...b.children].forEach(x=>x.classList.toggle("on",x===e));$("list").classList.toggle("fc",!!cat);renderList();$("items").scrollLeft=0;e.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})};b.appendChild(e)});
+    e.onclick=()=>{cat=v;[...b.children].forEach(x=>x.classList.toggle("on",x===e));$("list").classList.toggle("fc",!!cat);renderList();e.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})};b.appendChild(e)});
   $("list").classList.toggle("fc",!!cat)}
 function pickModal(title,items,cur,cb){$("pmt").textContent=title;const l=$("pml");l.innerHTML="";
   items.forEach(it=>{const d=document.createElement("div");d.className="rp"+(it.v===cur?" on":"");
@@ -691,7 +691,7 @@ function markMid(){const it=$("items"),cs=it.children;if(!STEP||!cs.length||!cs[
 $("items").addEventListener("scroll",()=>{if(_mr)return;_mr=requestAnimationFrame(()=>{_mr=0;markMid()})},{passive:true});
 let _rw=innerWidth;addEventListener("resize",()=>{if(innerWidth===_rw)return;_rw=innerWidth;setCW();if(songs.length)renderList()});
 let LP=0;
-function setLoop(l){LP=0;$("items").scrollLeft=0}
+function setLoop(l){LP=0;const it=$("items");it.scrollLeft=(l.length>1&&it.children[0]&&it.children[0].classList.contains("it"))?STEP:0}
 let _lt=0;
 $("items").addEventListener("scroll",()=>{if(!LP)return;clearTimeout(_lt);_lt=setTimeout(()=>{const it=$("items");let d=0;if(it.scrollLeft<LP*.5)d=LP;else if(it.scrollLeft>LP*1.5)d=-LP;if(!d)return;
   it.classList.add("nt");it.style.scrollSnapType="none";it.scrollLeft+=d;
