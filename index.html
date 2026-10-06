@@ -396,6 +396,56 @@ html{scroll-snap-type:y mandatory}
 .qg{text-anchor:middle;dominant-baseline:central;fill:#fff;font-size:9px;font-weight:600;pointer-events:none;opacity:.95}
 .qct{font-size:30px;dominant-baseline:central}
 #tnote{margin-top:10px}
+
+/* ===== v4 ===== */
+html,body{overscroll-behavior-y:none}
+.content-section:not(#home){justify-content:flex-start}
+#head .num{flex:none;white-space:nowrap;align-self:center;width:auto;min-width:0;padding:6px 18px;line-height:1.2}
+#view #head .num{flex:none;white-space:nowrap}
+#qnav{left:0;right:0;bottom:calc(4px + env(safe-area-inset-bottom,0px));justify-content:space-between;padding:0 8px;pointer-events:none}
+#qnav button{pointer-events:auto;width:38px;height:38px;opacity:.78}
+.qw path.r0{fill:#ff6b6bb3;stroke:#ffffff99}
+.qw path.r1{fill:#4ecdc4a6;stroke:#ffffff99}
+.qw path.r2{fill:#6fb1ff99;stroke:#ffffff99}
+.qw path.r3{fill:#ffd27a8c;stroke:#ffffff99}
+.qw path.r0,.qw path.r1,.qw path.r2,.qw path.r3{filter:drop-shadow(0 0 6px #ffffff33)}
+#quintas .gcard{max-width:580px;padding:12px}
+#qsvg{width:min(100%,calc(100svh - var(--nb) - 150px),540px);max-width:none}
+.qt1,.qt2,.qg,.qct{paint-order:stroke;stroke:#00000040;stroke-width:2px;stroke-linejoin:round}
+
+/* ===== v5: encaje automático, espacio parejo, quintas vivas ===== */
+#site{overflow-x:clip}
+html{scroll-snap-type:y mandatory;scroll-behavior:auto}
+.content-section{min-height:100vh;min-height:100dvh;scroll-snap-align:start;scroll-snap-stop:always}
+#foot{scroll-snap-align:end;scroll-snap-stop:normal}
+#home,#home.content-section{padding:calc(var(--nb) + 26px) 16px 44px;justify-content:flex-start}
+#car{width:min(100%,calc((100dvh - var(--nb) - 26px - 70px)*2/3),520px)}
+@media(max-width:480px){#home,#home.content-section{padding:calc(var(--nb) + 26px) 12px 44px}}
+#quintas .gcard{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;max-width:580px}
+.qw path.r0{fill:#ff2e63;stroke:#fff;stroke-width:1.5;filter:none}
+.qw path.r1{fill:#00f0c8;stroke:#fff;stroke-width:1.5;filter:none}
+.qw path.r2{fill:#2e8bff;stroke:#fff;stroke-width:1.5;filter:none}
+.qw path.r3{fill:#ffd400;stroke:#fff;stroke-width:1.5;filter:none}
+.qw .r0~.qt1,.qw .r0~.qg{fill:#fff}
+.qc0{fill:#0b1736;stroke:#fff;stroke-opacity:.6}
+.qt1,.qt2,.qg,.qct{stroke:#000000a6;stroke-width:3px}
+
+/* ===== v6 ===== */
+#home,#home.content-section{justify-content:center;padding:calc(var(--nb) + 10px) 16px calc(var(--nb) + 10px)}
+@media(max-width:480px){#home,#home.content-section{padding:calc(var(--nb) + 10px) 12px calc(var(--nb) + 10px)}}
+#car{width:min(100%,calc((100dvh - 2*(var(--nb) + 10px) - 30px)*2/3),520px)}
+#canciones.content-section{justify-content:center;padding:calc(var(--nb) + 10px) 20px calc(var(--nb) + 10px)}
+#rnew,#tmic,#rsave,.rb .go{background:linear-gradient(135deg,#ffffff38,#ffffff1a);border:1px solid #ffffff73;box-shadow:0 8px 22px #0000003a,inset 0 1px 0 #ffffff66;color:#fff;font-weight:600;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#rnew:hover,#tmic:hover,#rsave:hover,.rb .go:hover{background:linear-gradient(135deg,#4ecdc455,#6fb1ff40)}
+.rp.on .rn{background:#4ecdc4;border-color:transparent;color:#0b1736}
+#rt{display:none}
+#qp,#qn{font-size:0;background:#ffffff14;border:1.5px solid #ffffff73;width:40px;height:40px;opacity:.9}
+#nx{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:44px;height:44px;min-height:0;padding:0;border-radius:50%;background:#ffffff1f;border:1.5px solid #ffffff73;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:900;transition:opacity .3s,visibility .3s;animation:nxb 1.8s ease-in-out infinite}
+#nx svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#nx.gone{opacity:0;visibility:hidden;pointer-events:none}
+#nx.fx{animation:nxp .55s ease-out}
+@keyframes nxb{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+@keyframes nxp{0%{transform:translate(-50%,0) scale(1);box-shadow:0 0 0 0 #ffffffaa}40%{transform:translate(-50%,8px) scale(.88)}100%{transform:translate(-50%,0) scale(1);box-shadow:0 0 0 18px #ffffff00}}
 </style>
 </head>
 <body>
@@ -413,6 +463,8 @@ html{scroll-snap-type:y mandatory}
 </div>
 <section id="home" class="content-section"><h1 class="vh">Himnos</h1>
   <div id="car" aria-label="Galería"><div id="slides"></div><div id="dots"></div></div></section>
+<section id="repertorio" class="content-section"><h2 class="section-title">Repertorio</h2>
+  <div id="rep"><div id="rlist"></div><button id="rnew" class="gb">+ Crear repertorio</button></div></section>
 <section id="canciones" class="content-section">
   <h2 class="section-title">Lista de Himnos</h2>
   <div id="list">
@@ -421,21 +473,19 @@ html{scroll-snap-type:y mandatory}
   </div>
 </section>
 <section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="cm"><button id="csel" type="button"><span id="cname">Todas</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div><div id="citems"></div></div></section>
-<section id="repertorio" class="content-section"><h2 class="section-title">Repertorio</h2>
-  <div id="rep"><div id="rlist"></div><button id="rnew" class="gb">+ Crear repertorio</button></div></section>
 <section id="afinacion" class="content-section"><h2 class="section-title">Afinación de guitarra</h2>
   <div class="gcard"><button id="tsel" type="button" class="selb"><span id="tname">Estándar (E A D G B E)</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
   <div id="tnote">—</div><div id="tbar"><i id="tneedle"></i></div><small id="thz">Toca una cuerda para escucharla</small>
   <button id="tmic" class="gb">Afinar con micrófono</button></div></section>
 <section id="quintas" class="content-section"><h2 class="section-title">Círculo de quintas</h2>
   <div class="gcard"><svg id="qsvg" viewBox="0 0 320 320"></svg></div></section>
+<button id="nx" type="button" aria-label="Siguiente sección"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
 <footer id="foot"><div class="fb"><svg viewBox="0 0 24 24"><path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"/></svg><span>HIMNOS</span></div><p>Cantad alegres a Dios</p><small>Salmo 100:1 · © 2026</small></footer>
 </div>
 <div id="view">
   <div id="grip" title="Ocultar / mostrar opciones"><i></i></div>
   <div id="bar">
     <div class="seg"><button id="tm" title="Bajar tono">−</button><button id="tl" title="Tono original">0</button><button id="tp" title="Subir tono">+</button></div>
-    <button id="qb" style="display:none"></button>
     <button id="chb" class="on">Acordes</button>
     <button id="colb">🎨 Color</button>
     <button id="edit">✎ Editar</button>
@@ -443,9 +493,9 @@ html{scroll-snap-type:y mandatory}
   <div id="pal"></div>
   <div id="head"></div>
   <div id="wrap"><div id="clip"><div id="box"></div></div></div>
-  <div id="qnav"><button id="qn" aria-label="Siguiente">›</button></div>
+  <div id="qnav"><button id="qp" aria-label="Anterior">‹</button><button id="qn" aria-label="Siguiente">›</button></div>
 </div>
-<div id="rm"><div class="rbox"><h3 id="rt">Nuevo repertorio</h3><input id="rname" placeholder="Nombre (ej. Culto del domingo)" autocomplete="off"><input id="rsq" placeholder="Buscar himno…" autocomplete="off"><div id="rpick"></div><small id="rmsg"></small><div class="rbtns"><button id="rsave" class="gb">Guardar</button><button id="rcancel" class="gb">Cancelar</button></div></div></div>
+<div id="rm"><div class="rbox"><h3 id="rt">Nuevo repertorio</h3><input id="rname" placeholder="Nombre" autocomplete="off"><input id="rsq" placeholder="Buscar" autocomplete="off"><div id="rpick"></div><small id="rmsg"></small><div class="rbtns"><button id="rsave" class="gb">Guardar</button><button id="rcancel" class="gb">Cancelar</button></div></div></div>
 <div id="pm"><div class="rbox"><h3 id="pmt"></h3><div id="pml"></div></div></div>
 <div id="cf"><div class="bx"><p id="cft"></p><button id="cf_si">Sí, eliminar</button><button id="cf_no" class="on">No</button></div></div>
 <div id="ed"><div class="in">
@@ -742,7 +792,7 @@ $("e_save").onclick=async()=>{
   let k=-1;
   for(let i=0;i<5&&k<0;i++){await wait(1500);await load(true);k=songs.findIndex(same)}
   if(k<0)return fail(resp==="ok"
-    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y pulsa ↻ Actualizar."
+    ?"El script confirmó que se guardó, pero la página todavía no lo ve al leer la hoja. Espera un minuto y recarga la página."
     :"No pude confirmar que se guardó. Revisa el enlace /exec, que el acceso sea «Cualquier persona» y que la clave sea la misma.");
   if(renamed){ // se cambió número o nombre: quitar la versión vieja para que no quede duplicada
     emsg("Quitando la versión anterior…");
@@ -767,7 +817,7 @@ $("e_del").onclick=async()=>{
   try{resp=await post(url,delData(o,key))}
   catch(e){return end("No se pudo enviar: "+e.message)}
   if(resp==="clave incorrecta")return end("La clave no coincide con la que pusiste en el script.");
-  if(resp==="no encontrado")return end("No encontré ese himno en la hoja. Quizás ya lo borraste; pulsa ↻ Actualizar.");
+  if(resp==="no encontrado")return end("No encontré ese himno en la hoja. Quizás ya lo borraste; recarga la página.");
   if(resp!==null&&resp!=="ok")return end("El script respondió algo inesperado: "+resp.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,160));
   emsg("Verificando…");
   for(let i=0;i<5;i++){
@@ -778,9 +828,9 @@ $("e_del").onclick=async()=>{
   end("El himno sigue en la hoja. Lo más probable es que el script sea la versión vieja: pega el script nuevo y publícalo como Nueva versión.")};
 // ===== menú de navegación =====
 const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>'],
+["repertorio","Repertorio",'<path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h12v3H3z"></path>'],
 ["canciones","Himnos",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
 ["categorias","Categorías",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
-["repertorio","Repertorio",'<path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h12v3H3z"></path>'],
 ["afinacion","Afinación",'<path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"></path>'],
 ["quintas","Quintas",'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"></path>'],
 ["nuevo","Nuevo",'<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"></path>'],
@@ -852,12 +902,12 @@ $("rsave").onclick=()=>{if(!rSel.length)return $("rmsg").textContent="Elige al m
   if(rEdit){rEdit.name=n;rEdit.keys=rSel.slice()}else reps.push({id:Date.now(),name:n,keys:rSel.slice()});
   saveReps();renderReps();$("rm").style.display="none"};
 function playSet(r){const q=r.keys.map(sidx).filter(i=>i>=0);if(!q.length)return;Q=q;location.hash=q[0]}
-function updateQ(){const el=$("qnav"),qb=$("qb");if(Q&&Q.indexOf(curI)<0)Q=null;
-  if(!Q){el.style.display="none";qb.style.display="none";return}
-  const p=Q.indexOf(curI);el.style.display=p>=Q.length-1?"none":"flex";
-  qb.style.display="inline-flex";qb.textContent="‹ "+(p+1)+"/"+Q.length;qb.disabled=p<=0}
+function updateQ(){const el=$("qnav");if(Q&&Q.indexOf(curI)<0)Q=null;
+  if(!Q){el.style.display="none";return}
+  const p=Q.indexOf(curI);el.style.display="flex";
+  $("qp").style.visibility=p<=0?"hidden":"visible";$("qn").style.visibility=p>=Q.length-1?"hidden":"visible"}
 function stepQ(d){if(!Q)return;const p=Q.indexOf(curI)+d;if(p>=0&&p<Q.length)location.replace(location.pathname+location.search+"#"+Q[p])}
-$("qb").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
+$("qp").onclick=()=>stepQ(-1);$("qn").onclick=()=>stepQ(1);
 renderReps();
 
 // ===== afinación de guitarra =====
@@ -902,17 +952,25 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tu
   const svg=$("qsvg");let si=0,sm="M";
   const P=(r,a)=>[160+r*Math.cos(a),160+r*Math.sin(a)];
   const sector=(r1,r2,a0,a1)=>{const[a,b]=P(r2,a0),[c,d]=P(r2,a1),[e,f]=P(r1,a1),[g,h]=P(r1,a0);return `M${a} ${b}A${r2} ${r2} 0 0 1 ${c} ${d}L${e} ${f}A${r1} ${r1} 0 0 0 ${g} ${h}Z`};
-  function role(ring,i){const d=(i-si+12)%12;if(d>1&&d<11)return["",""];const k=d===0?0:d===1?1:-1;
+  function role(ring,i){const d=(i-si+12)%12;if(ring==="m"&&d===2)return["r3",sm==="M"?"vii°":"ii°"];if(d>1&&d<11)return["",""];const k=d===0?0:d===1?1:-1;
     if(sm==="M")return ring==="M"?(k===0?["r0","I"]:["r1",k===1?"V":"IV"]):["r2",k===0?"vi":k===1?"iii":"ii"];
     return ring==="m"?(k===0?["r0","i"]:["r1",k===1?"v":"iv"]):["r2",k===0?"III":k===1?"VII":"VI"]}
   function draw(){let h="";
     for(let i=0;i<12;i++){const a0=(i*30-105)*Math.PI/180,a1=(i*30-75)*Math.PI/180,am=(i*30-90)*Math.PI/180,[tx,ty]=P(130,am),[ux,uy]=P(87,am),[c1,g1]=role("M",i),[c2,g2]=role("m",i);
-      h+=`<g class="qw" data-i="${i}"><path class="q1 ${c1}" d="${sector(108,152,a0,a1)}"/><text class="qt1${c1?"":" dm"}" x="${tx}" y="${ty-(g1?6:0)}">${MAJ[i]}</text>${g1?`<text class="qg" x="${tx}" y="${ty+10}">${g1}</text>`:""}<path class="q2 ${c2}" d="${sector(66,108,a0,a1)}"/><text class="qt2${c2?"":" dm"}" x="${ux}" y="${uy-(g2?5:0)}">${MIN[i]}</text>${g2?`<text class="qg" x="${ux}" y="${uy+9}">${g2}</text>`:""}</g>`}
+      h+=`<g class="qw" data-i="${i}"><path class="q1 ${c1}" d="${sector(108,152,a0,a1)}"/><text class="qt1${c1?"":" dm"}" x="${tx}" y="${ty-(g1?6:0)}">${MAJ[i]}</text>${g1?`<text class="qg" x="${tx}" y="${ty+10}">${g1}</text>`:""}<path class="q2 ${c2}" d="${sector(66,108,a0,a1)}"/><text class="qt2${c2?"":" dm"}" x="${ux}" y="${uy-(g2?5:0)}">${c2==="r3"?MIN[i].replace(/m$/,"°"):MIN[i]}</text>${g2?`<text class="qg" x="${ux}" y="${uy+9}">${g2}</text>`:""}</g>`}
     h+=`<circle class="qc0" cx="160" cy="160" r="62"/><text class="qct" x="160" y="160">${sm==="M"?MAJ[si]:MIN[si]}</text>`;
     svg.innerHTML=h}
   svg.onclick=e=>{const g=e.target.closest(".qw");if(!g)return;si=+g.dataset.i;sm=e.target.classList.contains("q2")?"m":"M";draw()};
   draw()})();
 document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
+
+// ===== flecha a la siguiente sección =====
+(function(){const nx=$("nx"),secs=()=>[...document.querySelectorAll(".content-section"),$("foot")];
+  const cur=()=>{const a=secs();let b=0,bd=1e9;a.forEach((e,i)=>{const d=Math.abs(e.getBoundingClientRect().top);if(d<bd){bd=d;b=i}});return b};
+  const upd=()=>{nx.classList.toggle("gone",cur()>=secs().length-1)};
+  addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
+  nx.onclick=()=>{nx.classList.remove("fx");void nx.offsetWidth;nx.classList.add("fx");
+    const a=secs(),n=a[Math.min(cur()+1,a.length-1)];scrollTo({top:n.getBoundingClientRect().top+scrollY,behavior:"smooth"})}})();
 load();
 </script>
 </body>
