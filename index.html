@@ -457,18 +457,6 @@ html{scroll-snap-type:none}
 #nx.fx,#pv.fx{animation:nxq .5s ease-out}
 @keyframes nxq{0%{transform:scale(1);box-shadow:0 0 0 0 #ffffffaa}40%{transform:scale(.86)}100%{transform:scale(1);box-shadow:0 0 0 18px #ffffff00}}
 #canciones .section-title{transform:translateY(-54px)}
-
-/* ===== v8 ===== */
-@media(pointer:coarse){html{overflow:hidden}#items,#cats{touch-action:pan-x}}
-#list{--cw:clamp(190px,58vw,250px)}
-#list #cats{margin:2px 0 0;padding:2px 2px 6px;display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;touch-action:pan-x}
-#list #items{scroll-snap-type:x mandatory;padding:26px calc(50% + 20px - var(--cw)/2) 8px}
-#list #items .it{width:var(--cw);scroll-snap-align:center;scroll-snap-stop:always;transform:scale(.84);opacity:.55;transition:transform .35s,opacity .35s}
-#list #items .it:hover{transform:scale(.84)}
-#list #items .it.act,#list #items .it.act:hover{transform:scale(1);opacity:1}
-#list #items .it.act .tile{box-shadow:0 22px 44px var(--g1,#0006),0 0 38px var(--g2,transparent),inset 0 1px 0 #ffffff59}
-#list #items .it .tile{transition:box-shadow .35s}
-#glow{width:min(80%,380px);height:64px;margin:0 auto;border-radius:50%;background:radial-gradient(ellipse at center,var(--g1,transparent) 0%,var(--g2,transparent) 48%,transparent 74%);filter:blur(20px);opacity:.9;pointer-events:none}
 </style>
 </head>
 <body>
@@ -492,12 +480,10 @@ html{scroll-snap-type:none}
   <h2 class="section-title">Lista de Himnos</h2>
   <div id="list">
     <div class="sq"><input id="q" placeholder="Buscar…" autocomplete="off"><button id="mic" type="button" aria-label="Buscar por voz"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12h-2z"></path></svg></button></div>
-    <div id="cats"></div>
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
-    <div id="glow"></div>
   </div>
 </section>
-
+<section id="categorias" class="content-section"><h2 class="section-title">Categorías</h2><div id="cres"><div class="chd"><button id="cprev" class="cb" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="cm"><button id="csel" type="button"><span id="cname">Todas</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><small id="cct"></small></div><button id="cnext" class="cb" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div><div id="citems"></div></div></section>
 <section id="afinacion" class="content-section"><h2 class="section-title">Afinación de guitarra</h2>
   <div class="gcard"><button id="tsel" type="button" class="selb"><span id="tname">Estándar (E A D G B E)</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
   <div id="tnote">—</div><div id="tbar"><i id="tneedle"></i></div><small id="thz">Toca una cuerda para escucharla</small>
@@ -585,33 +571,33 @@ function renderCats(){
   const cs=[...new Set(songs.map(s=>s.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
   if(cat&&!cs.includes(cat))cat="";
   renderCatGrid(cs);renderReps()}
-function renderCatGrid(cs){const b=$("cats");b.innerHTML="";
-  [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const x=document.createElement("button");x.type="button";x.textContent=t;x.className=v===cat?"on":"";
-    x.onclick=()=>{cat=v;[...b.children].forEach(y=>y.classList.toggle("on",y===x));renderList()};b.appendChild(x)})}
+let ccat="";
+function renderCres(){const c=$("citems");c.innerHTML="";let n=0;
+  songs.forEach((s,i)=>{if(!ccat||s.cat===ccat){c.appendChild(card(s,i));n++}});
+  $("cct").textContent=n+(n==1?" himno":" himnos");c.scrollTop=0}
+let CATS=[];
+function catName(){const c=CATS.find(x=>x[0]===ccat);$("cname").textContent=c?c[1]:"Todas"}
+function renderCatGrid(cs){if(ccat&&!cs.includes(ccat))ccat="";CATS=[["","Todas"],...cs.map(c=>[c,c])];catName();renderCres()}
+function stepCat(d){const n=CATS.length;if(!n)return;const i=CATS.findIndex(x=>x[0]===ccat);ccat=CATS[(i+d+n)%n][0];catName();renderCres()}
 function pickModal(title,items,cur,cb){$("pmt").textContent=title;const l=$("pml");l.innerHTML="";
   items.forEach(it=>{const d=document.createElement("div");d.className="rp"+(it.v===cur?" on":"");
     d.innerHTML=`<span>${esc(it.t)}</span>${it.b!=null?`<span class="pill">${it.b}</span>`:""}`;
     d.onclick=()=>{$("pm").style.display="none";cb(it.v)};l.appendChild(d)});
   $("pm").style.display="flex"}
 $("pm").onclick=e=>{if(e.target.id==="pm")$("pm").style.display="none"};
+$("csel").onclick=()=>pickModal("Categorías",CATS.map(([v,t])=>({v,t,b:v?songs.filter(x=>x.cat===v).length:songs.length})),ccat,v=>{ccat=v;catName();renderCres()});
+$("cprev").onclick=()=>stepCat(-1);$("cnext").onclick=()=>stepCat(1);
 function renderList(){
   const ws=fold($("q").value).split(" ").filter(Boolean);
   const l=songs.map((s,i)=>[s,i]).filter(([s])=>{if(cat&&s.cat!==cat)return false;const hay=fold(s.num+" "+s.title);return ws.every(w=>hay.includes(w))});
   $("items").innerHTML=l.length?"":'<div id="msg">Sin resultados</div>';
-  l.forEach(([s,i])=>$("items").appendChild(card(s,i)));setLoop(l);$("items").scrollLeft=LP;requestAnimationFrame(updAct)}
-const COL=[["#ff6b6b","#ff9966"],["#36d1dc","#5b86e5"],["#a855f7","#ec4899"],["#11998e","#38ef7d"],["#f7971e","#ffd200"],["#667eea","#764ba2"],["#f953c6","#b91d73"],["#00c6ff","#0072ff"]];
-function updAct(){const it=$("items"),r=it.getBoundingClientRect(),c=r.left+r.width/2;let b=null,bd=1e9;
-  for(const e of it.children){if(!e.classList.contains("it"))continue;const q=e.getBoundingClientRect(),d=Math.abs(q.left+q.width/2-c);if(d<bd){bd=d;b=e}}
-  it.querySelectorAll(".it.act").forEach(e=>{if(e!==b)e.classList.remove("act")});
-  if(b){b.classList.add("act");const m=+((b.querySelector(".cv").className.match(/v(\d)/)||[])[1]||0),P=COL[m],L=$("list");L.style.setProperty("--g1",P[0]+"d9");L.style.setProperty("--g2",P[1]+"8c")}
-  else{$("list").style.removeProperty("--g1")}}
-let ACT=0;addEventListener("resize",()=>updAct());
+  l.forEach(([s,i])=>$("items").appendChild(card(s,i)));setLoop(l)}
 let LP=0;
 function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.clientWidth*1.3)return;
   const n=l.length,ch=it.children;
   for(let k=0;k<2;k++)l.forEach(([s,i])=>it.appendChild(card(s,i)));
   LP=ch[n].offsetLeft-ch[0].offsetLeft;it.scrollLeft=LP}
-$("items").addEventListener("scroll",()=>{if(!ACT)ACT=requestAnimationFrame(()=>{ACT=0;updAct()});if(!LP)return;const it=$("items");if(it.scrollLeft<LP*.3)it.scrollLeft+=LP;else if(it.scrollLeft>LP*1.7)it.scrollLeft-=LP},{passive:true});
+$("items").addEventListener("scroll",()=>{if(!LP)return;const it=$("items");if(it.scrollLeft<LP*.3)it.scrollLeft+=LP;else if(it.scrollLeft>LP*1.7)it.scrollLeft-=LP},{passive:true});
 function card(s,i){const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="tile"><div class="cv v${i%8}"><div class="num ${s.num?"":"no"}">${s.num||"♪"}</div></div></div><div class="tt">${esc(s.title)}</div>${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}`;
     d.onclick=()=>{Q=null;location.hash=i};return d}
@@ -855,6 +841,7 @@ $("e_del").onclick=async()=>{
 const NAV=[["home","Principal",'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>'],
 ["repertorio","Repertorio",'<path d="M3 5h18v3H3zM3 10.5h18v3H3zM3 16h12v3H3z"></path>'],
 ["canciones","Himnos",'<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'],
+["categorias","Categorías",'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path><path d="M9 11h6"></path>'],
 ["afinacion","Afinación",'<path d="M9 3v11.55A4 4 0 1 0 11 18V8h6V3H9z"></path>'],
 ["quintas","Quintas",'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"></path>'],
 ["nuevo","Nuevo",'<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"></path>'],
@@ -986,21 +973,16 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tu
     svg.innerHTML=h}
   svg.onclick=e=>{const g=e.target.closest(".qw");if(!g)return;si=+g.dataset.i;sm=e.target.classList.contains("q2")?"m":"M";draw()};
   draw()})();
-document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");const c=it.querySelector(".it");it.scrollBy({left:b.dataset.d*(c?c.offsetWidth+16:it.clientWidth*.8),behavior:"smooth"})});
+document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
 
 // ===== flechas de sección (arriba / abajo) =====
 (function(){const nx=$("nx"),pv=$("pv"),secs=()=>[...document.querySelectorAll(".content-section"),$("foot")];
-  const cur=()=>{const a=secs();if(scrollY+innerHeight>=document.documentElement.scrollHeight-3)return a.length-1;let b=0,bd=1e9;a.forEach((e,i)=>{const d=Math.abs(e.getBoundingClientRect().top);if(d<bd){bd=d;b=i}});return b};
+  const cur=()=>{const a=secs();let b=0,bd=1e9;a.forEach((e,i)=>{const d=Math.abs(e.getBoundingClientRect().top);if(d<bd){bd=d;b=i}});return b};
   const upd=()=>{const c=cur();nx.classList.toggle("gone",c>=secs().length-1);pv.classList.toggle("gone",c<=0)};
   addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
   const go=(b,d)=>{b.classList.remove("fx");void b.offsetWidth;b.classList.add("fx");
     const a=secs(),n=a[Math.max(0,Math.min(cur()+d,a.length-1))];scrollTo({top:n.getBoundingClientRect().top+scrollY,behavior:"smooth"})};
   nx.onclick=()=>go(nx,1);pv.onclick=()=>go(pv,-1)})();
-// sin deslizar con el dedo entre secciones: solo con las flechas / menú
-if(matchMedia("(pointer:coarse)").matches){
-  const OK="#items,#cats,#rlist,#rpick,#pml,#ed,#mobileMenu,#rm,#pm,#cf,#view,textarea,input,select";
-  document.addEventListener("touchmove",e=>{if($("view").style.display==="flex")return;if(e.target.closest&&e.target.closest(OK))return;e.preventDefault()},{passive:false});
-}
 load();
 </script>
 </body>
