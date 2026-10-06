@@ -473,6 +473,10 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #list #items .it{scroll-snap-align:center;transition:transform .25s ease}
 #list #items .it.mid{transform:scale(1.09)}
 #list #items .it.mid:hover{transform:scale(1.09)}
+
+/* ===== v11: borde de cristal solo en la carátula central ===== */
+#list #items .it .tile{border-color:transparent;box-shadow:0 12px 28px #00000033;transition:border-color .25s,box-shadow .25s}
+#list #items .it.mid .tile{border-color:#ffffff4d;box-shadow:0 12px 28px #00000033,inset 0 1px 0 #ffffff4d}
 </style>
 </head>
 <body>
@@ -625,7 +629,9 @@ function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.c
   const n=l.length,ch=it.children;
   for(let k=0;k<2;k++)l.forEach(([s,i])=>it.appendChild(card(s,i)));
   LP=ch[n].offsetLeft-ch[0].offsetLeft;it.scrollLeft=LP}
-$("items").addEventListener("scroll",()=>{if(!LP)return;const it=$("items");if(it.scrollLeft<LP*.3)it.scrollLeft+=LP;else if(it.scrollLeft>LP*1.7)it.scrollLeft-=LP},{passive:true});
+let _lt=0;
+$("items").addEventListener("scroll",()=>{if(!LP)return;clearTimeout(_lt);_lt=setTimeout(()=>{const it=$("items");let d=0;if(it.scrollLeft<LP*.5)d=LP;else if(it.scrollLeft>LP*1.5)d=-LP;if(!d)return;
+  it.style.scrollSnapType="none";it.scrollLeft+=d;requestAnimationFrame(()=>{it.style.scrollSnapType="";markMid()})},160)},{passive:true});
 function card(s,i){const d=document.createElement("div");d.className="it";
     d.innerHTML=`<div class="tile"><div class="cv v${i%8}"><div class="num ${s.num?"":"no"}">${s.num||"♪"}</div></div></div><div class="tt">${esc(s.title)}</div>${(s.cat||s.tone)?`<small>${esc([s.cat,s.tone?"Tono "+s.tone:""].filter(Boolean).join(" · "))}</small>`:""}`;
     d.onclick=()=>{Q=null;location.hash=i};return d}
