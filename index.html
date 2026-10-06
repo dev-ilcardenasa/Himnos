@@ -1001,7 +1001,10 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden&&tStream)tu
     svg.innerHTML=h}
   svg.onclick=e=>{const g=e.target.closest(".qw");if(!g)return;si=+g.dataset.i;sm=e.target.classList.contains("q2")?"m":"M";draw()};
   draw()})();
-document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid");it.scrollBy({left:b.dataset.d*it.clientWidth*.8,behavior:"smooth"})});
+document.querySelectorAll(".ar").forEach(b=>b.onclick=()=>{const it=b.parentElement.querySelector("#items,#catgrid"),d=+b.dataset.d;
+  if(it.id==="items"){const cs=[...it.children].filter(e=>e.classList.contains("it")),m=cs.findIndex(e=>e.classList.contains("mid")),n=cs[Math.max(0,Math.min(cs.length-1,(m<0?0:m)+d))];
+    if(n){const r=it.getBoundingClientRect(),q=n.getBoundingClientRect();it.scrollBy({left:(q.left+q.width/2)-(r.left+r.width/2),behavior:"smooth"});return}}
+  it.scrollBy({left:d*it.clientWidth*.8,behavior:"smooth"})});
 
 // ===== flechas de sección (arriba / abajo) =====
 (function(){const nx=$("nx"),pv=$("pv"),secs=()=>[...document.querySelectorAll(".content-section"),$("foot")];
