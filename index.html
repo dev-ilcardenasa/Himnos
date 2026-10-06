@@ -469,9 +469,10 @@ html{overflow-y:hidden;overscroll-behavior:none}
 
 /* ===== v10: categorías bajo el buscador; carátulas centradas y más grandes al filtrar ===== */
 #list #cats{margin:0 0 4px;padding:6px 2px 8px}
-#list #items .it:first-child{margin-left:auto}
-#list #items .it:last-child{margin-right:auto}
-#list.fc #items .it{width:clamp(220px,70vw,300px)}
+#list #items{scroll-snap-type:x mandatory;padding:26px calc(50% - clamp(190px,58vw,250px)/2 + 20px) 28px}
+#list #items .it{scroll-snap-align:center;transition:transform .25s ease}
+#list #items .it.mid{transform:scale(1.09)}
+#list #items .it.mid:hover{transform:scale(1.09)}
 </style>
 </head>
 <body>
@@ -611,7 +612,14 @@ function renderList(){
   const ws=fold($("q").value).split(" ").filter(Boolean);
   const l=songs.map((s,i)=>[s,i]).filter(([s])=>{if(cat&&s.cat!==cat)return false;const hay=fold(s.num+" "+s.title);return ws.every(w=>hay.includes(w))});
   $("items").innerHTML=l.length?"":'<div id="msg">Sin resultados</div>';
-  l.forEach(([s,i])=>$("items").appendChild(card(s,i)));setLoop(l)}
+  l.forEach(([s,i])=>$("items").appendChild(card(s,i)));setLoop(l);markMid()}
+
+let _mr=0;
+function markMid(){const it=$("items"),r=it.getBoundingClientRect(),c=r.left+r.width/2;let b=null,bd=1e9;
+  for(const e of it.children){if(!e.classList.contains("it"))continue;const q=e.getBoundingClientRect(),d=Math.abs(q.left+q.width/2-c);if(d<bd){bd=d;b=e}}
+  for(const e of it.children)e.classList.toggle("mid",e===b)}
+$("items").addEventListener("scroll",()=>{if(_mr)return;_mr=requestAnimationFrame(()=>{_mr=0;markMid()})},{passive:true});
+addEventListener("resize",markMid);
 let LP=0;
 function setLoop(l){const it=$("items");LP=0;if(l.length<3||it.scrollWidth<=it.clientWidth*1.3)return;
   const n=l.length,ch=it.children;
