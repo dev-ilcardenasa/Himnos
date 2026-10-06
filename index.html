@@ -466,6 +466,12 @@ html{overflow-y:hidden;overscroll-behavior:none}
 /* ===== v9: barra de scroll invisible en repertorio ===== */
 #rlist,#rpick,#pml{scrollbar-width:none;-ms-overflow-style:none}
 #rlist::-webkit-scrollbar,#rpick::-webkit-scrollbar,#pml::-webkit-scrollbar{display:none;width:0;height:0;background:transparent}
+
+/* ===== v10: categorías bajo el buscador; carátulas centradas y más grandes al filtrar ===== */
+#list #cats{margin:0 0 4px;padding:6px 2px 8px}
+#list #items .it:first-child{margin-left:auto}
+#list #items .it:last-child{margin-right:auto}
+#list.fc #items .it{width:clamp(220px,70vw,300px)}
 </style>
 </head>
 <body>
@@ -489,6 +495,7 @@ html{overflow-y:hidden;overscroll-behavior:none}
   <h2 class="section-title">Lista de Himnos</h2>
   <div id="list">
     <div class="sq"><input id="q" placeholder="Buscar…" autocomplete="off"><button id="mic" type="button" aria-label="Buscar por voz"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12h-2z"></path></svg></button></div>
+    <div id="cats"></div>
     <div class="rw"><button class="ar l" data-d="-1" aria-label="Anterior">‹</button><div id="items"><div id="msg">Cargando himnos…</div></div><button class="ar r" data-d="1" aria-label="Siguiente">›</button></div>
   </div>
 </section>
@@ -579,7 +586,11 @@ async function load(quiet){
 function renderCats(){
   const cs=[...new Set(songs.map(s=>s.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
   if(cat&&!cs.includes(cat))cat="";
-  renderCatGrid(cs);renderReps()}
+  drawChips(cs);renderCatGrid(cs);renderReps()}
+function drawChips(cs){const b=$("cats");b.innerHTML="";
+  [["","Todas"],...cs.map(c=>[c,c])].forEach(([v,t])=>{const e=document.createElement("button");e.type="button";e.textContent=t;e.className=v===cat?"on":"";
+    e.onclick=()=>{cat=v;[...b.children].forEach(x=>x.classList.toggle("on",x===e));$("list").classList.toggle("fc",!!cat);renderList();$("items").scrollLeft=0;e.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})};b.appendChild(e)});
+  $("list").classList.toggle("fc",!!cat)}
 let ccat="";
 function renderCres(){const c=$("citems");c.innerHTML="";let n=0;
   songs.forEach((s,i)=>{if(!ccat||s.cat===ccat){c.appendChild(card(s,i));n++}});
