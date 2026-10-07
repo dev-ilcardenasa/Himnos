@@ -557,6 +557,13 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #canciones.content-section,#quintas.content-section{padding-top:calc(var(--nb) + 26px);padding-bottom:20px}
 #canciones .section-title,#quintas .section-title{margin:0 0 26px}
 #quintas .gcard{width:min(100%,calc(100svh - var(--nb) - 142px),700px)}
+
+/* ===== v18: celular — mismo ritmo que Repertorio: menú→título = título→contenido ===== */
+@media (max-width:700px){
+#canciones #list{margin:0 auto}
+#quintas .gcard{margin:0 auto}
+#canciones .section-title,#quintas .section-title{margin:0 0 26px}
+}
 </style>
 </head>
 <body>
