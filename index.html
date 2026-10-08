@@ -648,9 +648,9 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #tmark::after{bottom:-12px}
 #tmark.ok{background:#0b3a2ce6}
 #tpill{margin:4px auto 10px;padding:9px 18px;font-size:.92rem}
-#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 392px),560px)}
+#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 368px),560px)}
 #tcard #tmic{margin:10px auto 0;width:calc(100% - 112px)}
-@media (min-width:700px){#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 412px),560px)}}
+@media (min-width:700px){#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 376px),560px)}}
 @media (max-height:720px){
 #tmeter{height:92px}
 #tmark{top:4px;width:56px;height:56px;margin-left:-28px}
@@ -659,13 +659,13 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #tmeter::after{bottom:8px}
 #tpill{margin:2px auto 6px;padding:6px 14px;font-size:.88rem}
 #tcard #tmic{margin-top:6px;min-height:40px}
-#tbody{height:clamp(120px,calc(100dvh - var(--nb) - 372px),560px)}
+#tbody{height:clamp(120px,calc(100dvh - var(--nb) - 332px),560px)}
 }
 @media (max-height:680px){
 #tmeter{height:80px}
 #tmark{width:50px;height:50px;margin-left:-25px}
 #tmark #tnote{font-size:1.2rem}
-#tbody{height:clamp(90px,calc(100dvh - var(--nb) - 384px),560px)}
+#tbody{height:clamp(90px,calc(100dvh - var(--nb) - 364px),560px)}
 }
 
 @media (max-width:400px){
@@ -674,11 +674,29 @@ html{overflow-y:hidden;overscroll-behavior:none}
 #tmode button{padding:6px 11px}
 #tpill{white-space:nowrap;font-size:.84rem;padding:7px 12px}
 }
-@media (min-width:700px){#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 424px),560px)}}
-@media (min-width:700px) and (max-height:720px){#tbody{height:clamp(120px,calc(100dvh - var(--nb) - 384px),560px)}}
+@media (min-width:700px){#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 388px),560px)}}
+@media (min-width:700px) and (max-height:720px){#tbody{height:clamp(120px,calc(100dvh - var(--nb) - 360px),560px)}}
 
-@media (max-width:400px) and (min-height:721px){#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 404px),560px)}}
-@media (max-width:400px) and (max-height:680px){#tbody{height:clamp(90px,calc(100dvh - var(--nb) - 316px),560px)}}
+@media (max-width:400px) and (min-height:721px){#tbody{height:clamp(150px,calc(100dvh - var(--nb) - 364px),560px)}}
+@media (max-width:400px) and (max-height:680px){#tbody{height:clamp(90px,calc(100dvh - var(--nb) - 314px),560px)}}
+
+/* ===== v23: sin textos largos, guitarra translúcida, botón más chico, línea roja→verde y sonido al afinar ===== */
+#tsel .t1,#tsel #tname{display:none}
+#tsel{display:flex;align-items:center;justify-content:center;width:40px;height:34px;padding:0;border:1px solid #ffffff4d;border-radius:999px;background:#ffffff1a;min-height:0;flex:none}
+#tsel .ti{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#ttop{align-items:center}
+#thead [fill="url(#gw)"],#thead [fill="url(#gf)"]{fill-opacity:.68}
+#tmeter{--lc:#ffffff59}
+#tmeter::after{display:none}
+#tline0,#tline{position:absolute;bottom:14px;height:4px;border-radius:4px;display:block}
+#tline0{left:9%;width:82%;background:#ffffff26}
+#tline{left:50%;width:0;background:var(--lc);box-shadow:0 0 10px var(--lc);transition:left .14s ease,width .14s ease,background .2s,box-shadow .2s}
+#tmeter .tk{display:none}
+#tmark.live,#tmark.ok{border-color:var(--lc)}
+#tmark.live::after,#tmark.ok::after{border-top-color:var(--lc)}
+#tmark.ok{box-shadow:0 0 22px var(--lc)}
+#tcard #tmic{width:auto;min-width:0;margin:8px auto 0;display:block;padding:8px 22px;min-height:38px;font-size:.9rem;border-radius:999px}
+#thead [fill="url(#gw)"]{stroke:#ffffff59;stroke-width:1.2}
 </style>
 </head>
 <body>
@@ -708,8 +726,8 @@ html{overflow-y:hidden;overscroll-behavior:none}
 </section>
 <section id="afinacion" class="content-section"><h2 class="section-title">Afinación de guitarra</h2>
   <div id="tcard">
-    <div id="ttop"><button id="tsel" type="button"><span class="t1"><span id="tn1">Guitarra 6 cuerdas</span><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span><span id="tname">Estándar (E A D G B E)</span></button><div id="tmode" role="group" aria-label="Modo"><button type="button" data-m="auto" class="on">Auto</button><button type="button" data-m="man">Manual</button></div></div>
-    <div id="tmeter"><span class="fl">♭</span><span class="sh">♯</span><div id="tmark" class="idle"><b id="tnote"></b></div></div>
+    <div id="ttop"><button id="tsel" type="button" aria-label="Cambiar afinación" title="Cambiar afinación"><svg class="ti" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg><span class="t1"><span id="tn1">Guitarra 6 cuerdas</span><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span><span id="tname">Estándar (E A D G B E)</span></button><div id="tmode" role="group" aria-label="Modo"><button type="button" data-m="auto" class="on">Auto</button><button type="button" data-m="man">Manual</button></div></div>
+    <div id="tmeter"><span class="fl">♭</span><span class="sh">♯</span><i id="tline0"></i><i id="tline"></i><div id="tmark" class="idle"><b id="tnote"></b></div></div>
     <div id="tpill"><span id="thz">Toca una cuerda para escucharla</span></div>
     <div id="tbody"><div id="tbtns"></div><svg id="thead" viewBox="40 -12 225 460" aria-hidden="true"></svg></div>
     <button id="tmic" class="gb" type="button">Afinar con micrófono</button>
@@ -1195,7 +1213,15 @@ function setActive(idx){const row=idx<0?-1:5-idx;
   document.querySelectorAll("#tbtns button").forEach(e=>e.classList.toggle("on",+e.dataset.s===idx));
   document.querySelectorAll("#thead .st,#thead .pg").forEach(e=>e.classList.toggle("on",+e.dataset.s===row))}
 function vib(idx){const l=document.querySelector('#thead .st[data-s="'+(5-idx)+'"]');if(!l)return;l.classList.remove("vib");void l.getBoundingClientRect();l.classList.add("vib");setTimeout(()=>l.classList.remove("vib"),1200)}
-function setMark(c,state,label){const m=$("tmark");m.className=state;if(c!==null)m.style.left=(50+Math.max(-50,Math.min(50,c))*.82)+"%";if(label!==undefined)$("tnote").textContent=label}
+function setMark(c,state,label){const m=$("tmark"),me=$("tmeter");m.className=state;
+  if(c!==null){const pos=50+Math.max(-50,Math.min(50,c))*.82;m.style.left=pos+"%";
+    const hue=state==="idle"?0:Math.round(120*(1-Math.min(Math.abs(c),30)/30)),col=state==="idle"?"#ffffff59":(state==="ok"?"#38ef7d":"hsl("+hue+" 90% 58%)"),ln=$("tline");
+    me.style.setProperty("--lc",col);ln.style.left=Math.min(50,pos)+"%";ln.style.width=(state==="idle"?0:Math.abs(pos-50))+"%"}
+  if(label!==undefined)$("tnote").textContent=label}
+function chime(){const a=ac();if(a.state==="suspended")a.resume();const t=a.currentTime;
+  [[1046.5,0],[1568,.11]].forEach(([f,d])=>{const o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(.0001,t+d);g.gain.exponentialRampToValueAtTime(.28,t+d+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d+.6);o.connect(g);g.connect(a.destination);o.start(t+d);o.stop(t+d+.65)});
+  try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}}
+let tChimed=false,tMuteUntil=0;
 $("tsel").onclick=()=>pickModal("Afinación",Object.keys(TUN).map(k=>({v:k,t:k})),tCur,v=>{tCur=v;tSel=-1;$("tname").textContent=v;renderStrings();setMark(0,"idle","");if(tMode==="auto")setActive(-1)});
 let tStream=null,tTimer=0,tAn=null;
 /* ---- detector de tono (NSDF tipo McLeod): robusto a armónicos, ruido y volumen bajo ---- */
@@ -1226,15 +1252,16 @@ function tuneOf(f){const t=TUN[tCur],base=69+12*Math.log2(f/440);let best=null;
   for(const i of cands)for(const k of[0,-12,12]){const c=(base+k-t[i])*100,sc=Math.abs(c)+(k?25:0);if(!best||sc<best.sc)best={i,c,sc}}
   if(tSel>=0&&Math.abs(best.c)>250){let b2=null;t.forEach((x,i)=>{for(const k of[0,-12,12]){const c=(base+k-x)*100,sc=Math.abs(c)+(k?25:0);if(!b2||sc<b2.sc)b2={i,c,sc}}});best=b2}
   return best}
-function tick(){const buf=new Float32Array(tAn.fftSize);tAn.getFloatTimeDomainData(buf);const f=detectF(buf,ac().sampleRate),now=Date.now();
+function tick(){const now=Date.now();if(now<tMuteUntil)return;const buf=new Float32Array(tAn.fftSize);tAn.getFloatTimeDomainData(buf);const f=detectF(buf,ac().sampleRate);
   if(f>60&&f<1000){tLast=now;const r=tuneOf(f);
-    if(tHist.length&&tHist[tHist.length-1].i!==r.i)tHist=[];
+    if(tHist.length&&tHist[tHist.length-1].i!==r.i){tHist=[];tChimed=false}
     tHist.push({i:r.i,c:r.c,f});if(tHist.length>5)tHist.shift();
     const cs=tHist.map(x=>x.c).sort((a,b)=>a-b),c=Math.round(cs[cs.length>>1]),fm=tHist.map(x=>x.f).sort((a,b)=>a-b)[tHist.length>>1],ok=Math.abs(c)<=5;
     tOkN=ok?tOkN+1:0;const good=ok&&tOkN>=2;
     setActive(r.i);setMark(c,good?"ok":"live",strNote(TUN[tCur][r.i]));
+    if(good&&!tChimed){tChimed=true;chime();tMuteUntil=Date.now()+900}else if(Math.abs(c)>18)tChimed=false;
     $("thz").textContent=strNote(TUN[tCur][r.i])+" · "+fm.toFixed(1)+" Hz · "+(good?"¡Afinada! ✓":ok?"Casi…":c<0?"Sube ↑ ("+c+"¢)":"Baja ↓ (+"+c+"¢)")}
-  else if(now-tLast>1400){tHist=[];tOkN=0;setMark(0,"idle",tSel>=0?strNote(TUN[tCur][tSel]):"");if(tSel<0)setActive(-1);$("thz").textContent=tLvl<.0025?"Escuchando… toca una cuerda con más fuerza":(tSel>=0?"Toca la cuerda "+strNote(TUN[tCur][tSel]):"Toca cualquier cuerda para afinar")}}
+  else if(now-tLast>1400){tHist=[];tOkN=0;tChimed=false;setMark(0,"idle",tSel>=0?strNote(TUN[tCur][tSel]):"");if(tSel<0)setActive(-1);$("thz").textContent=tLvl<.0025?"Escuchando… toca una cuerda con más fuerza":(tSel>=0?"Toca la cuerda "+strNote(TUN[tCur][tSel]):"Toca cualquier cuerda para afinar")}}
 async function tunerOn(){try{const a=ac();if(a.state==="suspended")await a.resume();
   tStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true,channelCount:1}});
   const src=a.createMediaStreamSource(tStream),hp=a.createBiquadFilter(),lp=a.createBiquadFilter();
